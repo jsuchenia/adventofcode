@@ -31,13 +31,17 @@ def ex1(data):
     print("Gamma> ", gamma, int(gamma,2))
     print("Epsilon> ", epsilon, int(epsilon,2))
 
-    print(">>> EX1 <<< result = ", int(gamma,2) * int(epsilon,2))
+    result = int(gamma,2) * int(epsilon,2)
+    print(">>> EX1 <<< result = ", result)
+    return result
 
 def ex2(data):
     oxygen = ex2Gamma(data)
     co2 = ex2Gamma(data, reverse=True)
 
-    print(">>> EX2 <<< Result: ", oxygen * co2)
+    result = oxygen * co2
+    print(">>> EX2 <<< Result: ", result)
+    return result
 
 def ex2Gamma(data, reverse = False):
     stats = generateStats(data)
@@ -72,5 +76,5 @@ def ex2Gamma(data, reverse = False):
 
 if __name__ == "__main__":
     data = open("data", "r").readlines()
-    ex1(data)
-    ex2(data)
+    assert ex1(data) == 2583164
+    assert ex2(data) == 2784375

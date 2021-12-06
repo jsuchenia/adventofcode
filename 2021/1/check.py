@@ -3,7 +3,6 @@
 
 def ex2(data):
 	datalen = len(data)
-	print("  > datalen = ", datalen)
 	sums=[data[i] + data[i+1] + data[i+2] for i in range(datalen-2)]
 
 	prev = sums[0]
@@ -15,6 +14,7 @@ def ex2(data):
 		prev = entry
 
 	print("[Excercise 2] ", counter)
+	return counter
 
 def ex1(data):
 	prev = data[0]
@@ -25,11 +25,12 @@ def ex1(data):
 		prev = entry
 
 	print("[Excercise 1] ", counter)
+	return counter
 
 
 if __name__ == "__main__":
 	strdata = open('data', 'r').readlines()
 	data = [int(x) for x in strdata]
 
-	ex1(data)
-	ex2(data)
+	assert ex1(data) == 1665
+	assert ex2(data) == 1702

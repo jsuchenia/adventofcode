@@ -17,7 +17,9 @@ def ex1(data):
 
     print("[ex1] Position =", position)
     print("[ex1] Depth =", depth)
-    print("[ex1] Solution1 = ", position * depth)
+    solution = position * depth
+    print("[ex1] Solution1 = ", solution)
+    return solution
 
 def ex2(data):
     aim = 0
@@ -37,9 +39,11 @@ def ex2(data):
 
     print("ex2> Position =", position)
     print("ex2> Depth =", depth)
-    print("ex2> Solution = ", position * depth)
+    solution = position * depth
+    print("ex2> Solution = ", solution)
+    return solution
 
 if __name__ == "__main__":
     data = open("data", "r").readlines()
-    ex1(data)
-    ex2(data)
+    assert ex1(data) == 1893605
+    assert ex2(data) == 2120734350

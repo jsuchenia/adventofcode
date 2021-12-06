@@ -1,10 +1,8 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2021/day/5
 
-table = {}
-
 def getPoint(pointStr):
-    return [ int(x) for x in pointStr.split(",")]
+        return [ int(x) for x in pointStr.split(",")]
 
 # X is the same
 def getVerticalPoints(start, end):
@@ -41,13 +39,11 @@ def getDiagonalPoints(start, end):
     xdelta = 1 if xb > xa else -1
     ydelta = 1 if yb > ya else -1
 
-    print("Diagonal line s=", start, ", e=", end, ", elements=", elements)
     rc = ["{},{}".format(xa + e*xdelta, ya + e*ydelta) for e in range(0, elements + 1)]
     return rc
 
-if __name__ == "__main__":
-    data = open("data", "r").readlines()
-
+def countDangerPoints(data, withDiagonal = False):
+    table = {}
     for line in data:
         index = line.find("->")
         l = line.strip()
@@ -59,10 +55,10 @@ if __name__ == "__main__":
             points = getVerticalPoints(start,end)
         elif start[1] == end[1]:
             points = getHorizontalPoints(start, end)
-        else:
+        elif withDiagonal:
             points = getDiagonalPoints(start, end)
-
-        print("Points for line ", l, " are ", len(points))
+        else:
+            points = []
 
         for point in points:
             if point in table:
@@ -73,3 +69,12 @@ if __name__ == "__main__":
     print("All points =", len(table))
     dangerPoints = [key for (key, value) in table.items() if value > 1]
     print("Danger points =", len(dangerPoints))
+
+    return len(dangerPoints)
+
+
+if __name__ == "__main__":
+    data = open("data", "r").readlines()
+
+    assert countDangerPoints(data, withDiagonal=False) == 8060
+    assert countDangerPoints(data, withDiagonal=True) == 21577

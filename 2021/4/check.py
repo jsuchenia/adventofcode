@@ -47,10 +47,13 @@ class Board:
         other = [self.elements[x] for x in range(25) if not self.match[x]]
 
         s = sum(other)
+        result = s * n
         print(self.index, "> Matches ", matches)
         print(self.index, "> Other ", other)
         print(self.index, "> SUM", s)
-        print(self.index, "> Result: ", s * n)
+        print(self.index, "> Result: ", result)
+
+        return result
 
     def markAsSkipped(self):
         self.skipped = True
@@ -65,17 +68,18 @@ if __name__ == "__main__":
     f.readline()
     boardsStr = f.readlines()
     boards = []
+    results = []
 
     for x in range(0, len(boardsStr), 6):
         boards.append(Board(x, boardsStr[x:x+5]))
 
     for number in numbers:
-        print("Checking ", number)
-
         for board in boards:
             if not board.isSkipped():
                 board.markNumber(number)
                 if board.checkBingo():
-                    board.sumOtherNumbers(number)
+                    results.append(board.sumOtherNumbers(number))
                     board.markAsSkipped()
-    print("No bingo, something is wrong")
+
+    assert results[0] == 14093
+    assert results[-1] == 17388
