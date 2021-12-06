@@ -1,4 +1,6 @@
 #!/usr/local/bin/python3
+# https://adventofcode.com/2020/day/7
+
 from collections import defaultdict
 
 MY_BAG = "shiny gold bag"
