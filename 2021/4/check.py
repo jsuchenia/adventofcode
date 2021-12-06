@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-import sys
+# https://adventofcode.com/2021/day/4
 
 class Board:
     def __init__(self, index, boardStr):

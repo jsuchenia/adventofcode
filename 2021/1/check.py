@@ -1,4 +1,5 @@
 #!/usr/local/bin/python3
+# https://adventofcode.com/2021/day/1
 
 def ex2(data):
 	datalen = len(data)

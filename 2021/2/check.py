@@ -1,4 +1,5 @@
 #!/usr/local/bin/python3
+# https://adventofcode.com/2021/day/2
 
 def ex1(data):
     position = 0
