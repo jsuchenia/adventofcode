@@ -54,7 +54,7 @@ def ex2Gamma(data, reverse = False):
 
         print("New stats ", stats)
         print("EX2> filtered len =", l)
-        limit = int(l/2)
+        limit = l//2
         print("   limit =", limit)
         e = stats[i]
         if (not reverse and e >= (l-e)) or (reverse and e < (l-e)):

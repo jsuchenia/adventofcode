@@ -84,7 +84,7 @@ def mutationTesting(data):
 if __name__ == "__main__":
     testData = TEST_CODE.splitlines()
     testData2 = TEST_CODE2.splitlines()
-    data = open("data", "r").readlines()
+    data = open("data", "r").read().splitlines()
 
     assert calculateAccumulator(testData) == 5
     calculateAccumulator(data)

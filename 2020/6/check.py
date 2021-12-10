@@ -6,9 +6,8 @@ def ex1(lines):
     total = 0
 
     for line in lines:
-        l = line.strip()
-        if l:
-            for c in l:
+        if line:
+            for c in line:
                 acc.add(c)
         else:
             total += len(acc)
@@ -21,10 +20,9 @@ def ex2(lines):
     total = 0
 
     for line in lines:
-        l = line.strip()
-        if l:
+        if line:
             for c in ALL_CHARS:
-                if (c not in l) and (c in acc):
+                if (c not in line) and (c in acc):
                     acc.remove(c)
         else:
             total += len(acc)
@@ -33,7 +31,7 @@ def ex2(lines):
     return total
 
 if __name__ == "__main__":
-    lines = open("data", "r").readlines()
+    lines = open("data", "r").read().splitlines()
 
     assert ex1(lines) == 6735
     assert ex2(lines) == 3221

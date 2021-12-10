@@ -125,14 +125,13 @@ class Passport:
 
 
 if __name__ == "__main__":
-    lines = open("data").readlines()
+    lines = open("data").read().splitlines()
 
     currentPassport = Passport()
     validPassports = 0
     invalidPassports = 0
 
-    for l in lines:
-        line = l.strip()
+    for line in lines:
         if line == "":
             if currentPassport.isValid():
                 validPassports += 1

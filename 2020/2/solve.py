@@ -37,7 +37,7 @@ def validEntry(entry):
     else:
         return False
 if __name__ == "__main__":
-    entries = open("data", "r").readlines()
+    entries = open("data", "r").read().splitlines()
 
     validEntries = 0
     for entry in entries:

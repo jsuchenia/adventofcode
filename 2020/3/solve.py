@@ -18,7 +18,7 @@ def checkSlopes(lines, right, down):
 
 
 if __name__ == "__main__":
-    lines = open("data").readlines()
+    lines = open("data").read().splitlines()
 
     result = checkSlopes(lines, 1, 1)
     result *= checkSlopes(lines, 3, 1)

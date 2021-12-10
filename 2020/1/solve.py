@@ -9,7 +9,7 @@ def findPair(numbers, testing):
             print("Result is: ", number * pair * testing)
 
 if __name__ == "__main__":
-    elements = open("data", "r").readlines()
+    elements = open("data", "r").read().splitlines()
     numbers = [int(n) for n in elements ]
 
     print("======== EX 1 ========")
