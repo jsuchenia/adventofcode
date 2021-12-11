@@ -1,4 +1,7 @@
 #!/usr/local/bin/python3
+# https://adventofcode.com/2021/day/11
+# Hint: we can use iter.product however now we supports map with different sizes
+
 def isInRange(a, amax):
     result = (a >= 0 and a < amax)
     return result
