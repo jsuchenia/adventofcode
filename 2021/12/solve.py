@@ -2,7 +2,7 @@
 from collections import defaultdict
 
 def parse(lines):
-    map = defaultdict(lambda: [])
+    map = defaultdict(list)
 
     for line in lines:
         (src, dst)=line.split("-")

@@ -6,7 +6,7 @@ from collections import defaultdict
 MY_BAG = "shiny gold bag"
 
 def buildReversedGraph(data):
-    graph = defaultdict(lambda: set())
+    graph = defaultdict(set)
 
     for line in data:
         position = line.find("contain")
@@ -32,7 +32,7 @@ def buildReversedGraph(data):
     return graph
 
 def buildBagsGraph(data):
-    graph = defaultdict(lambda: {})
+    graph = defaultdict(dict)
     for line in data:
         position = line.find("contain")
         what = line[0:position].strip()
