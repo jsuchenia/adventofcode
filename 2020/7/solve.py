@@ -61,7 +61,6 @@ def buildBagsGraph(data):
 
 def ex1CalculateBagColors(data, myBag):
     graph = buildReversedGraph(data)
-
     foundElements = set(graph[myBag])
 
     found = True
@@ -90,7 +89,6 @@ def getBagsFromGraph(graph, myBag):
 
 def ex2CalculateALlBags(data, myBag):
     graph = buildBagsGraph(data)
-
     result = getBagsFromGraph(graph, myBag) - 1
 
     print("EX2 Result = ", result)

@@ -4,26 +4,12 @@
 def ex2(data):
 	datalen = len(data)
 	sums=[data[i] + data[i+1] + data[i+2] for i in range(datalen-2)]
-
-	prev = sums[0]
-	counter = 0
-
-	for entry in sums[1:]:
-		if entry > prev:
-			counter+=1
-		prev = entry
-
+	counter=len([1 for i in range(1, len(sums)) if (sums[i] > sums[i-1])])
 	print("[Excercise 2] ", counter)
 	return counter
 
 def ex1(data):
-	prev = data[0]
-	counter = 0
-	for entry in data[1:]:
-		if entry > prev:
-			counter+=1
-		prev = entry
-
+	counter = len([1 for i in range(1, len(data)) if (data[i] > data[i-1])])
 	print("[Excercise 1] ", counter)
 	return counter
 

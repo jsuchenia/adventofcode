@@ -23,23 +23,19 @@ class Table:
         return True
 
     def getMinimumsCoord(self):
-        points = []
         for y in range(len(self.table)):
             for x in range(len(self.table[y])):
                 if self.isMin(x, y):
-                    points.append((x, y))
-        return points
+                    yield (x, y)
 
     def getMinimums(self):
-        points = []
         for y in range(len(self.table)):
             for x in range(len(self.table[y])):
                 if self.isMin(x, y):
-                    points.append(self.table[y][x])
-        return points
+                    yield self.table[y][x]
 
     def getEX1Result(self):
-        m = self.getMinimums()
+        m = list(self.getMinimums())
         result = sum(m) + len(m)
         print("Ex1 result", result)
         return result
