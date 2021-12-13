@@ -23,9 +23,8 @@ def doTask(data, runAll=False):
 
     result = len(points)
     print("EX{}> Finally we have {} points".format("2" if runAll else "1", result))
-    print("Result", result)
-
     if runAll: dump(points)
+
     return result
 
 if __name__ == "__main__":
