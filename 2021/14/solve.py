@@ -5,20 +5,20 @@ import re
 from collections import defaultdict
 from collections import Counter
 
-def parseMap(input):
+def parsemap(input):
     map = {}
-    pattern = re.compile("(\w\w) -> (\w)")
+    pattern = re.compile(r"(\w\w) -> (\w)")
     for line in input:
         match = pattern.match(line)
         map[match.group(1)] = match.group(2)
-
     return map
 
+
 def ex1(data, rounds=10):
-    input = data[0]
-    map = parseMap(data[2:])
-    counter = Counter(input)
-    pairs = {k:input.count(k) for k in map.keys() if input.count(k) > 0}
+    initstring = data[0]
+    map = parsemap(data[2:])
+    counter = Counter(initstring)
+    pairs = {k: initstring.count(k) for k in map.keys() if initstring.count(k) > 0}
 
     for i in range(rounds):
         newpairs = defaultdict(int)
@@ -36,6 +36,7 @@ def ex1(data, rounds=10):
     result = mc[0][1] - mc[-1][1]
     print("EX1 result=", result)
     return result
+
 
 if __name__ == "__main__":
     test = open("test.txt", "r").read().splitlines()
