@@ -70,7 +70,6 @@ def scan(graph):
 if __name__ == "__main__":
     test = open("test.txt", "r").read().splitlines()
     data = open("data.txt", "r").read().splitlines()
-    mini = open("mini.txt", "r").read().splitlines()
 
     test1 = buildmap1(test)
     data1 = buildmap1(data)
