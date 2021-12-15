@@ -1,10 +1,11 @@
 #!/usr/local/bin/python3
 
-from collections import deque
+from heapq import heappop, heappush
+import matplotlib.pyplot as plt
 
 def getdistances(graph, x, y):
     dist = {}
-    for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+    for dx, dy in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
         nx = x + dx
         ny = y + dy
         if x == nx and y == ny: continue
@@ -23,10 +24,8 @@ def parsegraph(graph):
             distances[point] = getdistances(graph, x, y)
     return distances
 
-
 def buildmap1(lines):
     return [[int(val) for val in list(line.strip())] for line in lines]
-
 
 def getVal(src, x, y):
     val = src[y % len(src)][x % len(src[0])]
@@ -43,29 +42,53 @@ def buildmap2(lines, scale=5):
     graph = [[getVal(src, x, y) for x in range(len(src[0]) * scale)] for y in range(len(src)*scale)]
     return graph
 
-
-def scan(graph):
+def scan(graph, visualization = False):
     distances = parsegraph(graph)
     pointcosts = {}
 
-    q = deque()
-    q.append((0, 0))
-    pointcosts[(0, 0)] = 0
+    DST=(len(graph[-1]) - 1, len(graph) - 1)
+    START=(0, 0)
+
+    min_dst_costs = 9 * (DST[0] + DST[1]) # diagonal walk over only 9ines, pessimistic approach
+
+    q = []
+    heappush(q, (0, START))
+    pointcosts[START] = 0
+
+    pltx = []
+    plty = []
+
+    if visualization:
+        fig = plt.figure()
+        plt.axis([0, len(graph[-1]), 0, len(graph)])
 
     while len(q) > 0:
-        point = q.popleft()
+        _, point = heappop(q)
+
         currentcost = pointcosts[point]
 
-        for other, cost  in distances[point].items():
+        if currentcost > min_dst_costs:
+            continue
+
+        for other, cost in distances[point].items():
             newcost = currentcost + cost
+            if newcost > min_dst_costs:
+                continue
+
             if (other not in pointcosts) or (pointcosts[other] > newcost):
                 pointcosts[other] = newcost
-                if other not in q: q.append(other)
 
-    result = pointcosts[(len(graph[-1])-1, len(graph)-1)]
-    print("Result =", result)
-    return result
+                if other == DST:
+                    min_dst_costs = newcost
+                else:
+                    heappush(q, (newcost, other))
 
+        if visualization:
+            plt.scatter(point[0], point[1], c='#1f77b4')
+            plt.pause(0.000001)
+
+    print("Result =", min_dst_costs)
+    return min_dst_costs
 
 if __name__ == "__main__":
     test = open("test.txt", "r").read().splitlines()
@@ -77,7 +100,7 @@ if __name__ == "__main__":
     test2 = buildmap2(test)
     data2 = buildmap2(data)
 
-    assert scan(test1) == 40
+    assert scan(test1, visualization=True) == 40
     assert scan(data1) == 363
 
     assert scan(test2) == 315
