@@ -28,12 +28,14 @@ def buildmap1(lines):
     return [[int(val) for val in list(line.strip())] for line in lines]
 
 def getVal(src, x, y):
-    val = src[y % len(src)][x % len(src[0])]
+    srcy = y % len(src)
+    srcx = x % len(src[srcy])
+    val = src[srcy][srcx]
     dy = y//len(src)
-    dx = x//len(src[0])
+    dx = x//len(src[srcy])
     nval = val + dx + dy
     if nval > 9:
-        nval = (nval % 9)
+        nval -= 9
     return nval
 
 def buildmap2(lines, scale=5):
@@ -51,15 +53,10 @@ def scan(graph, visualization = False):
 
     min_dst_costs = 9 * (DST[0] + DST[1]) # diagonal walk over only 9ines, pessimistic approach
 
-    q = []
-    heappush(q, (0, START))
+    q = [(0, START)]
     pointcosts[START] = 0
 
-    pltx = []
-    plty = []
-
     if visualization:
-        fig = plt.figure()
         plt.axis([0, len(graph[-1]), 0, len(graph)])
 
     while len(q) > 0:
@@ -84,7 +81,7 @@ def scan(graph, visualization = False):
                     heappush(q, (newcost, other))
 
         if visualization:
-            plt.scatter(point[0], point[1], c='#1f77b4')
+            plt.scatter(point[0], point[1])
             plt.pause(0.000001)
 
     print("Result =", min_dst_costs)
@@ -100,7 +97,7 @@ if __name__ == "__main__":
     test2 = buildmap2(test)
     data2 = buildmap2(data)
 
-    assert scan(test1, visualization=True) == 40
+    assert scan(test1, visualization=False) == 40
     assert scan(data1) == 363
 
     assert scan(test2) == 315
