@@ -3,6 +3,7 @@ import math
 from itertools import permutations
 
 def doPopulate(pair, left, right):
+    # Try to add somewhere rest from some explode - from a differernt part of a tree
     if left >=0 and type(pair[0]) is int:
         pair[0] += left
         return True
@@ -15,6 +16,7 @@ def doPopulate(pair, left, right):
         return doPopulate(pair[1], left, right)
 
     return False
+
 def doExplode(pair, deep):
     left = pair[0]
     right = pair[1]
@@ -101,7 +103,7 @@ def calcMagniture(pair):
         right = calcMagniture(pair[1])
 
     result = 3*left + 2*right
-    print("Magniture if {} is {}".format(pair, result))
+    print("Magnitude of {} = {}".format(pair, result))
     return result
 
 def doSumLines(lines):
@@ -130,17 +132,19 @@ if __name__ == "__main__":
     test = open("test.txt").read().splitlines()
     data = open("data.txt").read().splitlines()
 
+    # Test examples from a description
     assert doReduce([[[[[9,8],1],2],3],4]) == [[[[0,9],2],3],4]
     assert doReduce([7,[6,[5,[4,[3,2]]]]]) == [7,[6,[5,[7,0]]]]
     assert doReduce([[6,[5,[4,[3,2]]]],1]) == [[6,[5,[7,0]]],3]
     assert doReduce([[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]) == [[3,[2,[8,0]]],[9,[5,[7,0]]]]
     assert doReduce([[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]) == [[[[0,7],4],[[7,8],[6,0]]],[8,1]]
 
+    # Sum example
     assert doSum([[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]) == [[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]
 
+    # Magnitude calculations examples
     assert calcMagniture([9, 1]) == 29
     assert calcMagniture([1, 9]) == 21
-
     assert calcMagniture([[1,2],[[3,4],5]]) == 143
     assert calcMagniture([[[[0,7],4],[[7,8],[6,0]]],[8,1]]) == 1384
     assert calcMagniture([[[[1,1],[2,2]],[3,3]],[4,4]]) == 445
@@ -148,11 +152,14 @@ if __name__ == "__main__":
     assert calcMagniture([[[[5,0],[7,4]],[5,5]],[6,6]]) == 1137
     assert calcMagniture([[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]) == 3488
 
+    #Full e2e test run
     assert doSumLines(test) == [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]
     assert calcMagniture([[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]) == 4140
 
+    # Full e2e data run
     assert doSumLines(data) == [[[[6, 8], [9, 7]], [[9, 5], [9, 0]]], [[[9, 9], [5, 7]], [[5, 0], [8, 0]]]]
     assert calcMagniture([[[[6, 8], [9, 7]], [[9, 5], [9, 0]]], [[[9, 9], [5, 7]], [[5, 0], [8, 0]]]]) == 4176
 
+    # Part 2 - find max permutation
     assert doPermutations(test) == 3993
     assert doPermutations(data) == 4633
