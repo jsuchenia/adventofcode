@@ -3,7 +3,16 @@ import math
 from itertools import permutations
 
 def doPopulate(pair, left, right):
-    # Try to add somewhere rest from some explode - from a differernt part of a tree
+    """
+    Try to add somewhere rest from some explode - from a different part of a tree
+
+    :param pair: current pair
+    :param left: leftover that needs to be put on a left side
+    :param right: leftover that needs to be put on a rigt side
+    :return: boot value of placement (not needed)
+
+    WARNING: it's modifying input data
+    """
     if left >=0 and type(pair[0]) is int:
         pair[0] += left
         return True
@@ -18,8 +27,19 @@ def doPopulate(pair, left, right):
     return False
 
 def doExplode(pair, deep):
+    """
+    Do an explosion - operation described in a task definition
+
+    :param pair: current node
+    :param deep: current deep, starting from 0
+    :return: touple with True/False, left leftover, right leftover
+                    - needed to find out a proper placement to call doPolulate
+
+    WARNING: it's modifying input data
+    """
     left = pair[0]
     right = pair[1]
+
 
     if type(left) is list:
         res, leftres, rightres = doExplode(left, deep +1)
@@ -55,43 +75,79 @@ def doExplode(pair, deep):
     return False, -1, -1
 
 def doSplit(pair):
-    if type(pair[0]) is int:
-        if pair[0] > 9:
-            val = pair[0]
-            pair[0] = [math.floor(val/2), math.ceil(val/2)]
-            return True
-    elif type(pair[0]) is list:
-        if doSplit(pair[0]):
-            return True
+    """
+    Do a split operation - described in a task definition
 
-    if type(pair[1]) is int:
-        if pair[1] > 9:
-            val = pair[1]
-            pair[1] = [math.floor(val/2), math.ceil(val/2)]
-            return True
-    elif type(pair[1]) is list:
-        if doSplit(pair[1]):
-            return True
+    :param pair:  current pair
+    :return: bool value with flag if split operation has been done
 
+    WARNING: it's modifying input data
+    """
+    for i in [0, 1]:
+        if type(pair[i]) is int:
+            if pair[i] > 9:
+                val = pair[i]
+                pair[i] = [math.floor(val/2), math.ceil(val/2)]
+                return True
+        elif type(pair[i]) is list:
+            if doSplit(pair[i]):
+                return True
     return False
 
 def doReduce(pairs):
+    """
+    Reduction - operation described in a task definition. It's a combination of Explode/Split tasks
+
+    :param pairs: root node of a equation
+    :return: equation after all reductions
+
+    WARNING: it's modifying input data
+    """
     print(pairs)
     while True:
-        print(pairs)
         res, _, _ = doExplode(pairs, 0)
         if res:
             continue
         if doSplit(pairs):
             continue
-        break
+        print(pairs)
     return pairs
 
 def doSum(pair1, pair2):
+    """
+    Simple helper to do SUM and first reduction
+
+    :param pair1: left part of a sum
+    :param pair2: right part of a sum
+    :return: reduced result
+
+    WARNING - It's modifying supplied data
+    """
     pairs = [pair1, pair2]
     return doReduce(pairs)
 
+def doSumLines(lines):
+    """
+    Sum all text lines and return reduced equation. Phase I of Part I of a challenge
+
+    :param lines: Text representation of equation
+    :return: reduced equation in an object form
+    """
+    left = eval(lines[0])
+
+    for i in range(1, len(lines)):
+        left =  doSum(left, eval(lines[i]))
+
+    print("Sum result", left)
+    return left
+
 def calcMagniture(pair):
+    """
+    Calculate magnitude of an equation - Phase II of Part I of a challenge
+
+    :param pair: Equation
+    :return: Magnitude
+    """
     if type(pair[0]) is int:
         left = pair[0]
     else:
@@ -106,16 +162,12 @@ def calcMagniture(pair):
     print("Magnitude of {} = {}".format(pair, result))
     return result
 
-def doSumLines(lines):
-    left = eval(lines[0])
-
-    for i in range(1, len(lines)):
-        left =  doSum(left, eval(lines[i]))
-
-    print("Sum result", left)
-    return left
-
 def doPermutations(lines):
+    """
+    Part II of a task - do permutations and find out a top - Part II of a challende
+    :param lines:
+    :return:
+    """
     m = 0
 
     for a, b in permutations(list(range(len(lines))), 2):
@@ -129,6 +181,7 @@ def doPermutations(lines):
     return m
 
 if __name__ == "__main__":
+    # Input data - test one and production one
     test = open("test.txt").read().splitlines()
     data = open("data.txt").read().splitlines()
 
