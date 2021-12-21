@@ -13,7 +13,7 @@ def getTransforrmations():
 
    return product(POSITIONS, ORIENTATIONS)
 
-# transform one point accotding to definiton
+# transform one point according to definiton
 def pointTransform(point, transformation):
     pos = transformation[0]
     direction = transformation[1]
@@ -22,13 +22,17 @@ def pointTransform(point, transformation):
 
 # Transform points to a common view
 def calcRealPoints(points, scanner):
-    transPoints = [pointTransform(p, scanner[1]) for p in points]
-    return [tuple(sum(x) for x in zip(p, scanner[0])) for p in transPoints]
+    scannerTransformation = scanner[1]
+    scannerPosition = scanner[0]
+    transPoints = [pointTransform(p, scannerTransformation) for p in points]
+    return [tuple(sum(x) for x in zip(p, scannerPosition)) for p in transPoints]
 
 # Check all transformations to see if at least 12 points will show us scanner position
 def findScannerDetails(pointsA, scannerA, pointsB):
     transPointsA = calcRealPoints(pointsA, scannerA)
 
+    # Check which transformation will generate 12 values pointing to new scanner B position
+    # This position + verified transformation will help us normalize points
     for trans in getTransforrmations():
         transPointsB = (pointTransform(point, trans) for point in pointsB)
 
@@ -43,6 +47,7 @@ def doCheck(data):
     scannersPoints = parse(data)
     scannerDetails = [None] * len(scannersPoints)
 
+    # Initial position of scannerA, it will be the mail point view for a whole task
     scannerDetails[0] = ((0, 0, 0), ((0,1,2), (1,1,1)))
 
     while not all(scannerDetails):
@@ -60,7 +65,7 @@ def doCheck(data):
     print("All done, calculating all beacons!")
     beacons = set(point for j in range(len(scannersPoints)) for point in calcRealPoints(scannersPoints[j], scannerDetails[j]))
     result = len(beacons)
-    print("Found becons", result)
+    print("Found normalized beacons", result)
 
     positions = [p[0] for p in scannerDetails]
 
