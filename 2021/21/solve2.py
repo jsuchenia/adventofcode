@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 import re
 from itertools import product
-from functools import cache
+from functools import cache, lru_cache
 
 DICE_VALS = [1, 2, 3]
 ALL_VALS=[sum(p) for p in product(DICE_VALS, DICE_VALS, DICE_VALS)]
@@ -26,6 +26,8 @@ def doRun(pos1, pos2, sum1=0, sum2=0):
             win2, win1 = doRun(pos2, newpos, sum2, newsum)
             wins[0] += win1
             wins[1] += win2
+
+    print("Win results", wins)
     return wins
 
 
@@ -34,6 +36,7 @@ def ex2(data):
     positions = [int(p[1]) for p in startPositions]
 
     res = doRun(positions[0], positions[1])
+    print(doRun.cache_info())
 
     print("Result is", res)
     m = max(res)
@@ -44,5 +47,5 @@ if __name__ == "__main__":
     test = open("test.txt", "r").read()
     data = open("data.txt", "r").read()
 
-    assert ex2(test) == 444356092776315
+    # assert ex2(test) == 444356092776315
     assert ex2(data) == 568867175661958
