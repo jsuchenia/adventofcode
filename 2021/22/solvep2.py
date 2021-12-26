@@ -63,9 +63,11 @@ def p2(data):
 
 if __name__ == "__main__":
     small = open("small.txt", "r").read()
+    test = open("test.txt", "r").read()
     full = open("full.txt", "r").read()
     data = open("data.txt", "r").read()
 
     assert p2(small) == 39
+    assert p2(test) == 39769202357779
     assert p2(data) == 1325473814582641
     assert p2(full) == 2758514936282235
