@@ -1,39 +1,35 @@
-def get_pair(pair: str):
-    p = tuple(int(num) for num in pair.split("-"))
-    assert len(p) == 2
-    assert p[0] <= p[1]
-    return p
+import re
 
-
-def parse_data_line(entry: str):
-    pairs = tuple(get_pair(pair) for pair in entry.split(","))
-    return pairs
+PATTERN = re.compile(r'(\d+)-(\d+),(\d+)-(\d+)')
 
 
 def read_data(file_name: str):
     with open(file_name) as f:
-        lines = [line.strip() for line in f.readlines()]
-    return [parse_data_line(line) for line in lines]
+        return [[int(x) for x in PATTERN.match(line).groups()] for line in f.readlines()]
 
 
-def is_fully_overlaping(p):
+def is_fully_overlapping(points):
     # A inside B or B inside A
-    return p[0][0] >= p[1][0] and p[0][1] <= p[1][1] or p[1][0] >= p[0][0] and p[1][1] <= p[0][1]
+    return points[0] >= points[2] and points[1] <= points[3] or \
+           points[2] >= points[0] and points[3] <= points[1]
 
 
-def is_overlapping(p):
+def is_overlapping(points):
     # start A > end B = A completely bigger than B - no overlap
     # star B > end A = B completely bigger than A - no overlap
-    return not (p[0][0] > p[1][1] or p[0][1] < p[1][0])
+    return not (points[0] > points[3] or
+                points[1] < points[2])
 
 
 def count_overlaps(fileame: str):
     lines = read_data(fileame)
-    full_overlaps = [is_fully_overlaping(line) for line in lines]
-    partial_overlaps = [is_overlapping(line) for line in lines]
+
+    full_overlaps = [is_fully_overlapping(points) for points in lines]
+    partial_overlaps = [is_overlapping(points) for points in lines]
+
     return full_overlaps.count(True), partial_overlaps.count(True)
 
 
 if __name__ == "__main__":
     assert count_overlaps("example.txt") == (2, 4)
-    print(count_overlaps("data1.txt"))
+    assert count_overlaps("data1.txt") == (547, 843)
