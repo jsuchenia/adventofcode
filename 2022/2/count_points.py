@@ -13,7 +13,18 @@ from pprint import pprint
 # X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win
 
 # Points calculated from a matrix (then matrix simplified)
+# score1_table = {
+#     'A': {'X': 3 + 1, 'Y': 6 + 2, 'Z': 0 + 3},
+#     'B': {'X': 0 + 1, 'Y': 3 + 2, 'Z': 6 + 3},
+#     'C': {'X': 6 + 1, 'Y': 0 + 2, 'Z': 3 + 3}
+# }
 points1 = [3, 6, 0]
+
+# score2_table = {
+#     'A': {'X': 3, 'Y': 1 + 3, 'Z': 2 + 6},
+#     'B': {'X': 1, 'Y': 2 + 3, 'Z': 3 + 6},
+#     'C': {'X': 2, 'Y': 3 + 3, 'Z': 1 + 6}
+# }
 points2 = [3, 1, 2]
 
 
