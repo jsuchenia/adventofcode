@@ -1,12 +1,12 @@
-1: DMSZRFWN
-2: WPQGS
-3: WRVQFNJC
-4: FZPCGDL
-5: TPS
-6: HDFWRL
-7: ZNDC
-8: WNRFVSJQ
-9: RMSGZWV
+[N]     [C]                 [Q]
+[W]     [J] [L]             [J] [V]
+[F]     [N] [D]     [L]     [S] [W]
+[R] [S] [F] [G]     [R]     [V] [Z]
+[Z] [G] [Q] [C]     [W] [C] [F] [G]
+[S] [Q] [V] [P] [S] [F] [D] [R] [S]
+[M] [P] [R] [Z] [P] [D] [N] [N] [M]
+[D] [W] [W] [F] [T] [H] [Z] [W] [R]
+ 1   2   3   4   5   6   7   8   9
 
 move 1 from 3 to 9
 move 3 from 5 to 3

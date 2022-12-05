@@ -7,11 +7,18 @@ def read_data(file_name: str):
 
     status_raw, moves_raw = data.split("\n\n")
 
-    # initial status
-    status_pattern = re.compile(r'(\d+): (\w+)')
-    status = [status_pattern.match(line).groups() for line in status_raw.split("\n")]
-    status_map = {line[0]: line[1] for line in status}
+    # Parse matrix...
+    matrix_lines = status_raw.split('\n')
 
+    # Locate indexes in a last line
+    indexes = {char: i for i, char in enumerate(matrix_lines[-1]) if char != " "}
+    status_map = {char: "" for char in indexes.keys()}
+
+    # Iterate over matrix in a reverse order
+    for line in matrix_lines[0:-1][::-1]:
+        for char, idx in indexes.items():  # Locate cel for each index
+            if idx < len(line) and line[idx] != " ":
+                status_map[char] += line[idx]
     # moves
     moves_pattern = re.compile(r'move (\d+) from (\d+) to (\d+)')
     moves = [moves_pattern.match(line).groups() for line in moves_raw.split("\n")]
