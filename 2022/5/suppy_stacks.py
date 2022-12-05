@@ -11,7 +11,7 @@ def read_data(file_name: str):
     matrix_lines = status_raw.split('\n')
 
     # Locate indexes in a last line
-    indexes = {char: i for i, char in enumerate(matrix_lines[-1]) if char != " "}
+    indexes = {char: i for i, char in enumerate(matrix_lines[-1]) if char.isdigit()}
     status_map = {char: "" for char in indexes.keys()}
 
     # Iterate over matrix in a reverse order
