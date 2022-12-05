@@ -32,8 +32,8 @@ def do_moves(file_name: str, reverse_order=True):
 
 
 if __name__ == "__main__":
-    assert do_moves("example.txt", reverse_order=True) == "CMZ"
-    print(do_moves("data.txt", reverse_order=True))
+    assert do_moves("example.txt") == "CMZ"
+    assert do_moves("data.txt") == "FWNSHLDNZ"
 
     assert do_moves("example.txt", reverse_order=False) == "MCD"
-    print(do_moves("data.txt", reverse_order=False))
+    assert do_moves("data.txt", reverse_order=False) == "RNRGDNFQG"
