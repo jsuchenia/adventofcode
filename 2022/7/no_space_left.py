@@ -28,7 +28,7 @@ def build_data(file_name: str):
 
 
 def count_size(name: str, element, dir_sizes: list) -> int:
-    if isinstance(element, int)
+    if isinstance(element, int):
         return element
 
     size = sum([count_size(f"{name}/{key}", value, dir_sizes) for key, value in element.items()])
