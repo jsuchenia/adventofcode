@@ -1,7 +1,7 @@
 def get_score(grid, y, x):
     height = grid[y][x]
-    
-    # Distance to visible trees (or to the edge)
+
+    # Distance to visible trees (or to the edge) - (0,0) in top,left corner
     up = [y - z for z in range(y - 1, -1, -1) if grid[z][x] >= height] + [y]
     down = [z - y for z in range(y + 1, len(grid)) if grid[z][x] >= height] + [len(grid) - y - 1]
     left = [x - z for z in range(x - 1, -1, -1) if grid[y][z] >= height] + [x]
@@ -16,8 +16,7 @@ def get_max_score(file_name: str):
         data = f.readlines()
 
     grid = [[int(c) for c in list(line.strip())] for line in data]
-    scores = [get_score(grid, y, x) for y in range(1, len(grid) - 1) for x in range(1, len(grid[y]) - 1)]
-    max_score = max(scores)
+    max_score = max(get_score(grid, y, x) for y in range(1, len(grid) - 1) for x in range(1, len(grid[y]) - 1))
     print(f"{max_score=}")
     return max_score
 
