@@ -22,11 +22,11 @@ def count_tail_positions(file_name, rope_length) -> int:
     for move, count in moves:
         for _ in range(count):
             rope[0] = (rope[0][0] + move[0], rope[0][1] + move[1])
-            for idx in range(len(rope) - 1):
-                diff = (rope[idx][0] - rope[idx + 1][0], rope[idx][1] - rope[idx + 1][1])
+            for idx in range(1, len(rope)):
+                diff = (rope[idx - 1][0] - rope[idx][0], rope[idx - 1][1] - rope[idx][1])
                 if abs(diff[0]) > 1 or abs(diff[1]) > 1:
                     step = (min(1, max(-1, diff[0])), min(1, max(-1, diff[1])))
-                    rope[idx + 1] = (rope[idx + 1][0] + step[0], rope[idx + 1][1] + step[1])
+                    rope[idx] = (rope[idx][0] + step[0], rope[idx][1] + step[1])
             visited.add(rope[rope_length - 1])
 
     print(f"Visited len {file_name=} {rope_length=}: {len(visited)}")
