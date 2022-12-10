@@ -76,16 +76,21 @@ def get_readme(year: int, day: int) -> str:
 
     for i, article in enumerate(articles):
         html_tags_to_markdown(article, i == 0)
-        content += ''.join([tag.string for tag in article.contents])
+        content += ''.join([tag.string for tag in article.contents if tag.string])
 
     return content
+
+
+def file_conains_part_two(readme_path: str):
+    with open(readme_path) as f:
+        return any(line.find("--- Part Two ---") >= 0 for line in f.readlines())
 
 
 def sync_dir(root_dir: str):
     for year in get_dir_with_digits(root_dir):
         for day in get_dir_with_digits(os.path.join(root_dir, year)):
             readme_path = os.path.join(root_dir, year, day, "README.md")
-            if os.path.exists(readme_path):
+            if os.path.exists(readme_path) and file_conains_part_two(readme_path):
                 print(f"Skip {year}/{day} - README.md already exists")
                 continue
             print(f"Downloading README for {year}/{day}")
