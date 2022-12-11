@@ -69,6 +69,6 @@ if __name__ == "__main__":
         if factor % 1000 == 0:
             print(f"Checking {factor=}")
 
-        if play_game("example1.txt", factor) == 0:
+        if play_game("example.txt", factor) == 0:
             print(f"EUREKA! {factor=}")
             break

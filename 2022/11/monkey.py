@@ -57,7 +57,7 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
 
 
 if __name__ == "__main__":
-    assert play_game("example1.txt", rounds=20, part_one=True) == 10605
+    assert play_game("example.txt", rounds=20, part_one=True) == 10605
     assert play_game("data.txt", rounds=20, part_one=True) == 118674
-    assert play_game("example1.txt", rounds=10_000, part_one=False) == 2713310158
+    assert play_game("example.txt", rounds=10_000, part_one=False) == 2713310158
     assert play_game("data.txt", rounds=10_000, part_one=False) == 32333418600
