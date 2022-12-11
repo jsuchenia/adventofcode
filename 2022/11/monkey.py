@@ -45,7 +45,8 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
                 monkeys[dst_monkey].items.append(new)
             monkey.counter += len(monkey.items)
             monkey.items.clear()
-        # print("Monkeys", monkeys) -> ValueError: Exceeds the limit (4300) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+        # print("Monkeys", monkeys)
+        # ValueError: Exceeds the limit (4300) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
     counters = sorted([monkey.counter for monkey in monkeys], reverse=True)
     score = math.prod(counters[:2])
     print(f"{score=}")
