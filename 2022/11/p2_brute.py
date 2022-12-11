@@ -1,37 +1,6 @@
-from dataclasses import dataclass
-
 from tqdm import tqdm
 
-
-@dataclass
-class Monkey:
-    id: int
-    items: list[int]
-    operation: callable
-    test_div: int
-    div_true: int
-    div_false: int
-    counter: int = 0
-
-
-def parse_monkey(data):
-    lines = data.splitlines()
-    id = lines[0][7:-1]
-    items = [int(item) for item in lines[1].split(":")[1].strip().split(",")]
-    operation = eval("lambda old: " + lines[2].split(":")[1].strip()[5:])
-    div_by = int(lines[3][21:].strip())
-    div_true = int(lines[4][29:].strip())
-    div_false = int(lines[5][30:].strip())
-
-    return Monkey(id=id, items=items, operation=operation, test_div=div_by, div_true=div_true, div_false=div_false)
-
-
-def read_data(file_name: str):
-    with open(file_name) as f:
-        monkeys = f.read().split("\n\n")
-
-    return [parse_monkey(monkey) for monkey in monkeys]
-
+from monkey import read_data
 
 CHECKPOINTS = {
     20: [99, 97, 8, 103],
@@ -47,7 +16,7 @@ CHECKPOINTS = {
 def play_game(file_name: str, factor: int) -> int:
     monkeys = read_data(file_name)
 
-    for idx in range(1, 4001):
+    for idx in range(1, 6001):
         for monkey in monkeys:
             for item in monkey.items:
                 new = monkey.operation(item)
