@@ -33,8 +33,6 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
 
     # From p2_brute.py and https://www.wolframalpha.com/input?i=96577 :)
     factor = math.lcm(*[monkey.test_div for monkey in monkeys])
-    factor_prod = math.prod([monkey.test_div for monkey in monkeys])
-    print(f"{file_name=} -> {factor=} {factor_prod=}")
 
     for _ in range(rounds):
         for monkey in monkeys:
