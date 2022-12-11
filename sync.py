@@ -81,6 +81,15 @@ def get_readme(year: int, day: int) -> str:
     return content
 
 
+def get_input(year: int, day: int) -> str:
+    url = f"https://adventofcode.com/{year}/day/{day}/input"
+    response = requests.get(url, cookies={'session': os.getenv("AOC_SESSION")})
+    if response.status_code != 200:
+        raise ValueError(f"Querying the url {url} resulted in status code {response.status_code} with the following "
+                         f"text: {response.text}")
+    return response.text
+
+
 def file_conains_part_two(readme_path: str):
     with open(readme_path) as f:
         return any(line.find("--- Part Two ---") >= 0 for line in f.readlines())
@@ -89,14 +98,18 @@ def file_conains_part_two(readme_path: str):
 def sync_dir(root_dir: str):
     for year in get_dir_with_digits(root_dir):
         for day in get_dir_with_digits(os.path.join(root_dir, year)):
+            data_path = os.path.join(root_dir, year, day, "data.txt")
+            if not os.path.exists(data_path):
+                print(f"Downloading DATA for {year}/{day}")
+                with open(data_path, "w") as f:
+                    f.write(get_input(year, day))
+
             readme_path = os.path.join(root_dir, year, day, "README.md")
-            if os.path.exists(readme_path) and file_conains_part_two(readme_path):
-                print(f"Skip {year}/{day} - README.md already exists")
-                continue
-            print(f"Downloading README for {year}/{day}")
-            readme = get_readme(year, day)
-            with open(readme_path, "w") as f:
-                f.write(readme)
+            if not os.path.exists(readme_path) or not file_conains_part_two(readme_path):
+                print(f"Downloading README for {year}/{day}")
+                readme = get_readme(year, day)
+                with open(readme_path, "w") as f:
+                    f.write(readme)
 
 
 if __name__ == "__main__":
