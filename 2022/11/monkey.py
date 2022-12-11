@@ -44,8 +44,7 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
                 new = monkey.operation(item)
                 if part_one:
                     new //= 3
-                else:
-                    new %= factor
+                new %= factor
                 dst_monkey = monkey.div_false if new % monkey.test_div else monkey.div_true
                 monkeys[dst_monkey].items.append(new)
             monkey.counter += len(monkey.items)
