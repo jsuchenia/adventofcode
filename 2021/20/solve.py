@@ -6,8 +6,10 @@ def parse(data):
 
     return pattern, picture
 
+
 def encodePicture(picture):
-    return set((x,y) for y in range(len(picture)) for x in range(len(picture[y]))  if picture[y][x] == '#')
+    return set((x, y) for y in range(len(picture)) for x in range(len(picture[y])) if picture[y][x] == '#')
+
 
 def getPointValue(point, pic, borderRange, outOfBorderValue):
     x = point[0]
@@ -16,16 +18,19 @@ def getPointValue(point, pic, borderRange, outOfBorderValue):
 
     if point in pic:
         return "1"
-    elif x < minx-3 or x > maxx+3 or y < miny-3 or y > maxy+3:
+    elif x < minx - 3 or x > maxx + 3 or y < miny - 3 or y > maxy + 3:
         return outOfBorderValue
     else:
         return "0"
+
+
 def encodePosition(point, pic, borderRange, outOfBorderValue):
     x = point[0]
     y = point[1]
 
-    positions = [(nx, ny) for ny in range(y-1, y+2) for nx in range(x-1, x+2)]
+    positions = [(nx, ny) for ny in range(y - 1, y + 2) for nx in range(x - 1, x + 2)]
     return int(''.join([getPointValue(p, pic, borderRange, outOfBorderValue) for p in positions]), 2)
+
 
 def doEnhancement(pic, pattern, filledBorder):
     allx = [p[0] for p in pic]
@@ -37,8 +42,8 @@ def doEnhancement(pic, pattern, filledBorder):
     toEnable = set()
     toDisable = set()
 
-    for y in range(miny-2, maxy+3):
-        for x in range(minx-2, maxx+3):
+    for y in range(miny - 2, maxy + 3):
+        for x in range(minx - 2, maxx + 3):
             point = (x, y)
             pos = encodePosition(point, pic, (minx, maxx, miny, maxy), "0" if filledBorder else "1")
             if pattern[pos] == '#' and point not in pic:
@@ -49,21 +54,26 @@ def doEnhancement(pic, pattern, filledBorder):
     pic.difference_update(toDisable)
     pic.update(toEnable)
 
-def ex1(data):
-    pattern,picture = parse(data)
+
+def ex1(data, rounds):
+    pattern, picture = parse(data)
     encpic = encodePicture(picture)
 
-    filledBorder = True if pattern[0] == '#' else False
+    for _ in range(rounds):
+        filledBorder = True if pattern[0] == '#' else False
+        doEnhancement(encpic, pattern, filledBorder)
 
-    doEnhancement(encpic, pattern, False)
-    print("After round", len(encpic))
-    doEnhancement(encpic, pattern, filledBorder)
-    print("After second round", len(encpic))
-    return len(encpic)
+    solution = len(encpic)
+    print(f"{solution=}")
+    return solution
+
 
 if __name__ == "__main__":
     test = open("test.txt", "r").read()
     data = open("data.txt", "r").read()
 
-    assert ex1(test) == 35
-    assert ex1(data) == 6262
+    assert ex1(test, rounds=2) == 35
+    assert ex1(data, rounds=2) == 6262
+
+    assert ex1(test, rounds=50) == 3351
+    assert ex1(data, rounds=50) == 49765
