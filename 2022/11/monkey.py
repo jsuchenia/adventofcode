@@ -31,7 +31,7 @@ def read_data(file_name: str):
 def play_game(file_name: str, rounds: int, part_one: bool) -> int:
     monkeys = read_data(file_name)
 
-    # From p2_brute.py and https://www.numberempire.com/96577 :)
+    # From p2_brute.py and https://www.wolframalpha.com/input?i=96577 :)
     factor = math.lcm(*[monkey.test_div for monkey in monkeys])
 
     for _ in range(rounds):
@@ -55,5 +55,9 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
 if __name__ == "__main__":
     assert play_game("example.txt", rounds=20, part_one=True) == 10605
     assert play_game("data.txt", rounds=20, part_one=True) == 118674
+
+    # P2 had different results for 20 rounds - clue for brute force
+    assert play_game("example.txt", rounds=20, part_one=False) == 10197
+
     assert play_game("example.txt", rounds=10_000, part_one=False) == 2713310158
     assert play_game("data.txt", rounds=10_000, part_one=False) == 32333418600
