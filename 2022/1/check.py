@@ -20,4 +20,4 @@ def get_calories(file_name: str):
 
 if __name__ == "__main__":
     assert get_calories("example.txt") == (24000, 45000)
-    pprint(get_calories("data"))
+    pprint(get_calories("data.txt"))

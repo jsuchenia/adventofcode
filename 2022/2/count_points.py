@@ -41,4 +41,4 @@ def get_scores(file_name: str):
 
 if __name__ == "__main__":
     assert get_scores("example.txt") == (15, 12)
-    pprint(get_scores("data1.txt"))
+    pprint(get_scores("data.txt"))

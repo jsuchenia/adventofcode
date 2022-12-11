@@ -33,6 +33,8 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
 
     # From p2_brute.py and https://www.wolframalpha.com/input?i=96577 :)
     factor = math.lcm(*[monkey.test_div for monkey in monkeys])
+    factor_prod = math.prod([monkey.test_div for monkey in monkeys])
+    print(f"{file_name=} -> {factor=} {factor_prod=}")
 
     for _ in range(rounds):
         for monkey in monkeys:
@@ -59,6 +61,6 @@ if __name__ == "__main__":
 
     # P2 had different results for 20 rounds - clue for brute force
     assert play_game("example.txt", rounds=20, part_one=False) == 10197
-
     assert play_game("example.txt", rounds=10_000, part_one=False) == 2713310158
+
     assert play_game("data.txt", rounds=10_000, part_one=False) == 32333418600
