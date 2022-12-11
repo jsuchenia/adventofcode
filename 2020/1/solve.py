@@ -8,9 +8,10 @@ def findPair(numbers, testing):
             print("Number is =", number, " pair = ", pair, " testing = ", testing)
             print("Result is: ", number * pair * testing)
 
+
 if __name__ == "__main__":
-    elements = open("data", "r").read().splitlines()
-    numbers = [int(n) for n in elements ]
+    elements = open("data.txt", "r").read().splitlines()
+    numbers = [int(n) for n in elements]
 
     print("======== EX 1 ========")
     findPair(numbers, 0)

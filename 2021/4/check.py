@@ -8,7 +8,7 @@ class Board:
 
         elements = []
         for line in boardStr:
-            e = [int(line[x*3:x*3+2]) for x in range(5)]
+            e = [int(line[x * 3:x * 3 + 2]) for x in range(5)]
             elements.extend(e)
         self.elements = elements
         self.match = [False] * 25
@@ -22,16 +22,16 @@ class Board:
 
     def checkRow(self, index):
         for i in range(5):
-            if not self.match[5*index+i]:
+            if not self.match[5 * index + i]:
                 return False
-        print(self.index,"> Won row ", index, self.elements[5*index:5*(index+1)])
+        print(self.index, "> Won row ", index, self.elements[5 * index:5 * (index + 1)])
         return True
 
     def checkColumn(self, index):
         for i in range(5):
-            if not self.match[5*i+index]:
+            if not self.match[5 * i + index]:
                 return False
-        print(self.index, "> Won column", index, self.elements[index:25+index:5])
+        print(self.index, "> Won column", index, self.elements[index:25 + index:5])
         return True
 
     def checkBingo(self):
@@ -61,17 +61,18 @@ class Board:
     def isSkipped(self):
         return self.skipped
 
+
 if __name__ == "__main__":
-    f = open("data", "r")
+    f = open("data.txt", "r")
     numbersStr = f.readline().split(",")
-    numbers = [ int(n) for n in numbersStr]
+    numbers = [int(n) for n in numbersStr]
     f.readline()
     boardsStr = f.readlines()
     boards = []
     results = []
 
     for x in range(0, len(boardsStr), 6):
-        boards.append(Board(x, boardsStr[x:x+5]))
+        boards.append(Board(x, boardsStr[x:x + 5]))
 
     for number in numbers:
         for board in boards:

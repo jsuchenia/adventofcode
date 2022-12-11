@@ -11,7 +11,7 @@ def validEntry(entry):
     print("Rules = ", rules)
     print("Password = ", password)
     print("letter = ", letter)
-    (lmin,lmax) = rules[:-1].split("-")
+    (lmin, lmax) = rules[:-1].split("-")
 
     lmin = int(lmin)
     lmax = int(lmax)
@@ -26,8 +26,8 @@ def validEntry(entry):
     # else:
     #     return False
 
-    l1 = password[lmin-1]
-    l2 = password[lmax-1]
+    l1 = password[lmin - 1]
+    l2 = password[lmax - 1]
 
     if l1 == l2:
         return False
@@ -36,8 +36,10 @@ def validEntry(entry):
         return True
     else:
         return False
+
+
 if __name__ == "__main__":
-    entries = open("data", "r").read().splitlines()
+    entries = open("data.txt", "r").read().splitlines()
 
     validEntries = 0
     for entry in entries:

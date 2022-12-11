@@ -2,7 +2,8 @@
 
 from collections import defaultdict
 
-def doTask(data, firstPhase = True):
+
+def doTask(data, firstPhase=True):
     rules, myticket, otherTickets = data.split("\n\n")
 
     validNumbers = defaultdict(set)
@@ -37,16 +38,15 @@ def doTask(data, firstPhase = True):
         if invalidTicket or firstPhase:
             continue
 
-        #Checking mappings
+        # Checking mappings
         for pos, val in enumerate(ticketNumbers):
             fieldtitles[pos].intersection_update(validNumbers[val])
-
 
     if firstPhase:
         print("EX1 result: ", result)
         return result
 
-    # Normalize data
+    # Normalize data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
     toBeValidated = set(ALL_FIELDS)
     while len(toBeValidated) > 0:
         for pos, values in enumerate(fieldtitles):
@@ -67,6 +67,7 @@ def doTask(data, firstPhase = True):
 
     print("Ex2 result", result)
     return result
+
 
 if __name__ == "__main__":
     test = open("test.txt", "r").read()

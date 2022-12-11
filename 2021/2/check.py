@@ -21,6 +21,7 @@ def ex1(data):
     print("[ex1] Solution1 = ", solution)
     return solution
 
+
 def ex2(data):
     aim = 0
     depth = 0
@@ -43,7 +44,8 @@ def ex2(data):
     print("ex2> Solution = ", solution)
     return solution
 
+
 if __name__ == "__main__":
-    data = open("data", "r").readlines()
+    data = open("data.txt", "r").readlines()
     assert ex1(data) == 1893605
     assert ex2(data) == 2120734350

@@ -4,13 +4,14 @@
 FIELDS = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
 MANDATORY = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 
+
 # Should be 140 - TBW!
 class Passport:
     def __init__(self):
         self.fields = {}
 
     def addElement(self, key, value):
-            self.fields[key] = value
+        self.fields[key] = value
 
     def isValid(self):
         if not self.validByr():
@@ -125,7 +126,7 @@ class Passport:
 
 
 if __name__ == "__main__":
-    lines = open("data").read().splitlines()
+    lines = open("data.txt").read().splitlines()
 
     currentPassport = Passport()
     validPassports = 0

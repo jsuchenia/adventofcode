@@ -1,9 +1,9 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 # https://adventofcode.com/2021/day/23
 
-from heapq import heappop, heappush
-from functools import cache
 import math
+from functools import cache
+from heapq import heappop, heappush
 
 CORRIDOR = "..........."
 
@@ -11,11 +11,14 @@ CONNECTIONS_PART1 = {
     0: [{"to": 1, "steps": 1}],
     1: [{"to": 11, "steps": 2, "onlyFor": 'A'}, {"to": 0, "steps": 1}, {"to": 3, "steps": 2}],
     2: [],
-    3: [{"to": 11, "steps": 2, "onlyFor": 'A'}, {"to": 13, "steps": 2, "onlyFor": 'B'}, {"to": 1, "steps": 2}, {"to": 5, "steps": 2}],
+    3: [{"to": 11, "steps": 2, "onlyFor": 'A'}, {"to": 13, "steps": 2, "onlyFor": 'B'}, {"to": 1, "steps": 2},
+        {"to": 5, "steps": 2}],
     4: [],
-    5: [{"to": 13, "steps": 2, "onlyFor": 'B'}, {"to": 15, "steps": 2, "onlyFor": 'C'}, {"to": 3, "steps": 2}, {"to": 7, "steps": 2}],
+    5: [{"to": 13, "steps": 2, "onlyFor": 'B'}, {"to": 15, "steps": 2, "onlyFor": 'C'}, {"to": 3, "steps": 2},
+        {"to": 7, "steps": 2}],
     6: [],
-    7: [{"to": 15, "steps": 2, "onlyFor": 'C'}, {"to": 17, "steps": 2, "onlyFor": 'D'}, {"to": 5, "steps": 2}, {"to": 9, "steps": 2}],
+    7: [{"to": 15, "steps": 2, "onlyFor": 'C'}, {"to": 17, "steps": 2, "onlyFor": 'D'}, {"to": 5, "steps": 2},
+        {"to": 9, "steps": 2}],
     8: [],
     9: [{"to": 17, "steps": 2, "onlyFor": 'D'}, {"to": 7, "steps": 2}, {"to": 10, "steps": 1}],
     10: [{"to": 9, "steps": 1}],
@@ -40,11 +43,14 @@ CONNECTIONS_PART2 = {
     0: [{"to": 1, "steps": 1}],
     1: [{"to": 0, "steps": 1}, {"to": 3, "steps": 2}, {"to": 11, "steps": 2, "onlyFor": 'A'}],
     2: [],
-    3: [{"to": 1, "steps": 2}, {"to": 5, "steps": 2}, {"to": 11, "steps": 2, "onlyFor": 'A'}, {"to": 15, "steps": 2, "onlyFor": 'B'}],
+    3: [{"to": 1, "steps": 2}, {"to": 5, "steps": 2}, {"to": 11, "steps": 2, "onlyFor": 'A'},
+        {"to": 15, "steps": 2, "onlyFor": 'B'}],
     4: [],
-    5: [{"to": 3, "steps": 2}, {"to": 7, "steps": 2}, {"to": 15, "steps": 2, "onlyFor": 'B'}, {"to": 19, "steps": 2, "onlyFor": 'C'}],
+    5: [{"to": 3, "steps": 2}, {"to": 7, "steps": 2}, {"to": 15, "steps": 2, "onlyFor": 'B'},
+        {"to": 19, "steps": 2, "onlyFor": 'C'}],
     6: [],
-    7: [{"to": 5, "steps": 2}, {"to": 9, "steps": 2}, {"to": 19, "steps": 2, "onlyFor": 'C'}, {"to": 23, "steps": 2, "onlyFor": 'D'}],
+    7: [{"to": 5, "steps": 2}, {"to": 9, "steps": 2}, {"to": 19, "steps": 2, "onlyFor": 'C'},
+        {"to": 23, "steps": 2, "onlyFor": 'D'}],
     8: [],
     9: [{"to": 7, "steps": 2}, {"to": 10, "steps": 1}, {"to": 23, "steps": 2, "onlyFor": 'D'}],
     10: [{"to": 9, "steps": 1}],
@@ -76,6 +82,7 @@ CONNECTIONS_PART2 = {
 
 COSTS = {'A': 1, 'B': 10, 'C': 100, 'D': 1000}
 
+
 def genNewState(state, src, dst):
     newstate = list(state)
 
@@ -84,6 +91,7 @@ def genNewState(state, src, dst):
     newstate[dst] = c
 
     return ''.join(newstate)
+
 
 def checkIfFinal(idx, state, finishState, connections):
     if idx < 11:
@@ -101,9 +109,11 @@ def checkIfFinal(idx, state, finishState, connections):
 
     return True
 
+
 @cache
 def getDiffPriority(state, finalState):
     return math.prod([10 if state[idx] != finalState[idx] else 1 for idx in range(len(finalState))])
+
 
 def doSimul(startState, finishState, connections):
     q = [(0, startState)]
@@ -160,15 +170,18 @@ def doSimul(startState, finishState, connections):
     print("Result is", result)
     return result
 
+
 def ex1(startState):
     FINAL_STATE = CORRIDOR + "AABBCCDD"
 
-    return  doSimul(startState, FINAL_STATE, CONNECTIONS_PART1)
+    return doSimul(startState, FINAL_STATE, CONNECTIONS_PART1)
+
 
 def ex2(startState):
     FINAL_STATE = CORRIDOR + "AAAABBBBCCCCDDDD"
 
-    return  doSimul(startState, FINAL_STATE, CONNECTIONS_PART2)
+    return doSimul(startState, FINAL_STATE, CONNECTIONS_PART2)
+
 
 if __name__ == "__main__":
     # assert ex1(CORRIDOR + "BACDBCDA") == 12521

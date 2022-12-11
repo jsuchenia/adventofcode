@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 ALL_CHARS = "abcdefghijklmnopqrstuvwxyz"
 
+
 def ex1(lines):
     acc = set()
     total = 0
@@ -14,6 +15,7 @@ def ex1(lines):
             acc = set()
     total += len(acc)
     return total
+
 
 def ex2(lines):
     acc = set(ALL_CHARS)
@@ -30,8 +32,9 @@ def ex2(lines):
     total += len(acc)
     return total
 
+
 if __name__ == "__main__":
-    lines = open("data", "r").read().splitlines()
+    lines = open("data.txt", "r").read().splitlines()
 
     assert ex1(lines) == 6735
     assert ex2(lines) == 3221

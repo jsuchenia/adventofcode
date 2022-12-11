@@ -15,8 +15,9 @@ def calculateGenerations(data, generations):
     print("Family after age =", generations, "is ", fishFamily, " with total ", total)
     return total
 
+
 if __name__ == "__main__":
-    genStr = open("data", "r").readline()
+    genStr = open("data.txt", "r").readline()
     data = [int(x) for x in genStr.split(",")]
 
     TEST_DATA = [3, 4, 3, 1, 2]

@@ -3,6 +3,7 @@
 from collections import deque
 from itertools import islice
 
+
 def parse(data):
     playerA, playerB = data.split("\n\n")
 
@@ -11,8 +12,10 @@ def parse(data):
 
     return player1, player2
 
+
 def calculateScore(cards):
-    return sum([(i+1)*card for i, card in enumerate(reversed(cards))])
+    return sum([(i + 1) * card for i, card in enumerate(reversed(cards))])
+
 
 def doGame(playerA, playerB, recursiveBattle, seengames, deep=0):
     cards1 = deque(playerA)
@@ -39,7 +42,7 @@ def doGame(playerA, playerB, recursiveBattle, seengames, deep=0):
                                             islice(cards2, 0, card2),
                                             recursiveBattle=True,
                                             seengames=seengames,
-                                            deep=deep+1)
+                                            deep=deep + 1)
 
             if len(recPlayerA) > 0:
                 cards1.extend((card1, card2))
@@ -58,6 +61,7 @@ def doGame(playerA, playerB, recursiveBattle, seengames, deep=0):
     print("{} > [{}] vs [{}]".format(deep, cards1, cards2))
     return cards1, cards2
 
+
 def doCombat(data, recursiveBattle=False):
     playerA, playerB = parse(data)
     player1, player2 = doGame(playerA, playerB, recursiveBattle=recursiveBattle, seengames=set())
@@ -71,12 +75,13 @@ def doCombat(data, recursiveBattle=False):
     print("Simulation results", result)
     return result
 
+
 if __name__ == "__main__":
     test = open("test.txt", "r").read()
     data = open("data.txt", "r").read()
 
     # assert doCombat(test) == 306
-    # assert doCombat(str(data)) == 33631
+    # assert doCombat(str(data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt)) == 33631
 
     assert doCombat(test, recursiveBattle=True) == 291
     assert doCombat(data, recursiveBattle=True) == 33469

@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2021/day/3
 
-def generateString(stats, limit = 500, reversed=False):
+def generateString(stats, limit=500, reversed=False):
     out = ""
 
     for e in stats:
@@ -12,6 +12,7 @@ def generateString(stats, limit = 500, reversed=False):
 
     return out
 
+
 def generateStats(data):
     stats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for entry in data:
@@ -19,6 +20,7 @@ def generateStats(data):
             if entry[i] == "1":
                 stats[i] += 1
     return stats
+
 
 def ex1(data):
     print("EX1> Len: ", len(data))
@@ -28,12 +30,13 @@ def ex1(data):
     print("Stats> ", stats)
     gamma = generateString(stats)
     epsilon = generateString(stats, reversed=True)
-    print("Gamma> ", gamma, int(gamma,2))
-    print("Epsilon> ", epsilon, int(epsilon,2))
+    print("Gamma> ", gamma, int(gamma, 2))
+    print("Epsilon> ", epsilon, int(epsilon, 2))
 
-    result = int(gamma,2) * int(epsilon,2)
+    result = int(gamma, 2) * int(epsilon, 2)
     print(">>> EX1 <<< result = ", result)
     return result
+
 
 def ex2(data):
     oxygen = ex2Gamma(data)
@@ -43,7 +46,8 @@ def ex2(data):
     print(">>> EX2 <<< Result: ", result)
     return result
 
-def ex2Gamma(data, reverse = False):
+
+def ex2Gamma(data, reverse=False):
     stats = generateStats(data)
     print("\n\nEX2> ", stats)
     preffix = ""
@@ -54,10 +58,10 @@ def ex2Gamma(data, reverse = False):
 
         print("New stats ", stats)
         print("EX2> filtered len =", l)
-        limit = l//2
+        limit = l // 2
         print("   limit =", limit)
         e = stats[i]
-        if (not reverse and e >= (l-e)) or (reverse and e < (l-e)):
+        if (not reverse and e >= (l - e)) or (reverse and e < (l - e)):
             data = [element for element in data if element[i] == "1"]
             preffix += "1"
         else:
@@ -74,7 +78,8 @@ def ex2Gamma(data, reverse = False):
         print("Fount element:", data[0].strip(), int(data[0].strip(), 2))
         return int(data[0].strip(), 2)
 
+
 if __name__ == "__main__":
-    data = open("data", "r").readlines()
+    data = open("data.txt", "r").readlines()
     assert ex1(data) == 2583164
     assert ex2(data) == 2784375

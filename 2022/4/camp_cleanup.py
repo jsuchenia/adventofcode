@@ -32,4 +32,4 @@ def count_overlaps(fileame: str):
 
 if __name__ == "__main__":
     assert count_overlaps("example.txt") == (2, 4)
-    assert count_overlaps("data.txt") == (547, 843)
+    assert count_overlaps("data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt") == (547, 843)
