@@ -2,9 +2,8 @@ import math
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Monkey:
-    id: int
     items: list[int]
     operation: callable
     test_div: int
@@ -15,21 +14,18 @@ class Monkey:
 
 def parse_monkey(data):
     lines = data.splitlines()
-    id = lines[0][7:-1]
-    items = [int(item) for item in lines[1].split(":")[1].strip().split(",")]
-    operation = eval("lambda old: " + lines[2].split(":")[1].strip()[5:])
-    div_by = int(lines[3][21:].strip())
-    div_true = int(lines[4][29:].strip())
-    div_false = int(lines[5][30:].strip())
-
-    return Monkey(id=id, items=items, operation=operation, test_div=div_by, div_true=div_true, div_false=div_false)
+    return Monkey(
+        items=[int(item) for item in lines[1].split(":")[1].strip().split(",")],
+        operation=eval("lambda old: " + lines[2].split(":")[1].strip()[5:]),
+        test_div=int(lines[3][21:].strip()),
+        div_true=int(lines[4][29:].strip()),
+        div_false=int(lines[5][30:].strip())
+    )
 
 
 def read_data(file_name: str):
     with open(file_name) as f:
-        monkeys = f.read().split("\n\n")
-
-    return [parse_monkey(monkey) for monkey in monkeys]
+        return [parse_monkey(monkey) for monkey in f.read().split("\n\n")]
 
 
 def play_game(file_name: str, rounds: int, part_one: bool) -> int:
