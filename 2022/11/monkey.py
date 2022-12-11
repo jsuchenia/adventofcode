@@ -32,7 +32,7 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
     monkeys = read_data(file_name)
 
     # From p2_brute.py and https://www.numberempire.com/96577 :)
-    factor = math.prod([monkey.test_div for monkey in monkeys])
+    factor = math.lcm(*[monkey.test_div for monkey in monkeys])
 
     for _ in range(rounds):
         for monkey in monkeys:
