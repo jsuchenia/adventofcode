@@ -15,7 +15,7 @@ def get_elevation(chr):
         return ord(chr) - ord('a')
 
 
-def get_possible_moves(data, y, x, reverse) -> list:
+def get_available_childs(data, y, x, reverse) -> list:
     moves = []
 
     elevation = get_elevation(data[y][x])
@@ -36,7 +36,7 @@ def build_graph(data, reverse):
         for x in range(len(data[y])):
             char = data[y][x]
             pos = (x, y)
-            graph[pos] = get_possible_moves(data, y, x, reverse)
+            graph[pos] = get_available_childs(data, y, x, reverse)
 
             if char == 'S':
                 starts.insert(0, pos)
