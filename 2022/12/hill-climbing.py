@@ -10,19 +10,16 @@ def get_elevation(chr):
     if chr == 'S':
         return 0
     elif chr == 'E':
-        return ord('z') - ord('a')
+        return 25
     else:
         return ord(chr) - ord('a')
-
-
-ALLOWED_MOVES = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
 
 def get_possible_moves(data, y, x, reverse) -> list:
     moves = []
 
     elevation = get_elevation(data[y][x])
-    for dx, dy in ALLOWED_MOVES:
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
         nx, ny = x + dx, y + dy
 
         if 0 <= ny < len(data) and 0 <= nx < len(data[ny]):
@@ -54,25 +51,21 @@ def bfs(graph, root, ends):
     queue = deque()
     visited = set()
     final = set(ends)
-    weights = {}
 
-    queue.append(root)
+    queue.append((0, root))
     visited.add(root)
-    weights[root] = 0
 
     while queue:
-        node = queue.popleft()
-        child_weight = weights[node] + 1
+        weight, node = queue.popleft()
 
         for child in graph[node]:
             if child in final:
-                return child_weight
-            
+                return weight + 1
+
             if child not in visited:
-                weights[child] = child_weight
                 visited.add(child)
                 if child in graph:
-                    queue.append(child)
+                    queue.append((weight + 1, child))
 
 
 def count_steps_from_end(filename: str) -> int:
