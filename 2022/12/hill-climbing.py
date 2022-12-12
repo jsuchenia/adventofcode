@@ -47,7 +47,7 @@ def build_graph(data, reverse):
     return graph, starts, end
 
 
-def bfs(graph, root, ends):
+def bfs(graph, *, root, ends):
     queue = deque()
     visited = set()
     final = set(ends)
@@ -71,7 +71,7 @@ def bfs(graph, root, ends):
 def count_steps_from_end(filename: str) -> int:
     data = get_data(filename)
     graph, starts, end = build_graph(data, reverse=True)
-    min_score = bfs(graph, end, starts)
+    min_score = bfs(graph, root=end, ends=starts)
 
     print(f"going down {filename=} {min_score=}")
     return min_score
@@ -81,7 +81,7 @@ def count_steps_from_start(filename: str) -> int:
     data = get_data(filename)
     graph, starts, end = build_graph(data, reverse=False)
 
-    score = bfs(graph, starts[0], [end])
+    score = bfs(graph, root=starts[0], ends=[end])
 
     print(f"climbing up {filename=} {score=}")
     return score
