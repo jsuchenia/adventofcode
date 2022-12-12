@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-# My data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt: x=282..314, y=-80..-45
+# My data.txt: x=282..314, y=-80..-45
 
 def checkVelocity(initdx, initdy):
     x = y = 0

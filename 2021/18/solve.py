@@ -12,7 +12,7 @@ def doPopulate(pair, left, right):
     :param right: leftover that needs to be put on a rigt side
     :return: boot value of placement (not needed)
 
-    WARNING: it's modifying input data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    WARNING: it's modifying input data.txt
     """
     if left >= 0 and type(pair[0]) is int:
         pair[0] += left
@@ -37,7 +37,7 @@ def doExplode(pair, deep):
     :return: touple with True/False, left leftover, right leftover
                     - needed to find out a proper placement to call doPolulate
 
-    WARNING: it's modifying input data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    WARNING: it's modifying input data.txt
     """
     left = pair[0]
     right = pair[1]
@@ -83,7 +83,7 @@ def doSplit(pair):
     :param pair:  current pair
     :return: bool value with flag if split operation has been done
 
-    WARNING: it's modifying input data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    WARNING: it's modifying input data.txt
     """
     for i in [0, 1]:
         if type(pair[i]) is int:
@@ -104,7 +104,7 @@ def doReduce(pairs):
     :param pairs: root node of a equation
     :return: equation after all reductions
 
-    WARNING: it's modifying input data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    WARNING: it's modifying input data.txt
     """
     print(pairs)
     while True:
@@ -125,7 +125,7 @@ def doSum(pair1, pair2):
     :param pair2: right part of a sum
     :return: reduced result
 
-    WARNING - It's modifying supplied data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    WARNING - It's modifying supplied data.txt
     """
     pairs = [pair1, pair2]
     return doReduce(pairs)
@@ -189,7 +189,7 @@ def doPermutations(lines):
 
 
 if __name__ == "__main__":
-    # Input data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt - test one and production one
+    # Input data.txt
     test = open("test.txt").read().splitlines()
     data = open("data.txt").read().splitlines()
 
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     assert doSumLines(test) == [[[[6, 6], [7, 6]], [[7, 7], [7, 0]]], [[[7, 7], [7, 7]], [[7, 8], [9, 9]]]]
     assert calcMagniture([[[[6, 6], [7, 6]], [[7, 7], [7, 0]]], [[[7, 7], [7, 7]], [[7, 8], [9, 9]]]]) == 4140
 
-    # Full e2e data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt run
+    # Full e2e data.txt run
     assert doSumLines(data) == [[[[6, 8], [9, 7]], [[9, 5], [9, 0]]], [[[9, 9], [5, 7]], [[5, 0], [8, 0]]]]
     assert calcMagniture([[[[6, 8], [9, 7]], [[9, 5], [9, 0]]], [[[9, 9], [5, 7]], [[5, 0], [8, 0]]]]) == 4176
 

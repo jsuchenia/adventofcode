@@ -81,7 +81,7 @@ if __name__ == "__main__":
     data = open("data.txt", "r").read()
 
     # assert doCombat(test) == 306
-    # assert doCombat(str(data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt)) == 33631
+    # assert doCombat(str("data.txt")) == 33631
 
     assert doCombat(test, recursiveBattle=True) == 291
     assert doCombat(data, recursiveBattle=True) == 33469

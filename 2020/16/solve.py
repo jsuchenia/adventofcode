@@ -46,7 +46,7 @@ def doTask(data, firstPhase=True):
         print("EX1 result: ", result)
         return result
 
-    # Normalize data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt
+    # Normalize data.txt
     toBeValidated = set(ALL_FIELDS)
     while len(toBeValidated) > 0:
         for pos, values in enumerate(fieldtitles):
