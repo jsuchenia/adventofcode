@@ -3,22 +3,21 @@ import json
 import math
 
 
-def read_data(filename: str):
+def read_data(filename: str) -> list:
     with open(filename) as f:
         pairs = [pair.split("\n") for pair in f.read().split("\n\n")]
     return [(json.loads(pair[0]), json.loads(pair[1])) for pair in pairs]
 
 
-def check_equal(left, right):
+def check_equal(left, right) -> bool | None:
     if isinstance(left, int) and isinstance(right, int):
         if left != right:
             return left < right
     elif isinstance(left, list) and isinstance(right, list):
         left_len = len(left)
         right_len = len(right)
-        max_len = max(left_len, right_len)
 
-        for idx in range(max_len):
+        for idx in range(max(left_len, right_len)):
             if idx < left_len and idx < right_len:
                 r = check_equal(left[idx], right[idx])
                 if r is not None:
@@ -31,7 +30,7 @@ def check_equal(left, right):
         return check_equal(left, [right])
 
 
-def p1(filename: str):
+def p1(filename: str) -> int:
     pairs = read_data(filename)
     statuses = [(idx + 1, check_equal(pair[0], pair[1])) for idx, pair in enumerate(pairs)]
 
@@ -41,7 +40,7 @@ def p1(filename: str):
     return result
 
 
-class comparator:
+class Comparator:
     def __init__(self, obj):
         self.obj = obj
 
@@ -49,7 +48,7 @@ class comparator:
         return check_equal(self.obj, other.obj)
 
 
-def p2(filename: str):
+def p2(filename: str) -> int:
     extra_packets = [[[2]], [[6]]]
 
     pairs = read_data(filename)
