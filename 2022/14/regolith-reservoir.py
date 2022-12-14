@@ -23,31 +23,7 @@ def build_cave(data: list) -> (set, int):
     return cave, deep
 
 
-def simul_sand1(filename: str) -> int:
-    cave, deep = build_cave(read_data(filename))
-    amount = 0
-
-    while True:
-        sand = (500, 0)
-        while True:
-            if sand[1] > deep:
-                print(f"p1 {filename=} {amount=}")
-                return amount
-            if (sand[0], sand[1] + 1) not in cave:
-                sand = (sand[0], sand[1] + 1)
-                continue
-            if (sand[0] - 1, sand[1] + 1) not in cave:
-                sand = (sand[0] - 1, sand[1] + 1)
-                continue
-            if (sand[0] + 1, sand[1] + 1) not in cave:
-                sand = (sand[0] + 1, sand[1] + 1)
-                continue
-            cave.add(sand)
-            amount += 1
-            break
-
-
-def simul_sand2(filename: str) -> int:
+def simul_sand(filename: str, use_floor: bool) -> int:
     cave, deep = build_cave(read_data(filename))
     amount = 0
 
@@ -65,19 +41,23 @@ def simul_sand2(filename: str) -> int:
                 sand = (sand[0] + 1, sand[1] + 1)
                 continue
 
+            if sand[1] > deep and not use_floor:
+                print(f"p1 {filename=} {amount=}")
+                return amount
+
             amount += 1
+            cave.add(sand)
 
             if sand == start:
                 print(f"p2 {filename=} {amount=}")
                 return amount
 
-            cave.add(sand)
             break
 
 
 if __name__ == "__main__":
-    assert simul_sand1("example.txt") == 24
-    assert simul_sand1("data.txt") == 843
+    assert simul_sand("example.txt", use_floor=False) == 24
+    assert simul_sand("data.txt", use_floor=False) == 843
 
-    assert simul_sand2("example.txt") == 93
-    assert simul_sand2("data.txt") == 27625
+    assert simul_sand("example.txt", use_floor=True) == 93
+    assert simul_sand("data.txt", use_floor=True) == 27625
