@@ -23,9 +23,11 @@ def build_cave(data: list) -> (set, int):
     return cave, deep
 
 
-def simul_sand(filename: str, use_floor: bool) -> int:
+def simul_sand(filename: str) -> (int, int):
     cave, deep = build_cave(read_data(filename))
     amount = 0
+
+    p1_result = None
 
     start = (500, 0)
     while True:
@@ -41,23 +43,20 @@ def simul_sand(filename: str, use_floor: bool) -> int:
                 sand = (sand[0] + 1, sand[1] + 1)
                 continue
 
-            if sand[1] > deep and not use_floor:
+            if sand[1] > deep and not p1_result:
                 print(f"p1 {filename=} {amount=}")
-                return amount
+                p1_result = amount
 
             amount += 1
             cave.add(sand)
 
             if sand == start:
                 print(f"p2 {filename=} {amount=}")
-                return amount
+                return p1_result, amount
 
             break
 
 
 if __name__ == "__main__":
-    assert simul_sand("example.txt", use_floor=False) == 24
-    assert simul_sand("data.txt", use_floor=False) == 843
-
-    assert simul_sand("example.txt", use_floor=True) == 93
-    assert simul_sand("data.txt", use_floor=True) == 27625
+    assert simul_sand("example.txt") == (24, 93)
+    assert simul_sand("data.txt") == (843, 27625)
