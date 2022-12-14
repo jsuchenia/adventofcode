@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-import json
 import math
 
 
 def read_data(filename: str) -> list:
     with open(filename) as f:
         pairs = [pair.split("\n") for pair in f.read().split("\n\n")]
-    return [(json.loads(pair[0]), json.loads(pair[1])) for pair in pairs]
+    return [(eval(pair[0]), eval(pair[1])) for pair in pairs]
 
 
 def check_equal(left, right) -> bool | None:
@@ -54,7 +53,7 @@ def p2(filename: str) -> int:
     pairs = read_data(filename)
     packets = [packet for pair in pairs for packet in pair]
     packets += extra_packets
-    packets.sort(key=lambda pair: comparator(pair))
+    packets.sort(key=lambda pair: Comparator(pair))
 
     extra_positions = [packets.index(element) + 1 for element in extra_packets]
     print(f"p2 {filename=} {extra_positions=}")
