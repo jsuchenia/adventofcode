@@ -98,3 +98,12 @@ if __name__ == "__main__":
     assert Simul("data.txt").p1() == 1754
     assert Simul("example.txt").p2() == 1707
     assert Simul("data.txt").p2() == 2474
+
+    # P1 self.filename='example.txt': Result is result=1651
+    # P1 self.filename='data.txt': Result is result=1754
+    # P2 self.filename='example.txt': Result is result=1707
+    # P2 self.filename='data.txt': Result is result=2474
+    #
+    # real    0m1.452s
+    # user    0m1.439s
+    # sys     0m0.010s

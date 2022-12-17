@@ -104,3 +104,12 @@ if __name__ == "__main__":
     assert Simul("data.txt").p1() == 1754
     assert Simul("example.txt").p2() == 1707
     assert Simul("data.txt").p2() == 2474
+
+    # P1: Result is result=1651 CacheInfo(hits=415, misses=402, maxsize=None, currsize=402)
+    # P1: Result is result=1754 CacheInfo(hits=53053, misses=77873, maxsize=None, currsize=77873)
+    # P2: Result is result=1707 CacheInfo(hits=54677, misses=79445, maxsize=None, currsize=79445) CacheInfo(hits=386, misses=389, maxsize=None, currsize=389)
+    # P2: Result is result=2474 CacheInfo(hits=5553755, misses=2522769, maxsize=None, currsize=2522769) CacheInfo(hits=13053, misses=26745, maxsize=None, currsize=26745)
+    #
+    # real    0m17.324s
+    # user    0m16.815s
+    # sys     0m0.456s
