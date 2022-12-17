@@ -1,39 +1,46 @@
 #!/usr/local/bin/python3
 import re
 
+
 def parse(data):
     res = re.compile(r"Player (\d+) starting position: (\d+)")
     return [int(p[1]) for p in res.findall(data)]
 
-def getDicVal(x):
-    return ((x-1)%100)+1
 
-def getDiceValue(round):
-    x = round % 100
-    return sum([getDicVal(3 * x + 1), getDicVal((3 * x) + 2), getDicVal((3 * x) + 3)])
+def get_predictive_dict_val(x):
+    return ((x - 1) % 100) + 1
 
-def ex1(data):
-    positions = parse(data)
+
+def get_dict_val(i):
+    x = i % 100
+    return sum([get_predictive_dict_val(3 * x + 1),
+                get_predictive_dict_val((3 * x) + 2),
+                get_predictive_dict_val((3 * x) + 3)])
+
+
+def ex1(input_data):
+    positions = parse(input_data)
     scores = [0] * len(positions)
-    round = 0
+    i = 0
 
     while True:
-        idx = round % len(positions)
-        value = getDiceValue(round)
+        idx = i % len(positions)
+        value = get_dict_val(i)
 
-        positions[idx] = ((positions[idx] + value-1) % 10) + 1
+        positions[idx] = ((positions[idx] + value - 1) % 10) + 1
         scores[idx] += positions[idx]
 
         if scores[idx] >= 1000:
-            print("Break at round", round)
-            dicTimes = (3*(round+1))
-            partnerScore = scores[(idx+1)%2]
-            result = dicTimes * partnerScore
-            # print("Dic times", dicTimes)
-            # print("Partner score", partnerScore)
+            print("Break at round", i)
+            dic_times = (3 * (i + 1))
+            partner_score = scores[(idx + 1) % 2]
+            result = dic_times * partner_score
+            # print("Dic times", dic_times)
+            # print("Partner score", partner_score)
             print("EX1> Result", result)
             return result
-        round += 1
+        i += 1
+
 
 if __name__ == "__main__":
     test = open("test.txt", "r").read()
