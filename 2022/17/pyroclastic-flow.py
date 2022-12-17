@@ -59,6 +59,8 @@ def simul_cave(filename, limit) -> int:
                 nx = x + 1
             elif move == '<':
                 nx = x - 1
+            else:
+                raise ValueError(f"Wrong input data!")
 
             if is_shape_valid(cave, rock(nx, y)):
                 x = nx
@@ -79,18 +81,19 @@ def simul_cave(filename, limit) -> int:
         diff_highest = new_highest - highest
         highest = new_highest
 
+        # Stats for part II but also speedup part I
         stats_id = (move_idx, rock_idx, diff_highest)
         if stats_id in stats:
             old_i, old_highest = stats[stats_id]
             diff_i = old_i - i
             diff_highest = highest - old_highest
 
-            if i % diff_i == 0:
+            if i % diff_i == 0:  # Only for final estimation as cave will be invalid
                 factor = i // diff_i
                 gain = factor * diff_highest
-                i -= factor * diff_i
                 highest += gain
                 result = highest + 1
+
                 print(f"Estimated result {result=}")
                 return result
         stats[stats_id] = i, highest
