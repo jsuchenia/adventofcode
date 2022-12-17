@@ -54,12 +54,10 @@ def simul_cave(filename, i) -> int:
         if stats_id in stats:
             old_i, old_highest = stats[stats_id]
             diff_i = old_i - i
-            diff_highest = highest - old_highest
 
             if i % diff_i == 0:  # Only for final estimation as cave will be invalid
                 factor = i // diff_i
-                gain = factor * diff_highest
-                highest += gain
+                highest += factor * (highest - old_highest)
                 result = highest + 1
 
                 print(f"Estimated result {result=}")
