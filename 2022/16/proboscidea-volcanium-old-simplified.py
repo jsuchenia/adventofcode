@@ -84,16 +84,14 @@ class Simul:
 
         for path in paths:
             key = frozenset(path[0])
-            if key in paths_dict:
-                paths_dict[key] = max(path[1], paths_dict[key])
-            else:
-                paths_dict[key] = path[1]
+            paths_dict[key] = max(path[1], paths_dict.get(key, 0))
 
+        print(f"P2: Reduction from {len(paths)} vs {len(paths_dict)}")
         result = max(cost1 + cost2
                      for path1, cost1 in paths_dict.items()
                      for path2, cost2 in paths_dict.items()
                      if path1.isdisjoint(path2))
-        print(f"P2: Result is {result=}")
+        print(f"    Result is {result=}")
         return result
 
 

@@ -57,31 +57,23 @@ class Simul:
         self.distances = build_distance(self.graph)
         self.valves_to_open = frozenset([key for key, value in self.graph.items() if value[0] > 0])
 
-    def _generate_submoves(self, path: list[str], valves: frozenset[str], emission: int, limit: int):
-        current = path[-1]
-        for valve in valves:
+    def generate_moves(self, current: str, path: list[str], remaining_valves: frozenset[str], emission: int, limit: int):
+        for valve in remaining_valves:
             distance = self.distances[(current, valve)]
             new_limit = limit - distance - 1
             if new_limit <= 0:
                 continue
             new_emission = emission + new_limit * self.graph[valve][0]
-            yield from self._generate_submoves(path + [valve], valves - {valve}, new_emission, new_limit)
+            yield from self.generate_moves(valve, path + [valve], remaining_valves - {valve}, new_emission, new_limit)
         yield path, emission
 
-    def generate_moves(self, start, limit):
-        for valve in self.valves_to_open:
-            distance = self.distances[(start, valve)]
-            new_limit = limit - distance - 1
-            new_emission = new_limit * self.graph[valve][0]
-            yield from self._generate_submoves([valve], self.valves_to_open - {valve}, new_emission, new_limit)
-
     def p1(self):
-        result = max(emission for path, emission in self.generate_moves("AA", 30))
+        result = max(emission for path, emission in self.generate_moves("AA", [], self.valves_to_open, 0, 30))
         print(f"P1: Result is {result=}")
         return result
 
     def p2(self):
-        paths = list(self.generate_moves("AA", 26))
+        paths = list(self.generate_moves("AA", [], self.valves_to_open, 0, 26))
         paths_len = len(paths)
         result = max(paths[idx1][1] + paths[idx2][1]
                      for idx1 in range(0, paths_len)

@@ -56,12 +56,12 @@ class Simul:
         self.distances = build_distance(self.graph)
 
     @cache
-    def simul_p1(self, pos: str, remaining_valves: frozenset, time_left: int) -> int:
-        current_emit = time_left * self.graph[pos][0]
+    def simul_p1(self, current: str, remaining_valves: frozenset, time_left: int) -> int:
+        current_emit = time_left * self.graph[current][0]
         results = [current_emit]
 
         for node in remaining_valves:
-            distance_moving = self.distances[(pos, node)]
+            distance_moving = self.distances[(current, node)]
             reach_time = time_left - distance_moving - 1
             new_remaining = remaining_valves - {node}
             if reach_time > 0:
@@ -88,14 +88,14 @@ class Simul:
     def p1(self):
         valves_to_open = frozenset([key for key, value in self.graph.items() if value[0] > 0])
         result = self.simul_p1("AA", valves_to_open, 30)
-        print(f"P1: Result is {result=} {self.simul_p1.cache_info()}")
+        print(f"P1: Result is {result=} P1:{self.simul_p1.cache_info()}")
         return result
 
     def p2(self):
         valves_to_open = frozenset([key for key, value in self.graph.items() if value[0] > 0])
 
         result = self.simul_p2("AA", valves_to_open, 26)
-        print(f"P2: Result is {result=} {self.simul_p1.cache_info()} {self.simul_p2.cache_info()}")
+        print(f"P2: Result is {result=} P1:{self.simul_p1.cache_info()} P2:{self.simul_p2.cache_info()}")
         return result
 
 
@@ -105,10 +105,10 @@ if __name__ == "__main__":
     assert Simul("example.txt").p2() == 1707
     assert Simul("data.txt").p2() == 2474
 
-    # P1: Result is result=1651 CacheInfo(hits=415, misses=402, maxsize=None, currsize=402)
-    # P1: Result is result=1754 CacheInfo(hits=53053, misses=77873, maxsize=None, currsize=77873)
-    # P2: Result is result=1707 CacheInfo(hits=54677, misses=79445, maxsize=None, currsize=79445) CacheInfo(hits=386, misses=389, maxsize=None, currsize=389)
-    # P2: Result is result=2474 CacheInfo(hits=5553755, misses=2522769, maxsize=None, currsize=2522769) CacheInfo(hits=13053, misses=26745, maxsize=None, currsize=26745)
+    # P1: Result is result=1651 P1:CacheInfo(hits=415, misses=402, maxsize=None, currsize=402)
+    # P1: Result is result=1754 P1:CacheInfo(hits=53053, misses=77873, maxsize=None, currsize=77873)
+    # P2: Result is result=1707 P1:CacheInfo(hits=54677, misses=79445, maxsize=None, currsize=79445) P2:CacheInfo(hits=386, misses=389, maxsize=None, currsize=389)
+    # P2: Result is result=2474 P1:CacheInfo(hits=5553755, misses=2522769, maxsize=None, currsize=2522769) P2:CacheInfo(hits=13053, misses=26745, maxsize=None, currsize=26745)
     #
     # real    0m17.324s
     # user    0m16.815s
