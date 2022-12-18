@@ -37,12 +37,10 @@ def get_distance(graph, start, end) -> int:
 
 
 def build_distance(graph):
-    vales_to_open = list(graph.keys())
-
     dist = {}
 
-    for start in vales_to_open:
-        for end in vales_to_open:
+    for start in graph.keys():
+        for end in graph.keys():
             if start != end:
                 dist[(start, end)] = dist[(end, start)] = get_distance(graph, start, end)
             else:
@@ -82,11 +80,19 @@ class Simul:
 
     def p2(self):
         paths = list(self.generate_moves("AA", 26))
-        paths_len = len(paths)
-        result = max(paths[idx1][1] + paths[idx2][1]
-                     for idx1 in range(0, paths_len)
-                     for idx2 in range(idx1, paths_len)
-                     if set(paths[idx1][0]).isdisjoint(paths[idx2][0]))
+        paths_dict = {}
+
+        for path in paths:
+            key = frozenset(path[0])
+            if key in paths_dict:
+                paths_dict[key] = max(path[1], paths_dict[key])
+            else:
+                paths_dict[key] = path[1]
+
+        result = max(cost1 + cost2
+                     for path1, cost1 in paths_dict.items()
+                     for path2, cost2 in paths_dict.items()
+                     if path1.isdisjoint(path2))
         print(f"P2: Result is {result=}")
         return result
 
@@ -97,6 +103,6 @@ if __name__ == "__main__":
     assert Simul("example.txt").p2() == 1707
     assert Simul("data.txt").p2() == 2474
 
-    # real    4m49.692s
-    # user    4m46.992s
-    # sys     0m2.013s
+    # real    0m1.730s
+    # user    0m1.702s
+    # sys     0m0.025s
