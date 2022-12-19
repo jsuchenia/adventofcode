@@ -9,7 +9,7 @@ def read_data(filename: str):
 
 
 # DFS like - go deep and check how much goede we earn
-def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, *, limit):
+def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, limit):
     q = deque()
     q.append((0, 0, 0, 0, 1, 0, 0, 0, limit))
 
@@ -54,12 +54,10 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
 
         # Cap values that we will never spend - to find out similarities
         for nore, nclay, nobs, ngeode, nr_ore, nr_clay, nr_obs, nr_geod, nt in c:
-            if nore > nt * ore_max - (nt - 1) * nr_ore:
-                nore = nt * ore_max - (nt - 1) * nr_ore
-            if nclay > nt * obs_cost_clay - (nt - 1) * nr_clay:
-                nclay = nt * obs_cost_clay - (nt - 1) * nr_clay
-            if nobs > nt * geode_cost_obs - (nt - 1) * nr_obs:
-                nobs = nt * geode_cost_obs - (nt - 1) * nr_obs
+            nore = min(nore, nt * ore_max - (nt - 1) * nr_ore)
+            nclay = min(nclay, nt * obs_cost_clay - (nt - 1) * nr_clay)
+            nobs = min(nobs, nt * geode_cost_obs - (nt - 1) * nr_obs)
+
             new_state = (nore, nclay, nobs, ngeode, nr_ore, nr_clay, nr_obs, nr_geod, nt)
             if new_state not in seen:
                 q.append(new_state)
