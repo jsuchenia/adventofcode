@@ -70,3 +70,7 @@ if __name__ == "__main__":
 
     assert mix("example.txt", enckey=811589153, repeats=10) == 1623178306
     assert mix("data.txt", enckey=811589153, repeats=10) == 831878881825
+
+    # real    0m3.424s
+    # user    0m3.391s
+    # sys     0m0.032s

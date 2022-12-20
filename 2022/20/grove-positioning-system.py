@@ -10,7 +10,7 @@ def mix(filename: str, ecnkey=1, repeats=1):
     cpy = orig.copy()
 
     for i in range(repeats):
-        print(f" - Round {i}")
+        # print(f" - Round {i}")
         for val in orig:
             if val[1] == 0:
                 continue
@@ -35,3 +35,7 @@ if __name__ == "__main__":
 
     assert mix("example.txt", ecnkey=811589153, repeats=10) == 1623178306
     assert mix("data.txt", ecnkey=811589153, repeats=10) == 831878881825
+
+    # real    0m2.852s
+    # user    0m2.820s
+    # sys     0m0.030s
