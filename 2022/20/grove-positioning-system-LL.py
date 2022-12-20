@@ -47,17 +47,17 @@ def mix(filename: str, enckey=1, repeats=1):
             # Insert into new position (after cur)
             node.next = cur.next
             node.prev = cur
-            
+
             cur.next.prev = node
             cur.next = node
 
     zero = [node for node in nodes if node.val == 0].pop()
     result = []
 
-    for i in range(3000):
-        zero = zero.next
-        if i % 1000 == 999:
-            result.append(zero.val)
+    for _ in range(3):
+        for _ in range(1000 % l):
+            zero = zero.next
+        result.append(zero.val)
 
     s = sum(result)
     print(f"{result=} {s=}")
