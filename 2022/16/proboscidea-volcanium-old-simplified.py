@@ -1,5 +1,5 @@
 import re
-from collections import deque
+from collections import deque, defaultdict
 
 
 # First implementation, based on collections - solved P1 (example + data), P2 for example
@@ -80,11 +80,11 @@ class Simul:
 
     def p2(self):
         paths = list(self.generate_moves("AA", 26))
-        paths_dict = {}
+        paths_dict = defaultdict(int)
 
         for path in paths:
             key = frozenset(path[0])
-            paths_dict[key] = max(path[1], paths_dict.get(key, 0))
+            paths_dict[key] = max(path[1], paths_dict[key])
 
         print(f"P2: Reduction from {len(paths)} vs {len(paths_dict)}")
         result = max(cost1 + cost2

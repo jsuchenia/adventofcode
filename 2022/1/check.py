@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from pprint import pprint
 
 
 def parse_file(file_name: str):
@@ -15,9 +14,11 @@ def get_calories(file_name: str):
     data = parse_file(file_name)
     data.sort(reverse=True)
 
-    return data[0], sum(data[0:3])
+    result = (data[0], sum(data[0:3]))
+    print(f"{result=}")
+    return result
 
 
 if __name__ == "__main__":
     assert get_calories("example.txt") == (24000, 45000)
-    pprint(get_calories("data.txt"))
+    assert get_calories("data.txt") == (69693, 200945)

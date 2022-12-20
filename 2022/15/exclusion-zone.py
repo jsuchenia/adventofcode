@@ -54,7 +54,7 @@ def find_missing_spot(filename: str, max_range: int) -> int:
         x = 0
         for c in coverage:
             xmin, xmax = c
-            
+
             if xmin > x + 1:
                 print(f"{filename=} Found inconsistency! - p=({x + 1}, {line})")
                 freq = (x + 1) * 4000000 + line
@@ -68,8 +68,8 @@ def find_missing_spot(filename: str, max_range: int) -> int:
 
 
 if __name__ == "__main__":
-    assert count_cover_line("example.txt", 10) == 26
-    assert count_cover_line("data.txt", 2000000) == 5809294
+    assert count_cover_line("example.txt", line=10) == 26
+    assert count_cover_line("data.txt", line=2000000) == 5809294
 
-    assert find_missing_spot("example.txt", 20) == 56000011
-    assert find_missing_spot("data.txt", 4000000) == 10693731308112
+    assert find_missing_spot("example.txt", max_range=20) == 56000011
+    assert find_missing_spot("data.txt", max_range=4000000) == 10693731308112

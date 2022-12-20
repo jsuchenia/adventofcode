@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from pprint import pprint
 
 # Common:
 # A for Rock, B for Paper, and C for Scissors (opponent)
@@ -36,9 +35,10 @@ def get_scores(file_name: str):
     score1 = sum([points1[(n[1] - n[0]) % 3] + n[1] + 1 for n in num])
     score2 = sum([points2[(n[1] + n[0]) % 3] + 3 * n[1] for n in num])
 
+    print(f"{score1=} {score2=}")
     return score1, score2
 
 
 if __name__ == "__main__":
     assert get_scores("example.txt") == (15, 12)
-    pprint(get_scores("data.txt"))
+    assert get_scores("data.txt") == (13009, 10398)

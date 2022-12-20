@@ -35,7 +35,9 @@ def do_moves(file_name: str, reverse_order=True):
         status[src] = status[src][0:-size]
         status[dst] += transport[::-1] if reverse_order else transport
 
-    return ''.join([value[-1] for value in status.values()])
+    result = ''.join([value[-1] for value in status.values()])
+    print(f"{result=}")
+    return result
 
 
 if __name__ == "__main__":

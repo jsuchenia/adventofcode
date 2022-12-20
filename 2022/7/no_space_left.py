@@ -53,7 +53,9 @@ def traverse(file_name: str, size_limit: int = 100_000):
     found.sort()
     print(f"Smallest one that fit is {found[0]}")
 
-    return small_sizes, found[0]
+    result = (small_sizes, found[0])
+    print(f"{result=}")
+    return result
 
 
 if __name__ == "__main__":

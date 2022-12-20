@@ -27,9 +27,11 @@ def count_overlaps(fileame: str):
     full_overlaps = [is_fully_overlapping(points) for points in lines]
     partial_overlaps = [is_overlapping(points) for points in lines]
 
-    return full_overlaps.count(True), partial_overlaps.count(True)
+    result = (full_overlaps.count(True), partial_overlaps.count(True))
+    print(f"{result=}")
+    return result
 
 
 if __name__ == "__main__":
     assert count_overlaps("example.txt") == (2, 4)
-    assert count_overlaps("data.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt.txt") == (547, 843)
+    assert count_overlaps("data.txt") == (547, 843)

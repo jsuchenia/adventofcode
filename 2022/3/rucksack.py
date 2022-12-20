@@ -27,9 +27,11 @@ def calculate_priorities(file_name: str):
     commons2 = [(set(group[0]) & set(group[1]) & set(group[2])).pop() for group in groups]
     priorities2 = [get_priority(letter) for letter in commons2]
 
-    return sum(priorities1), sum(priorities2)
+    result = (sum(priorities1), sum(priorities2))
+    print(f"{result=}")
+    return result
 
 
 if __name__ == "__main__":
     assert calculate_priorities("example.txt") == (157, 70)
-    print(calculate_priorities("data.txt"))
+    assert calculate_priorities("data.txt") == (7889, 2825)
