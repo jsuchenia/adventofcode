@@ -1,6 +1,3 @@
-from collections import deque
-
-
 def read_data(filename: str):
     with open(filename) as f:
         return [int(line.strip()) for line in f.readlines()]
@@ -10,7 +7,7 @@ def mix(filename: str, ecnkey=1, repeats=1):
     nrs = read_data(filename)
     l = len(nrs)
     orig = [(i, val * ecnkey) for i, val in enumerate(nrs)]
-    cpy = deque(orig)
+    cpy = orig.copy()
 
     for i in range(repeats):
         print(f" - Round {i}")
@@ -19,14 +16,7 @@ def mix(filename: str, ecnkey=1, repeats=1):
                 continue
 
             cur = cpy.index(val)
-            assert cur >= 0
-
-            dst = cur + val[1]
-            while dst <= 0:
-                dst += l - 1
-            while dst > l:
-                dst %= (l - 1)
-
+            dst = (cur + val[1]) % (l - 1)
             cpy.remove(val)
             cpy.insert(dst, val)
 
@@ -44,4 +34,4 @@ if __name__ == "__main__":
     assert mix("data.txt") == 8721
 
     assert mix("example.txt", ecnkey=811589153, repeats=10) == 1623178306
-    # assert mix("data.txt", ecnkey=811589153, repeats=10) == 831878881825
+    assert mix("data.txt", ecnkey=811589153, repeats=10) == 831878881825
