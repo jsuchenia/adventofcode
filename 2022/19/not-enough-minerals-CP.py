@@ -13,9 +13,8 @@ def read_data(filename: str):
         return [list(map(int, pattern.findall(line))) for line in f.readlines()]
 
 
-# DFS like - go deep and check how much goede we earn
 def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, limit):
-    # Cost of each decision - each row is a decision, each colum is a cost of it
+    # Cost of each decision - each row is a decision, each colum is a cost of it (in particular resources)
     # 0 - is just wait, 1 - buy ORE harvester, 2 - buy CLAY harvester, 3 - buy obsidian harvester, 4 - buy geode harvester
     cost_array = cpm_array([
         [0, 0, 0, 0],
@@ -24,11 +23,13 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
         [obs_cost_ore, obs_cost_clay, 0, 0],
         [geode_cost_ore, 0, geode_cost_obs, 0],
     ])
+    # Decision in each step (described above)
     decision = intvar(0, 4, shape=(limit + 1, 1), name="decision")
 
-    # Number of bots that we have "active" AT the end current round
+    # Number of bots that we have "active" at the end current step
     bots = intvar(0, 100, shape=(limit + 1, 4), name="bots")
-    # Resources that we have in each round
+
+    # Resources that we have at the end of each step
     resources = intvar(0, 500, shape=(limit + 1, 4), name="resources")
 
     model = Model()
@@ -41,7 +42,7 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
         for step in range(1, limit + 1):
             what_to_buy = decision[step, 0]
 
-            # To buy a harvester we need to have enough resources
+            # To buy a harvester we need to have enough resources at the end of previous step
             model += resources[step - 1, res_id] >= cost_array[what_to_buy, res_id]
 
             # This is how we calculate resources at the end of this round
@@ -49,11 +50,11 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
             model += resources[step, res_id] == resources[step - 1, res_id] + bots[step - 1, res_id] - resource_cost_in_step
 
             # Number of bots will be increased by a decision
-            # In CPMpy we have to convert if statements to math calculation
+            # In CPMpy we have to convert if statements to math calculation (so extra_bot will be 1 when what_to_buy will mark this resource)
             extra_bot_for_resource = (what_to_buy - 1) == res_id
             model += bots[step, res_id] == bots[step - 1, res_id] + extra_bot_for_resource
 
-    model.maximize(resources[limit, 3])  # Objective: maximize the number of geodes in the end
+    model.maximize(resources[limit, 3])  # Objective: maximize the number of geodes in the lat step
 
     if model.solve():
         print(f"  [{id}] {model.status()}")
