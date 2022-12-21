@@ -6,6 +6,7 @@ def read_data(filename: str) -> list[list[str, str]]:
 def get_root_value(filename: str):
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
 
+    # @cache - no need do cache, in both cases monkey was doing a computation only once
     def get_value(monkey):
         val = monkeys[monkey]
 
@@ -26,7 +27,7 @@ def get_root_value(filename: str):
                 return get_value(left) // get_value(right)
 
     result = get_value("root")
-    print(f"P1 {filename=} {result=}")
+    print(f"P1 {filename=} {result=} {get_value.cache_info()}")
     return result
 
 
