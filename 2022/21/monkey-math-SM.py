@@ -1,5 +1,6 @@
 # sympy version - we are tracking back a whole computation
 # Sympy can do it better, but boolean values and constrains are harder to add
+from functools import cache
 
 from sympy import solve, Symbol, Eq, simplify
 
@@ -12,6 +13,7 @@ def read_data(filename: str) -> list[list[str, str]]:
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
 
+    @cache
     def get_symbol(monkey):
         if monkey == "humn":
             return Symbol("h")

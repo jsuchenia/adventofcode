@@ -1,7 +1,7 @@
 # cpmpy require precision to be set, we used small precision previously
+from functools import cache
 
-import cpmpy
-from cpmpy import intvar
+from cpmpy import intvar, Model
 
 
 def read_data(filename: str) -> list[list[str, str]]:
@@ -16,6 +16,7 @@ def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
     human = intvar(-RANGE, RANGE, name="humn")
 
+    @cache
     def get_symbol(monkey):
         if monkey == "humn":
             return human
@@ -45,7 +46,7 @@ def estimate_humn_value(filename: str) -> int:
     root = monkeys["root"]
     left_symbol = get_symbol(root[:4])
     right_symbol = get_symbol(root[7:])
-    model = cpmpy.Model(left_symbol == right_symbol)
+    model = Model(left_symbol == right_symbol)
     if model.solve():
         result = human.value()
         print(f"P2: {filename=} {result=}")
