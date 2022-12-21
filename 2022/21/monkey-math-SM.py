@@ -1,4 +1,4 @@
-# cpmpy fails:
+# cpmpy fails: range of int sampling and divide by operation (that creates float in python by default)
 # Also operations in cpmpy are limited.
 
 from sympy import Integer, solve, Symbol, Eq
