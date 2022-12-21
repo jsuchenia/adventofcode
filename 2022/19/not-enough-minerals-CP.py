@@ -38,10 +38,10 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
     model += bots[0] == (1, 0, 0, 0)
     model += resources[0] == (0, 0, 0, 0)
 
-    for res_id in range(4):
-        for step in range(1, limit + 1):
-            what_to_buy = decision[step, 0]
+    for step in range(1, limit + 1):
+        what_to_buy = decision[step, 0]
 
+        for res_id in range(4):
             # To buy a harvester we need to have enough resources at the end of previous step
             model += resources[step - 1, res_id] >= cost_array[what_to_buy, res_id]
 
@@ -51,6 +51,7 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
 
             # Number of bots will be increased by a decision
             # In CPMpy we have to convert if statements to math calculation (so extra_bot will be 1 when what_to_buy will mark this resource)
+            # for res_id in range(4):
             extra_bot_for_resource = (what_to_buy - 1) == res_id
             model += bots[step, res_id] == bots[step - 1, res_id] + extra_bot_for_resource
 
