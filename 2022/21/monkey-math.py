@@ -27,7 +27,7 @@ def get_root_value(filename: str):
                 return get_value(left) // get_value(right)
 
     result = get_value("root")
-    print(f"P1 {filename=} {result=} {get_value.cache_info()}")
+    print(f"P1 {filename=} {result=}")
     return result
 
 

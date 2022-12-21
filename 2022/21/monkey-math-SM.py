@@ -1,7 +1,7 @@
 # cpmpy fails: range of int sampling and divide by operation (that creates float in python by default)
 # Also operations in cpmpy are limited.
 
-from sympy import Integer, solve, Symbol, Eq
+from sympy import solve, Symbol, Eq
 
 
 def read_data(filename: str) -> list[list[str, str]]:
@@ -9,16 +9,16 @@ def read_data(filename: str) -> list[list[str, str]]:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
 
-def get_humn_value(filename: str) -> int:
+def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
 
     def get_symbol(monkey):
         if monkey == "humn":
-            return Symbol("humn")
+            return Symbol("h")
 
         val = monkeys[monkey]
         if val.isdigit():
-            return Integer(int(val))
+            return int(val)
 
         left = val[:4]
         right = val[7:]
@@ -42,5 +42,5 @@ def get_humn_value(filename: str) -> int:
 
 
 if __name__ == "__main__":
-    assert get_humn_value("example.txt") == 301
-    assert get_humn_value("data.txt") == 3330805295850
+    assert estimate_humn_value("example.txt") == 301
+    assert estimate_humn_value("data.txt") == 3330805295850
