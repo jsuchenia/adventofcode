@@ -1,7 +1,7 @@
-# sympy version - we are tracking back a whole computation
-# Sympy can do it better, but boolean values and constrains are harder to add
+# cpmpy require precision to be set, we used small precision previously
 
-from sympy import solve, Symbol, Eq
+import cpmpy
+from cpmpy import intvar
 
 
 def read_data(filename: str) -> list[list[str, str]]:
@@ -9,12 +9,16 @@ def read_data(filename: str) -> list[list[str, str]]:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
 
+RANGE = 10 ** 13
+
+
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
+    human = intvar(-RANGE, RANGE, name="humn")
 
     def get_symbol(monkey):
         if monkey == "humn":
-            return Symbol("h")
+            return human
 
         val = monkeys[monkey]
         if val.isdigit():
@@ -31,14 +35,23 @@ def estimate_humn_value(filename: str) -> int:
             case '*':
                 return get_symbol(left) * get_symbol(right)
             case '/':
-                return get_symbol(left) / get_symbol(right)
+                rs = get_symbol(right)
+                ls = get_symbol(left)
+                if type(rs) is int and type(ls) is int:
+                    return ls // rs
+                else:
+                    return ls / rs
 
     root = monkeys["root"]
     left_symbol = get_symbol(root[:4])
     right_symbol = get_symbol(root[7:])
-    result = solve(Eq(left_symbol, right_symbol))[0]
-    print(f"P2: {filename=} {result=}")
-    return result
+    model = cpmpy.Model(left_symbol == right_symbol)
+    if model.solve():
+        result = human.value()
+        print(f"P2: {filename=} {result=}")
+        return result
+    else:
+        print("Can't solve!")
 
 
 if __name__ == "__main__":
