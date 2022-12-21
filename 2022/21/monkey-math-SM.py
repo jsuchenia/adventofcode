@@ -1,7 +1,7 @@
 # sympy version - we are tracking back a whole computation
 # Sympy can do it better, but boolean values and constrains are harder to add
 
-from sympy import solve, Symbol, Eq
+from sympy import solve, Symbol, Eq, simplify
 
 
 def read_data(filename: str) -> list[list[str, str]]:
@@ -25,18 +25,18 @@ def estimate_humn_value(filename: str) -> int:
 
         match val[5]:
             case '+':
-                return get_symbol(left) + get_symbol(right)
+                return simplify(get_symbol(left) + get_symbol(right))
             case '-':
-                return get_symbol(left) - get_symbol(right)
+                return simplify(get_symbol(left) - get_symbol(right))
             case '*':
-                return get_symbol(left) * get_symbol(right)
+                return simplify(get_symbol(left) * get_symbol(right))
             case '/':
-                return get_symbol(left) / get_symbol(right)
+                return simplify(get_symbol(left) / get_symbol(right))
 
     root = monkeys["root"]
     left_symbol = get_symbol(root[:4])
     right_symbol = get_symbol(root[7:])
-    result = solve(Eq(left_symbol, right_symbol))[0]
+    result = int(solve(Eq(left_symbol, right_symbol))[0])
     print(f"P2: {filename=} {result=}")
     return result
 
