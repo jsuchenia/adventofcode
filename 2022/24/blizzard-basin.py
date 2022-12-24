@@ -16,8 +16,9 @@ def do_bfs(valley, rows, cols, start, end, start_time):
     def is_empty(p, t):
         x, y = p
 
-        if valley[(x, (y - t) % rows)] == "v" or valley[(x, (y + t) % rows)] == "^" or \
-                valley[((x - t) % cols, y)] == ">" or valley[((x + t) % cols, y)] == "<":
+        if valley[(x, (y - t) % rows)] == "v" or valley[(x, (y + t) % rows)] == "^":
+            return False
+        if valley[((x - t) % cols, y)] == ">" or valley[((x + t) % cols, y)] == "<":
             return False
         return True
 
@@ -32,13 +33,14 @@ def do_bfs(valley, rows, cols, start, end, start_time):
 
         pos, time = state
 
-        if pos == end:
-            print(f"{time=}")
-            return time
-
         for move in MOVES:
             new_pos = (pos[0] + move[0], pos[1] + move[1])
             new_state = (new_pos, time + 1)
+
+            if new_pos == end:
+                print(f"{new_state=}")
+                return new_state[1]
+
             if new_pos == end or new_pos == start or (new_pos in valley and is_empty(*new_state)):
                 bfs.append(new_state)
 
