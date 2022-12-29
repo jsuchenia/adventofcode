@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-def read_data(filename):
+def read_data(filename: str) -> set[tuple[int, int]]:
     field = set()
     with open(filename) as f:
         for y, line in enumerate(f.readlines()):
@@ -12,7 +12,7 @@ def read_data(filename):
     return field
 
 
-def do_scan(filename, repeats=10, stop_when_not_moved=False):
+def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False) -> int:
     orig = read_data(filename)
 
     ADJACENT = lambda x, y: [(x - 1, y - 1), (x, y - 1), (x + 1, y - 1), (x - 1, y), (x + 1, y), (x - 1, y + 1), (x, y + 1), (x + 1, y + 1)]

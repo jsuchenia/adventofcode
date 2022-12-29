@@ -1,4 +1,4 @@
-def read_data(filename):
+def read_data(filename: str) -> list[str]:
     with open(filename) as f:
         return [line.strip() for line in f.readlines()]
 
@@ -7,7 +7,7 @@ CHARS = "=-012"
 CHARS_O = "012=-"
 
 
-def encode_snafu(result):
+def encode_snafu(result: int) -> str:
     output = ""
     while result:
         result, pos = divmod(result, 5)
@@ -18,7 +18,7 @@ def encode_snafu(result):
     return output[::-1]
 
 
-def sum_snafu(filename) -> tuple[int, str]:
+def sum_snafu(filename: str) -> str:
     data = read_data(filename)
 
     # Decode & sum
