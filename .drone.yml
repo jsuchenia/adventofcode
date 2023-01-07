@@ -11,4 +11,4 @@ steps:
     resources:
       limits:
         cpu: 500
-        memory: 500MiB
+        memory: 1GiB
