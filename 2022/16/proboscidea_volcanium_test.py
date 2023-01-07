@@ -2,6 +2,8 @@ import re
 from collections import deque
 from functools import cache
 
+import pytest
+
 def read_data(filename: str) -> dict[str, tuple]:
     id_pattern = re.compile(r" ([A-Z]+)")
     rate_pattern = re.compile(r"rate=(\d+);")
@@ -103,14 +105,15 @@ def test_cave_simulation_p1_data():
 def test_cave_simulation_p2_example():
     assert Simul("example.txt").p2() == 1707
 
+@pytest.mark.skip(reason="Memory limit (more than 1GiB)")
 def test_cave_simulation_p2_data():
     assert Simul("data.txt").p2() == 2474
 
-    # P1: Result is result=1651 P1:CacheInfo(hits=415, misses=402, maxsize=None, currsize=402)
-    # P1: Result is result=1754 P1:CacheInfo(hits=53053, misses=77873, maxsize=None, currsize=77873)
-    # P2: Result is result=1707 P1:CacheInfo(hits=54677, misses=79445, maxsize=None, currsize=79445) P2:CacheInfo(hits=386, misses=389, maxsize=None, currsize=389)
-    # P2: Result is result=2474 P1:CacheInfo(hits=5553755, misses=2522769, maxsize=None, currsize=2522769) P2:CacheInfo(hits=13053, misses=26745, maxsize=None, currsize=26745)
-    #
-    # real    0m17.324s
-    # user    0m16.815s
-    # sys     0m0.456s
+# P1: Result is result=1651 P1:CacheInfo(hits=415, misses=402, maxsize=None, currsize=402)
+# P1: Result is result=1754 P1:CacheInfo(hits=53053, misses=77873, maxsize=None, currsize=77873)
+# P2: Result is result=1707 P1:CacheInfo(hits=54677, misses=79445, maxsize=None, currsize=79445) P2:CacheInfo(hits=386, misses=389, maxsize=None, currsize=389)
+# P2: Result is result=2474 P1:CacheInfo(hits=5553755, misses=2522769, maxsize=None, currsize=2522769) P2:CacheInfo(hits=13053, misses=26745, maxsize=None, currsize=26745)
+#
+# real    0m17.324s
+# user    0m16.815s
+# sys     0m0.456s
