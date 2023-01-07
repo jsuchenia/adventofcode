@@ -7,7 +7,7 @@ from cpmpy import intvar, Model, cpm_array
 #     Code: https://pastebin.com/w2brfTme
 
 def read_data(filename: str):
-    pattern = re.compile(f"\d+")
+    pattern = re.compile(r"\d+")
     with open(filename) as f:
         return [list(map(int, pattern.findall(line))) for line in f.readlines()]
 

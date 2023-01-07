@@ -4,7 +4,7 @@ from collections import deque
 import pytest
 
 def read_data(filename: str):
-    pattern = re.compile(f"\d+")
+    pattern = re.compile(r"\d+")
     with open(filename) as f:
         return [list(map(int, pattern.findall(line))) for line in f.readlines()]
 
