@@ -2,7 +2,7 @@
 
 from heapq import heappop, heappush
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 def getdistances(graph, x, y):
     dist = {}
@@ -61,8 +61,8 @@ def scan(graph, visualization=False):
     q = [(0, START)]
     pointcosts[START] = 0
 
-    if visualization:
-        plt.axis([0, len(graph[-1]), 0, len(graph)])
+    # if visualization:
+    #     plt.axis([0, len(graph[-1]), 0, len(graph)])
 
     while len(q) > 0:
         _, point = heappop(q)
@@ -85,9 +85,9 @@ def scan(graph, visualization=False):
                 else:
                     heappush(q, (newcost, other))
 
-        if visualization:
-            plt.scatter(point[0], point[1])
-            plt.pause(0.000001)
+        # if visualization:
+        #     plt.scatter(point[0], point[1])
+        #     plt.pause(0.000001)
 
     print("Result =", min_dst_costs)
     return min_dst_costs
