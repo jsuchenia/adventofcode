@@ -1,6 +1,6 @@
 from tqdm import tqdm
 
-from monkey import read_data
+from monkey_test import read_data
 
 CHECKPOINTS = {
     20: [99, 97, 8, 103],
@@ -11,7 +11,6 @@ CHECKPOINTS = {
     5000: [26075, 23921, 974, 26000],
     6000: [31294, 28702, 1165, 31204]
 }
-
 
 def play_game(file_name: str, factor: int) -> int:
     monkeys = read_data(file_name)
@@ -35,7 +34,6 @@ def play_game(file_name: str, factor: int) -> int:
 
     print(f"FOOOOUND! {factor=}")
     return 0
-
 
 if __name__ == "__main__":
     for factor in tqdm(range(1, 1_000_000)):

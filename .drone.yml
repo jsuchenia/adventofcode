@@ -3,7 +3,8 @@ name: default
 type: kubernetes
 
 steps:
-- name: build
-  image: python:3.11.1
-  commands:
-  - pip install -r requirements.txt
+  - name: build
+    image: python:3.11.1
+    commands:
+      - pip install -r requirements.txt
+      - pytest --no-header -v --resultlog=results.log
