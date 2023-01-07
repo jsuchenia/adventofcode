@@ -7,4 +7,4 @@ steps:
     image: python:3.11.1
     commands:
       - pip install -r requirements.txt
-      - pytest --no-header -v --resultlog=results.log
+      - pytest --no-header -v --junit-xml results.xml
