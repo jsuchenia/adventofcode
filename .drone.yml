@@ -8,3 +8,7 @@ steps:
     commands:
       - pip install -r requirements.txt
       - pytest --no-header -v --junit-xml results.xml
+    resources:
+      limits:
+        cpu: 500
+        memory: 500MiB

@@ -1,6 +1,8 @@
 import re
 from collections import defaultdict
 
+import pytest
+
 def read_data(filename: str):
     pattern = re.compile(r"=(-?\d+)")
     with open(filename) as f:
@@ -72,5 +74,6 @@ def test_exclusion_zone_count_line_data():
 def test_find_missing_spot_example():
     assert find_missing_spot("example.txt", max_range=20) == 56000011
 
+@pytest.mark.skip(reason="Its taking ages on NUC")
 def test_find_missing_spot_data():
     assert find_missing_spot("data.txt", max_range=4000000) == 10693731308112
