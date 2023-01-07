@@ -6,10 +6,8 @@ def parse(data):
 
     return pattern, picture
 
-
 def encodePicture(picture):
     return set((x, y) for y in range(len(picture)) for x in range(len(picture[y])) if picture[y][x] == '#')
-
 
 def getPointValue(point, pic, borderRange, outOfBorderValue):
     x = point[0]
@@ -23,14 +21,12 @@ def getPointValue(point, pic, borderRange, outOfBorderValue):
     else:
         return "0"
 
-
 def encodePosition(point, pic, borderRange, outOfBorderValue):
     x = point[0]
     y = point[1]
 
     positions = [(nx, ny) for ny in range(y - 1, y + 2) for nx in range(x - 1, x + 2)]
     return int(''.join([getPointValue(p, pic, borderRange, outOfBorderValue) for p in positions]), 2)
-
 
 def doEnhancement(pic, pattern, filledBorder):
     allx = [p[0] for p in pic]
@@ -54,8 +50,8 @@ def doEnhancement(pic, pattern, filledBorder):
     pic.difference_update(toDisable)
     pic.update(toEnable)
 
-
-def ex1(data, rounds):
+def ex1(filename, rounds):
+    data = open(filename, "r").read()
     pattern, picture = parse(data)
     encpic = encodePicture(picture)
 
@@ -67,13 +63,14 @@ def ex1(data, rounds):
     print(f"{solution=}")
     return solution
 
+def test_scan_ex1_test():
+    assert ex1("test.txt", rounds=2) == 35
 
-if __name__ == "__main__":
-    test = open("test.txt", "r").read()
-    data = open("data.txt", "r").read()
+def test_scan_ex1_data():
+    assert ex1("data.txt", rounds=2) == 6262
 
-    assert ex1(test, rounds=2) == 35
-    assert ex1(data, rounds=2) == 6262
+def test_scan_ex2_test():
+    assert ex1("test.txt", rounds=50) == 3351
 
-    assert ex1(test, rounds=50) == 3351
-    assert ex1(data, rounds=50) == 49765
+def test_scan_ex2_data():
+    assert ex1("data.txt", rounds=50) == 49765

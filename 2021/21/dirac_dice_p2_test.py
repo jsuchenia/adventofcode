@@ -8,11 +8,9 @@ DICE_VALS = [1, 2, 3]
 ALL_VALS = [sum(p) for p in product(DICE_VALS, repeat=3)]
 ALL_DISTINCT_VALUES = Counter(ALL_VALS).most_common()
 
-
 def parse(data):
     res = re.compile(r"Player (\d+) starting position: (\d+)")
     return res.findall(data)
-
 
 @cache
 def do_run(my_pos, other_pos, my_sum=0, other_sum=0) -> tuple[int, int]:
@@ -34,8 +32,8 @@ def do_run(my_pos, other_pos, my_sum=0, other_sum=0) -> tuple[int, int]:
     print(f"Interim results {my_wins=} {other_wins=}")
     return my_wins, other_wins
 
-
-def ex2(data):
+def ex2(filename):
+    data = open(filename, "r").read()
     start_positions = parse(data)
     positions = [int(p[1]) for p in start_positions]
 
@@ -44,10 +42,8 @@ def ex2(data):
     print(f"Result is {result=}")
     return max(result)
 
+def test_dirac_test():
+    assert ex2("test.txt") == 444356092776315
 
-if __name__ == "__main__":
-    test = open("test.txt", "r").read()
-    mydata = open("data.txt", "r").read()
-
-    assert ex2(test) == 444356092776315
-    assert ex2(mydata) == 568867175661958
+def test_dirac_data():
+    assert ex2("data.txt") == 568867175661958

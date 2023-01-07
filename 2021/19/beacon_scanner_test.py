@@ -1,24 +1,24 @@
 #!/usr/local/bin/python3
-from itertools import product, permutations, combinations
 from collections import Counter
+from itertools import product, permutations, combinations
 
-#Parse input
+# Parse input
 def parse(data):
     return [[tuple([int(x) for x in line.split(',')]) for line in scanner.splitlines()[1:]] for scanner in data.split("\n\n")]
 
 # Generator for all posibble transformations
 def getTransforrmations():
-   ORIENTATIONS = product([-1, 1], [-1, 1], [-1, 1])
-   POSITIONS = permutations(range(3), 3)
+    ORIENTATIONS = product([-1, 1], [-1, 1], [-1, 1])
+    POSITIONS = permutations(range(3), 3)
 
-   return product(POSITIONS, ORIENTATIONS)
+    return product(POSITIONS, ORIENTATIONS)
 
 # transform one point according to definiton
 def pointTransform(point, transformation):
     pos = transformation[0]
     direction = transformation[1]
 
-    return tuple(point[pos[i]]*direction[i] for i in range(3))
+    return tuple(point[pos[i]] * direction[i] for i in range(3))
 
 # Transform points to a common view
 def calcRealPoints(points, scanner):
@@ -43,12 +43,13 @@ def findScannerDetails(pointsA, scannerA, pointsB):
     return None
 
 # Do a whole task
-def doCheck(data):
+def doCheck(filename):
+    data = open(filename, "r").read()
     scannersPoints = parse(data)
     scannerDetails = [None] * len(scannersPoints)
 
     # Initial position of scannerA, it will be the mail point view for a whole task
-    scannerDetails[0] = ((0, 0, 0), ((0,1,2), (1,1,1)))
+    scannerDetails[0] = ((0, 0, 0), ((0, 1, 2), (1, 1, 1)))
 
     while not all(scannerDetails):
         knownPositions = [x for x in range(len(scannerDetails)) if scannerDetails[x] is not None]
@@ -69,13 +70,12 @@ def doCheck(data):
 
     positions = [p[0] for p in scannerDetails]
 
-    maxManhDistance = max(sum(abs(val1-val2) for val1, val2 in zip(posA,posB)) for posA,posB in combinations(positions, 2))
-    print("Mnahatan distance", maxManhDistance)
+    maxManhDistance = max(sum(abs(val1 - val2) for val1, val2 in zip(posA, posB)) for posA, posB in combinations(positions, 2))
+    print("Manhattan distance", maxManhDistance)
     return result, maxManhDistance
 
-if __name__ == "__main__":
-    test = open("test.txt", "r").read()
-    data = open("data.txt", "r").read()
+def test_beacon_test():
+    assert doCheck("test.txt") == (79, 3621)
 
-    assert doCheck(test) == (79, 3621)
-    assert doCheck(data) == (396, 11828)
+def test_beacon_data():
+    assert doCheck("data.txt") == (396, 11828)
