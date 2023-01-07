@@ -8,7 +8,7 @@ def ext2GetValue(line):
     (left, right) = line.split(" | ")
 
     sigs = sorted([ssig(sig) for sig in left.strip().split(" ")], key=lambda x: len(x))
-    dictByLen={k:list(v) for (k, v) in groupby(sigs, lambda x: len(x))}
+    dictByLen = {k: list(v) for (k, v) in groupby(sigs, lambda x: len(x))}
 
     # Known static mappings
     mapping = {"1": dictByLen[2][0], "4": dictByLen[4][0], "7": dictByLen[3][0], "8": dictByLen[7][0]}
@@ -26,27 +26,34 @@ def ext2GetValue(line):
     mapping["2"] = [x for x in dictByLen[5] if (x != mapping["5"]) and (x != mapping["3"])][0]
 
     # Reverse mapping
-    mapping = {v:k for (k,v) in mapping.items()}
+    mapping = {v: k for (k, v) in mapping.items()}
     return int(''.join([mapping[ssig(sig)] for sig in right.strip().split(" ")]))
 
-def ex2CountAll(data):
+def ex2CountAll(filename):
+    data = open(filename, "r").readlines()
+
     result = sum([ext2GetValue(line) for line in data])
     print("EX2 result", result)
     return result
 
-def ex1FilterAndCount(sigs): # Count how many special items are in one line
+def ex1FilterAndCount(sigs):  # Count how many special items are in one line
     return len([s for s in sigs if len(s) in [2, 3, 4, 7]])
 
-def ex1CountKnown(lines): # Parse input and execute ex1FilterAndCount() for each line
+def ex1CountKnown(filename):  # Parse input and execute ex1FilterAndCount() for each line
+    lines = open(filename, "r").readlines()
+
     total = sum([ex1FilterAndCount(l.strip().split(" | ")[1].split(" ")) for l in lines])
     print("EX1 result =", total)
     return total
 
-if __name__ == "__main__":
-    testData = open("test.txt", "r").readlines()
-    data = open("data.txt", "r").readlines()
+def test_segments_count_known_example():
+    assert ex1CountKnown("example.txt") == 26
 
-    assert ex1CountKnown(testData) == 26
-    assert ex1CountKnown(data) == 512
-    assert ex2CountAll(testData) == 61229
-    assert ex2CountAll(data) == 1091165
+def test_segments_count_known_data():
+    assert ex1CountKnown("data.txt") == 512
+
+def test_segments_count_all_example():
+    assert ex2CountAll("example.txt") == 61229
+
+def test_segments_count_all_data():
+    assert ex2CountAll("data.txt") == 1091165

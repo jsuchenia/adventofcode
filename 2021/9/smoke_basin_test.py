@@ -61,15 +61,20 @@ class Table:
 
         result = groups[-3] * groups[-2] * groups[-1]
         print("EX2 result", result)
-        return  result
+        return result
 
+def test_basin_ex1_example():
+    table = Table(open("example.txt", "r").readlines())
+    assert table.getEX1Result() == 15
 
-if __name__ == "__main__":
-    test = Table(open("test.txt", "r").readlines())
-    data = Table(open("data.txt", "r").readlines())
+def test_basin_ex1_data():
+    table = Table(open("data.txt", "r").readlines())
+    assert table.getEX1Result() == 564
 
-    assert test.getEX1Result() == 15
-    assert data.getEX1Result() == 564
+def test_basin_ex2_example():
+    table = Table(open("example.txt", "r").readlines())
+    assert table.getEx2Results() == 1134
 
-    assert test.getEx2Results() == 1134
-    assert data.getEx2Results() == 1038240
+def test_basin_ex2_data():
+    table = Table(open("data.txt", "r").readlines())
+    assert table.getEx2Results() == 1038240

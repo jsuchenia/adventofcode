@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 from statistics import median, harmonic_mean, mean
 
-
 def calculateCubicCosts(data, value):
     total = 0
     for entry in data:
@@ -11,7 +10,6 @@ def calculateCubicCosts(data, value):
 
     return total
 
-
 def calculateCosts(data, value):
     sum = 0
     for entry in data:
@@ -19,8 +17,7 @@ def calculateCosts(data, value):
 
     return sum
 
-
-def getCubicCosts(data, tryDiff=False):
+def getCubicCosts(data):
     elements = [int(x) for x in data.strip().split(",")]
 
     m = mean(elements)
@@ -31,12 +28,7 @@ def getCubicCosts(data, tryDiff=False):
 
     result = calculateCubicCosts(elements, mround)
     print("Ex2 Result is ", result)
-
-    if tryDiff:
-        print("For m - 1", m - 1, calculateCubicCosts(elements, mround - 1))
-        print("For m + 1", m + 1, calculateCubicCosts(elements, mround + 1))
     return result
-
 
 def getLinearCosts(data):
     elements = [int(x) for x in data.strip().split(",")]
@@ -52,13 +44,18 @@ def getLinearCosts(data):
     print("Ex1 Result is ", result)
     return result
 
+def test_linear_example():
+    data = "16,1,2,0,4,2,7,1,2,14"
+    assert getLinearCosts(data) == 37
 
-if __name__ == "__main__":
-    TEST_DATA = "16,1,2,0,4,2,7,1,2,14"
+def test_linear_data():
     data = open("data.txt", "r").readline().strip()
-
-    assert getLinearCosts(TEST_DATA) == 37
     assert getLinearCosts(data) == 352254
 
-    assert getCubicCosts(TEST_DATA) == 168
-    getCubicCosts(data, True)
+def test_cubic_example():
+    data = "16,1,2,0,4,2,7,1,2,14"
+    assert getCubicCosts(data) == 168
+
+def test_cubic_data():
+    data = open("data.txt", "r").readline().strip()
+    assert getCubicCosts(data) == 99053183

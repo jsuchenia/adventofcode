@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 from heapq import heappop, heappush
+
 import matplotlib.pyplot as plt
 
 def getdistances(graph, x, y):
@@ -24,34 +25,38 @@ def parsegraph(graph):
             distances[point] = getdistances(graph, x, y)
     return distances
 
-def buildmap1(lines):
+def buildmap1(filename):
+    lines = open(filename, "r").read().splitlines()
+
     return [[int(val) for val in list(line.strip())] for line in lines]
 
 def getVal(src, x, y):
     srcy = y % len(src)
     srcx = x % len(src[srcy])
     val = src[srcy][srcx]
-    dy = y//len(src)
-    dx = x//len(src[srcy])
+    dy = y // len(src)
+    dx = x // len(src[srcy])
     nval = val + dx + dy
     if nval > 9:
         nval -= 9
     return nval
 
-def buildmap2(lines, scale=5):
+def buildmap2(filename, scale=5):
+    lines = open(filename, "r").read().splitlines()
+
     src = [[int(val) for val in list(line.strip())] for line in lines]
 
-    graph = [[getVal(src, x, y) for x in range(len(src[0]) * scale)] for y in range(len(src)*scale)]
+    graph = [[getVal(src, x, y) for x in range(len(src[0]) * scale)] for y in range(len(src) * scale)]
     return graph
 
-def scan(graph, visualization = False):
+def scan(graph, visualization=False):
     distances = parsegraph(graph)
     pointcosts = {}
 
-    DST=(len(graph[-1]) - 1, len(graph) - 1)
-    START=(0, 0)
+    DST = (len(graph[-1]) - 1, len(graph) - 1)
+    START = (0, 0)
 
-    min_dst_costs = 9 * (DST[0] + DST[1]) # diagonal walk over only 9ines, pessimistic approach
+    min_dst_costs = 9 * (DST[0] + DST[1])  # diagonal walk over only 9ines, pessimistic approach
 
     q = [(0, START)]
     pointcosts[START] = 0
@@ -87,18 +92,18 @@ def scan(graph, visualization = False):
     print("Result =", min_dst_costs)
     return min_dst_costs
 
-if __name__ == "__main__":
-    test = open("test.txt", "r").read().splitlines()
-    data = open("data.txt", "r").read().splitlines()
+def test_scan_p1_test():
+    graph = buildmap1("test.txt")
+    assert scan(graph, visualization=False) == 40
 
-    test1 = buildmap1(test)
-    data1 = buildmap1(data)
+def test_scan_p1_data():
+    graph = buildmap1("data.txt")
+    assert scan(graph) == 363
 
-    test2 = buildmap2(test)
-    data2 = buildmap2(data)
+def test_scan_p2_test():
+    graph = buildmap2("test.txt")
+    assert scan(graph) == 315
 
-    assert scan(test1, visualization=False) == 40
-    assert scan(data1) == 363
-
-    assert scan(test2) == 315
-    assert scan(data2) == 2835
+def test_scan_p2_data():
+    graph = buildmap2("data.txt")
+    assert scan(graph) == 2835

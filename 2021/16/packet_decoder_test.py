@@ -101,9 +101,7 @@ def getHexValue(hexdata):
     print("Packet value: ", val)
     return val
 
-if __name__ == "__main__":
-    data = open("data.txt", "r").read()
-
+def test_decoder_versions_example():
     assert checkVersions('D2FE28') == 6
     assert checkVersions('38006F45291200') == 9
     assert checkVersions('EE00D40C823060') == 14
@@ -111,9 +109,13 @@ if __name__ == "__main__":
     assert checkVersions('620080001611562C8802118E34') == 12
     assert checkVersions('C0015000016115A2E0802F182340') == 23
     assert checkVersions('A0016C880162017C3686B18A3D4780') == 31
+
+def test_decoder_versions_data():
+    data = open("data.txt", "r").read()
     assert checkVersions(data) == 897
 
-    assert getHexValue('C200B40A82') ==3
+def test_decoder_hex_example():
+    assert getHexValue('C200B40A82') == 3
     assert getHexValue('04005AC33890') == 54
     assert getHexValue('880086C3E88112') == 7
     assert getHexValue('CE00C43D881120') == 9
@@ -122,4 +124,6 @@ if __name__ == "__main__":
     assert getHexValue('9C005AC2F8F0') == 0
     assert getHexValue('9C0141080250320F1802104A08') == 1
 
+def test_decoder_hex_data():
+    data = open("data.txt", "r").read()
     assert getHexValue(data) == 9485076995911

@@ -4,7 +4,6 @@
 def getPoint(pointStr):
     return [int(x) for x in pointStr.split(",")]
 
-
 # X is the same
 def getVerticalPoints(start, end):
     x = start[0]
@@ -14,7 +13,6 @@ def getVerticalPoints(start, end):
 
     return ["{},{}".format(x, y) for y in range(a, b + 1)]
 
-
 # Y is the same
 def getHorizontalPoints(start, end):
     y = start[1]
@@ -23,7 +21,6 @@ def getHorizontalPoints(start, end):
     b = max(start[0], end[0])
 
     return ["{},{}".format(x, y) for x in range(a, b + 1)]
-
 
 # Y is the same
 def getDiagonalPoints(start, end):
@@ -45,8 +42,9 @@ def getDiagonalPoints(start, end):
     rc = ["{},{}".format(xa + e * xdelta, ya + e * ydelta) for e in range(0, elements + 1)]
     return rc
 
+def countDangerPoints(filename, withDiagonal=False):
+    data = open(filename, "r").readlines()
 
-def countDangerPoints(data, withDiagonal=False):
     table = {}
     for line in data:
         index = line.find("->")
@@ -76,9 +74,14 @@ def countDangerPoints(data, withDiagonal=False):
 
     return len(dangerPoints)
 
+def test_points_p1_example():
+    assert countDangerPoints("example.txt", withDiagonal=False) == 5
 
-if __name__ == "__main__":
-    data = open("data.txt", "r").readlines()
+def test_points_p1_data():
+    assert countDangerPoints("data.txt", withDiagonal=False) == 8060
 
-    assert countDangerPoints(data, withDiagonal=False) == 8060
-    assert countDangerPoints(data, withDiagonal=True) == 21577
+def test_points_p2_example():
+    assert countDangerPoints("example.txt", withDiagonal=True) == 12
+
+def test_points_p2_data():
+    assert countDangerPoints("data.txt", withDiagonal=True) == 21577

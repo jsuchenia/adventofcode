@@ -1,7 +1,8 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2021/day/2
 
-def ex1(data):
+def ex1(filename):
+    data = open(filename, "r").readlines()
     position = 0
     depth = 0
 
@@ -21,8 +22,9 @@ def ex1(data):
     print("[ex1] Solution1 = ", solution)
     return solution
 
+def ex2(filename):
+    data = open(filename, "r").readlines()
 
-def ex2(data):
     aim = 0
     depth = 0
     position = 0
@@ -44,8 +46,14 @@ def ex2(data):
     print("ex2> Solution = ", solution)
     return solution
 
+def test_dive_ex1_example():
+    assert ex1("example.txt") == 150
 
-if __name__ == "__main__":
-    data = open("data.txt", "r").readlines()
-    assert ex1(data) == 1893605
-    assert ex2(data) == 2120734350
+def test_dive_ex1_data():
+    assert ex1("data.txt") == 1893605
+
+def test_dive_ex2_example():
+    assert ex2("example.txt") == 900
+
+def test_dive_ex2_data():
+    assert ex2("data.txt") == 2120734350

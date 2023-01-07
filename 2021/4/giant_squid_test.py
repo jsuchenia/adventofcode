@@ -61,9 +61,8 @@ class Board:
     def isSkipped(self):
         return self.skipped
 
-
-if __name__ == "__main__":
-    f = open("data.txt", "r")
+def solve(filename):
+    f = open(filename, "r")
     numbersStr = f.readline().split(",")
     numbers = [int(n) for n in numbersStr]
     f.readline()
@@ -82,5 +81,10 @@ if __name__ == "__main__":
                     results.append(board.sumOtherNumbers(number))
                     board.markAsSkipped()
 
-    assert results[0] == 14093
-    assert results[-1] == 17388
+    return results[0], results[-1]
+
+def test_squid_example():
+    assert solve("example.txt") == (4512, 1924)
+
+def test_squid_data():
+    assert solve("data.txt") == (14093, 17388)

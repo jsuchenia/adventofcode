@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2021/day/10
-VALID_STARTS = {'(':  1, '[': 2, '{':  3, '<': 4}
+VALID_STARTS = {'(': 1, '[': 2, '{': 3, '<': 4}
 VALID_ENDS = {'}': ('{', 1197), ')': ('(', 3), ']': ('[', 57), '>': ('<', 25137)}
 
 def countErrors(line, scoreEnding):
@@ -32,7 +32,9 @@ def countErrors(line, scoreEnding):
     else:
         return 0
 
-def ex2(lines):
+def ex2(filename):
+    lines = [line.strip() for line in open(filename, "r").readlines()]
+
     results = sorted([countErrors(line, scoreEnding=True) for line in lines])
     results = [result for result in results if result > 0]
     print("Sorted results", results)
@@ -41,18 +43,22 @@ def ex2(lines):
     print("Ex2: ", result)
     return result
 
-def ex1(lines):
+def ex1(filename):
+    lines = [line.strip() for line in open(filename, "r").readlines()]
+
     result = sum([countErrors(line, scoreEnding=False) for line in lines])
 
     print("Ex1: ", result)
     return result
 
-if __name__ == "__main__":
-    testData = [line.strip() for line in open("test.txt", "r").readlines()]
-    data = [line.strip() for line in open("data.txt", "r").readlines()]
+def test_syntax_ex1_example():
+    assert ex1("test.txt") == 26397
 
-    assert ex1(testData) == 26397
-    assert ex1(data) == 167379
+def test_syntax_ex1_data():
+    assert ex1("data.txt") == 167379
 
-    assert ex2(testData) == 288957
-    assert ex2(data) == 2776842859
+def test_syntax_ex2_example():
+    assert ex2("test.txt") == 288957
+
+def test_syntax_ex2_data():
+    assert ex2("data.txt") == 2776842859

@@ -38,7 +38,9 @@ def doCycle(table):
                 table[y][x] = 0
     return flashes
 
-def ex2(lines):
+def ex2(filename):
+    lines = open(filename, "r").read().splitlines()
+
     table = [[int(chr) for chr in line] for line in lines]
     size = sum([len(row) for row in table])
 
@@ -48,7 +50,8 @@ def ex2(lines):
             return i
     return -1
 
-def ex1(lines):
+def ex1(filename):
+    lines = open(filename, "r").read().splitlines()
     flashes = 0
     table = [[int(chr) for chr in line] for line in lines]
     for i in range(100):
@@ -56,12 +59,14 @@ def ex1(lines):
     print("Ex1 flashes =", flashes)
     return flashes
 
-if __name__ == "__main__":
-    testData = open("test.txt", "r").read().splitlines()
-    data = open("data.txt", "r").read().splitlines()
+def test_octopus_ex1_test():
+    assert ex1("test.txt") == 1656
 
-    assert ex1(testData) == 1656
-    assert ex1(data) == 1644
+def test_octopus_ex1_data():
+    assert ex1("data.txt") == 1644
 
-    assert ex2(testData) == 195
-    assert ex2(data) == 229
+def test_octopus_ex2_test():
+    assert ex2("test.txt") == 195
+
+def test_octopus_ex2_data():
+    assert ex2("data.txt") == 229
