@@ -10,4 +10,5 @@ steps:
       - pytest --no-header -v --junit-xml results.xml
     resources:
       limits:
+        cpu: 1000
         memory: 2GiB
