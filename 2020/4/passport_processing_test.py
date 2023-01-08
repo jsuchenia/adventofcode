@@ -1,14 +1,14 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2020/day/4
 
-FIELDS = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
-MANDATORY = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+MANDATORY = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 
-
-# Should be 140 - TBW!
 class Passport:
     def __init__(self):
         self.fields = {}
+
+    def mandatoryFields(self):
+        return len(MANDATORY.difference(frozenset(self.fields.keys()))) == 0
 
     def addElement(self, key, value):
         self.fields[key] = value
@@ -29,7 +29,6 @@ class Passport:
         if not self.validPid():
             return False
 
-        print("Passport valid = ", self.fields)
         return True
 
     def validByr(self):
@@ -37,8 +36,7 @@ class Passport:
             return False
 
         byr = int(self.fields['byr'])
-        if byr >= 1920 and byr <= 2002:
-            print("Invalud BYR", byr)
+        if 1920 <= byr <= 2002:
             return True
         return False
 
@@ -48,7 +46,6 @@ class Passport:
         iyr = int(self.fields['iyr'])
 
         if iyr < 2010 or iyr > 2020:
-            print("Invalud IYR", iyr)
             return False
 
         return True
@@ -59,7 +56,6 @@ class Passport:
         eyr = int(self.fields['eyr'])
 
         if eyr < 2020 or eyr > 2030:
-            print("Invalid eyr ", eyr)
             return False
 
         return True
@@ -73,14 +69,13 @@ class Passport:
 
         if suff == "in":
             p = int(pref)
-            if p >= 59 and p <= 76:
+            if 59 <= p <= 76:
                 return True
         elif suff == "cm":
             p = int(pref)
-            if p >= 150 and p <= 193:
+            if 150 <= p <= 193:
                 return True
 
-        print("Invalid HGT", hgt)
         return False
 
     def validHcl(self):
@@ -89,12 +84,10 @@ class Passport:
             return False
         hcl = self.fields['hcl']
         if hcl[0] != '#':
-            print("Invalud HCL, no hash", hcl)
             return False
 
         for c in hcl[1:]:
             if c not in VALID_CHARS:
-                print("Invalid char in HCL", hcl)
                 return False
         return True
 
@@ -104,50 +97,47 @@ class Passport:
             return False
         ecl = self.fields['ecl']
         if ecl not in VALID_ECL:
-            print("Invalid ECL", ecl)
             return False
         return True
 
     def validPid(self):
         VALID_PID_CHARS = "0123456789"
         if 'pid' not in self.fields:
-            print("No PID in ", self.fields)
             return False
         pid = self.fields['pid']
         if len(pid) != 9:
-            print("Invalid PID, wrong length", pid)
             return False
         for c in pid:
             if c not in VALID_PID_CHARS:
-                print("Invalid char in PID", pid)
                 return False
 
         return True
 
+def check(filename):
+    lines = open(filename).read().splitlines()
 
-if __name__ == "__main__":
-    lines = open("data.txt").read().splitlines()
-
+    passports = []
     currentPassport = Passport()
-    validPassports = 0
-    invalidPassports = 0
 
     for line in lines:
         if line == "":
-            if currentPassport.isValid():
-                validPassports += 1
-            else:
-                invalidPassports += 1
+            passports.append(currentPassport)
             currentPassport = Passport()
         else:
             for entry in line.split(" "):
                 (key, value) = entry.split(":")
                 currentPassport.addElement(key, value)
+    passports.append(currentPassport)
 
-    if currentPassport.isValid():
-        validPassports += 1
-    else:
-        invalidPassports += 1
+    validPassports = [passport.isValid() for passport in passports].count(True)
+    invalidPassports = [passport.isValid() for passport in passports].count(False)
+    filledPassports = [passport.mandatoryFields() for passport in passports].count(True)
 
-    print("Valid passports =", validPassports)
-    print("Invalid passports =", invalidPassports)
+    print(f"{filledPassports=} {validPassports=} {invalidPassports=}")
+    return filledPassports, validPassports
+
+def test_passport_example():
+    assert check("example.txt") == (2, 2)
+
+def test_passport_data():
+    assert check("data.txt") == (222, 140)
