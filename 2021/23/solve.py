@@ -82,7 +82,6 @@ CONNECTIONS_PART2 = {
 
 COSTS = {'A': 1, 'B': 10, 'C': 100, 'D': 1000}
 
-
 def genNewState(state, src, dst):
     newstate = list(state)
 
@@ -91,7 +90,6 @@ def genNewState(state, src, dst):
     newstate[dst] = c
 
     return ''.join(newstate)
-
 
 def checkIfFinal(idx, state, finishState, connections):
     if idx < 11:
@@ -109,11 +107,9 @@ def checkIfFinal(idx, state, finishState, connections):
 
     return True
 
-
 @cache
 def getDiffPriority(state, finalState):
     return math.prod([10 if state[idx] != finalState[idx] else 1 for idx in range(len(finalState))])
-
 
 def doSimul(startState, finishState, connections):
     q = [(0, startState)]
@@ -170,21 +166,18 @@ def doSimul(startState, finishState, connections):
     print("Result is", result)
     return result
 
-
 def ex1(startState):
     FINAL_STATE = CORRIDOR + "AABBCCDD"
 
     return doSimul(startState, FINAL_STATE, CONNECTIONS_PART1)
-
 
 def ex2(startState):
     FINAL_STATE = CORRIDOR + "AAAABBBBCCCCDDDD"
 
     return doSimul(startState, FINAL_STATE, CONNECTIONS_PART2)
 
-
 if __name__ == "__main__":
-    # assert ex1(CORRIDOR + "BACDBCDA") == 12521
-    # assert ex1(CORRIDOR + "DBACDBCA") == 14348
+    assert ex1(CORRIDOR + "BACDBCDA") == 12521
+    assert ex1(CORRIDOR + "DBACDBCA") == 14348
     # assert ex2(CORRIDOR + "BDDACCBDBBACDACA") == 44169
-    assert ex2(CORRIDOR + "DDDBACBCDBABCACA") == 14348
+    # assert ex2(CORRIDOR + "DDDBACBCDBABCACA") == 14348
