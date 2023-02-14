@@ -1,7 +1,4 @@
-#!/usr/local/bin/python3
-
 from collections import defaultdict
-
 
 def doTask(data, firstPhase=True):
     rules, myticket, otherTickets = data.split("\n\n")
@@ -68,13 +65,18 @@ def doTask(data, firstPhase=True):
     print("Ex2 result", result)
     return result
 
-
-if __name__ == "__main__":
+def test_error_rate_test():
     test = open("test.txt", "r").read()
-    data = open("data.txt", "r").read()
-
     assert doTask(test) == 71
+
+def test_error_rate_data():
+    data = open("data.txt", "r").read()
     assert doTask(data) == 21956
 
+def test_departure_multiplication_test():
+    test = open("test.txt", "r").read()
     assert doTask(test, firstPhase=False) == 1
+
+def test_deprarture_multiplication_data():
+    data = open("data.txt", "r").read()
     assert doTask(data, firstPhase=False) == 3709435214239
