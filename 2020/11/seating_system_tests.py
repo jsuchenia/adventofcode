@@ -6,8 +6,8 @@ class Layout:
 
     def getAdjacent(self, x, y, useVisibleAdjacent):
         adjacent = set()
-        for dy in range(-1,2):
-            for dx in range(-1,2):
+        for dy in range(-1, 2):
+            for dx in range(-1, 2):
                 if dx == 0 and dy == 0:
                     continue
 
@@ -67,12 +67,18 @@ class Layout:
         for line in self.layout:
             print(''.join(line))
 
-if __name__ == "__main__":
-    testInput = open("test.txt", "r").readlines()
-    input = open("data.txt", "r").readlines()
+def test_layout_p1_test():
+    test_input = open("test.txt", "r").readlines()
+    assert Layout(test_input).ex1() == 37
 
-    assert Layout(testInput).ex1() == 37
-    assert Layout(input).ex1() == 2303
+def test_layout_p1_data():
+    data = open("data.txt", "r").readlines()
+    assert Layout(data).ex1() == 2303
 
-    assert Layout(testInput).ex2() == 26
-    assert Layout(input).ex2() == 2057
+def test_layout_p2_test():
+    test_input = open("test.txt", "r").readlines()
+    assert Layout(test_input).ex2() == 26
+
+def test_layout_p2_data():
+    data = open("data.txt", "r").readlines()
+    assert Layout(data).ex2() == 2057

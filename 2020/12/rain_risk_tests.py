@@ -14,8 +14,8 @@ def ex2(lines):
         value = int(line[1:])
 
         if code == 'F':
-          xs += (value * x)
-          ys += (value * y)
+            xs += (value * x)
+            ys += (value * y)
         elif code == 'N':
             y += value
         elif code == 'S':
@@ -27,7 +27,7 @@ def ex2(lines):
         elif code == 'R':
             (x, y) = ROTATIONS_R[value](x, y)
         elif code == 'L':
-            (x, y) = ROTATIONS_R[360-value](x, y)
+            (x, y) = ROTATIONS_R[360 - value](x, y)
 
     print("Ex2 waypoint position x={} y={}".format(x, y))
     print("Ex2 ship position x={} y={}".format(xs, ys))
@@ -55,9 +55,9 @@ def ex1(lines):
         elif code == 'W':
             x -= value
         elif code == 'R':
-            position  = (position + value//90) % len(POSITIONS)
+            position = (position + value // 90) % len(POSITIONS)
         elif code == 'L':
-            change = value//90
+            change = value // 90
             position -= change
             if position < 0:
                 position += len(POSITIONS)
@@ -68,12 +68,18 @@ def ex1(lines):
     print("Ex1 result =", result)
     return result
 
-if __name__ == "__main__":
+def test_manhatandistance_test():
     tinput = open("test.txt", "r").read().splitlines()
-    input = open("data.txt", "r").read().splitlines()
-
     assert ex1(tinput) == 25
-    assert ex1(input) == 757
 
+def test_manhatandistance_data():
+    data = open("data.txt", "r").read().splitlines()
+    assert ex1(data) == 757
+
+def test_manhatandistance_enhanced_test():
+    tinput = open("test.txt", "r").read().splitlines()
     assert ex2(tinput) == 286
-    assert ex2(input) == 51249
+
+def test_manhatandistance_enhanced_data():
+    data = open("data.txt", "r").read().splitlines()
+    assert ex2(data) == 51249

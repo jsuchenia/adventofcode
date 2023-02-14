@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 def calcNextTime(timestamp, line):
     diff = timestamp % line
     if diff > 0:
@@ -7,9 +6,9 @@ def calcNextTime(timestamp, line):
 
 def ex1(data):
     (timestamp, lines) = data.split("\n")
-    timestamp=int(timestamp)
+    timestamp = int(timestamp)
     lines = [int(line) for line in lines.split(",") if line != "x"]
-    diff = {calcNextTime(timestamp, line):line for line in lines}
+    diff = {calcNextTime(timestamp, line): line for line in lines}
 
     minDiff = min(diff.keys())
 
@@ -27,18 +26,26 @@ def ex2(data):
     for index, bus in enumerate(lines):
         print("Checking bus={} with index={}".format(bus, index))
         while True:
-            if (time+index) % bus == 0:
+            if (time + index) % bus == 0:
                 interval *= bus
                 break
             time += interval
 
     print("Ex2 result time is", time)
     return time
-if __name__ == "__main__":
-    TEST_DATA="939\n7,13,x,x,59,x,31,19"
-    data = open("data.txt", "r").read()
 
+def test_earlier_bus_test():
+    TEST_DATA = "939\n7,13,x,x,59,x,31,19"
     assert ex1(TEST_DATA) == 295
+
+def test_earlier_bus_data():
+    data = open("data.txt", "r").read()
     assert ex1(data) == 2382
+
+def test_earlier_bus_contrained_test():
+    TEST_DATA = "939\n7,13,x,x,59,x,31,19"
     assert ex2(TEST_DATA) == 1068781
+
+def test_earlier_bus_contrained_data():
+    data = open("data.txt", "r").read()
     assert ex2(data) == 906332393333683
