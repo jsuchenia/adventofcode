@@ -10,7 +10,7 @@ TEST_CODE = \
     acc +1
     jmp -4
     acc +6
-    """
+"""
 
 TEST_CODE2 = \
     """nop +0
@@ -22,8 +22,7 @@ TEST_CODE2 = \
     acc +1
     nop -4
     acc +6
-    """
-
+"""
 
 def calculateAccumulator(data, atLoop=True):
     acc = 0
@@ -64,7 +63,6 @@ def calculateAccumulator(data, atLoop=True):
 
     return -1
 
-
 def mutationTesting(data):
     for i in range(len(data)):
         line = data[i].strip()
@@ -77,22 +75,29 @@ def mutationTesting(data):
                 return result
         elif line[0:3] == "nop":
             newData = data.copy()
-            newData[i] = "jmp" + data[i][3:]
+            newData[i] = ("jmp" + data[i][3:]).strip()
 
             result = calculateAccumulator(newData, False)
             if result > 0:
                 return result
     return -1
 
-
-if __name__ == "__main__":
+def test_part1_1():
     testData = TEST_CODE.splitlines()
-    testData2 = TEST_CODE2.splitlines()
-    data = open("data.txt", "r").read().splitlines()
-
     assert calculateAccumulator(testData) == 5
+
+def test_part1_2():
+    testData2 = TEST_CODE2.splitlines()
+    assert calculateAccumulator(testData2, False) == 8
+
+def test_part1():
+    data = open("data.txt", "r").read().splitlines()
     calculateAccumulator(data)
 
-    assert calculateAccumulator(testData2, False) == 8
+def test_part2_1():
+    testData = [line.strip() for line in TEST_CODE.splitlines()]
     assert mutationTesting(testData) == 8
+
+def test_part2():
+    data = open("data.txt", "r").read().splitlines()
     assert mutationTesting(data) == 1643

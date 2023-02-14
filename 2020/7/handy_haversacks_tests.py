@@ -94,13 +94,20 @@ def ex2CalculateALlBags(data, myBag):
     print("EX2 Result = ", result)
     return result
 
-
-if __name__ == "__main__":
-    data = open("data.txt", "r").readlines()
+def test_example_ex1():
     testData = open("test.txt", "r").readlines()
 
     assert ex1CalculateBagColors(testData, MY_BAG) == 4, "Something is wrong"
+
+def test_data_ex1():
+    data = open("data.txt", "r").readlines()
+
     assert ex1CalculateBagColors(data, MY_BAG) == 289
 
+def test_example_ex2():
+    testData = open("test.txt", "r").readlines()
     assert ex2CalculateALlBags(testData, MY_BAG) == 32
+
+def test_data_ex2():
+    data = open("data.txt", "r").readlines()
     assert ex2CalculateALlBags(data, MY_BAG) == 30055

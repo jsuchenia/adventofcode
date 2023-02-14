@@ -22,10 +22,8 @@ def findFirstWrongNumber(data, boxSize):
                 acc.pop(0)
                 acc.append(n)
             else:
-                print("Ex1 > Invalid number ", n)
                 return n
 
-    print("Can't find correct number")
     return -1
 
 def findSum(data, n):
@@ -33,34 +31,31 @@ def findSum(data, n):
     acc = []
 
     for a in numbers:
-        #Shring list
+        # Shring list
         while sum(acc) >= n and len(acc) > 0:
-            print("List to big, removing element")
             acc.pop(0)
 
-        print("adding new element", a)
         acc.append(a)
 
         while sum(acc) > n and len(acc) > 0:
-            print("List to big, removing element")
             acc.pop(0)
 
-        print("Now sum is", sum(acc), " for list =", acc)
-
         if (len(acc) > 1) and (sum(acc) == n):
-            print("Found a list", acc)
             return min(acc) + max(acc)
-        else:
-            print("List not valid")
-    print("List not found")
     return -1
 
-if __name__ == "__main__":
-    data = open("data.txt", "r").readlines()
-    testData = open("test.txt", "r").readlines()
+def test_first_wrong_number_example():
+    data = open("test.txt", "r").readlines()
+    assert findFirstWrongNumber(data, 5) == 127
 
-    assert findFirstWrongNumber(testData, 5) == 127
+def test_first_wrong_number_data():
+    data = open("data.txt", "r").readlines()
     assert findFirstWrongNumber(data, 25) == 257342611
 
-    assert findSum(testData, 127) == 62
-    print(findSum(data, 257342611))
+def test_sum_example():
+    data = open("test.txt", "r").readlines()
+    assert findSum(data, 127) == 62
+
+def test_sum_data():
+    data = open("data.txt", "r").readlines()
+    assert findSum(data, 257342611) == 35602097
