@@ -1,12 +1,11 @@
 #!/usr/local/bin/python3
-import io
 from io import StringIO
 
 OPERATORS = {'+', '*'}
 
 def parse(s):
     elements = []
-    while c:=s.read(1):
+    while c := s.read(1):
         if c == "" or c == ")":
             break
 
@@ -17,11 +16,11 @@ def parse(s):
         elif c == "(":
             elements.append(parse(s))
         elif c.isdigit():
-            while n:=s.read(1):
+            while n := s.read(1):
                 if n.isdigit():
                     c += n
                 else:
-                    s.seek(s.tell()-1)
+                    s.seek(s.tell() - 1)
                     break
             elements.append(int(c))
     return elements
@@ -30,18 +29,18 @@ def reduceAddition(expr):
     i = 1
     while i < len(expr):
         if expr[i] == '+':
-            left = expr[i-1]
+            left = expr[i - 1]
             if type(left) is list:
                 left = evaluate(left, True)
-            right = expr[i+1]
+            right = expr[i + 1]
             if type(right) is list:
                 right = evaluate(right, True)
 
-            expr[i-1] = left + right
+            expr[i - 1] = left + right
             del expr[i]
             del expr[i]
         else:
-            i+= 2
+            i += 2
 
 def evaluate(expr, precedence):
     if precedence:
@@ -81,9 +80,7 @@ def solve(data, precedence=False):
     print("Result: ", result)
     return result
 
-if __name__ == "__main__":
-    data = open("data.txt", "r").read().splitlines()
-
+def test_order_example():
     assert solve(["1 + 2 * 3 + 4 * 5 + 6"]) == 71
     assert solve(["1 + (2 * 3) + (4 * (5 + 6))"]) == 51
     assert solve(["2 * 3 + (4 * 5)"]) == 26
@@ -91,13 +88,16 @@ if __name__ == "__main__":
     assert solve(["5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"]) == 12240
     assert solve(["((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"]) == 13632
 
+def test_order():
+    data = open("data.txt", "r").read().splitlines()
     assert solve(data) == 3647606140187
 
-
-    ## PART 2
+def test_order_with_precedence_example():
     assert solve(["1 + 2 * 3 + 4 * 5 + 6"], True) == 231
     assert solve(["1 + (2 * 3) + (4 * (5 + 6))"], True) == 51
     assert solve(["2 * 3 + (4 * 5)"], True) == 46
     assert solve(["5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"], True) == 669060
 
+def test_order_with_precedence():
+    data = open("data.txt", "r").read().splitlines()
     assert solve(data, True) == 323802071857594

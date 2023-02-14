@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 # https://adventofcode.com/2020/day/19
 
-REPLACEMENT="8: 42 |42 8\n11: 42 31 | 42 11 31"
+REPLACEMENT = "8: 42 |42 8\n11: 42 31 | 42 11 31"
 
 def parseRules(data):
     rules = {}
@@ -34,11 +34,11 @@ def checkRule(rules, rule, posList, line, incr=0):
         result.extend([pos + 1 for pos in posList if pos < len(line) and line[pos] == rule])
     elif ruletype is set:
         for subrule in rule:
-            result.extend(checkRule(rules, subrule, posList, line, incr+1))
+            result.extend(checkRule(rules, subrule, posList, line, incr + 1))
     elif ruletype is tuple:
         curpos = posList
         for ruleId in rule:
-            npos = checkRule(rules, rules[ruleId], curpos, line, incr+1)
+            npos = checkRule(rules, rules[ruleId], curpos, line, incr + 1)
             curpos = npos
             if len(curpos) == 0:
                 break
@@ -48,13 +48,13 @@ def checkRule(rules, rule, posList, line, incr=0):
     return result
 
 def checkEntry(rules, line):
-    last_pos =  checkRule(rules, rules[0], [0], line.strip())
+    last_pos = checkRule(rules, rules[0], [0], line.strip())
     if len(line) in last_pos:
         return True
 
     return False
 
-def ex1(data, replace=False):
+def evaluate_messages(data, replace=False):
     rdata, entries = data.split("\n\n")
     rules = parseRules(rdata)
     if replace:
@@ -68,18 +68,30 @@ def ex1(data, replace=False):
     print("Ex1", result)
     return result
 
-if __name__ == "__main__":
+def test_messages_test1():
     test = open("test.txt", "r").read()
+    assert evaluate_messages(test) == 2
+
+def test_messages_test2():
     test2 = open("test2.txt", "r").read()
-    test3 = open("test3.txt", "r").read()
+    assert evaluate_messages(test2) == 3
+
+def test_messages():
     data = open("data.txt", "r").read()
+    assert evaluate_messages(data) == 124
 
-    # Part 1
-    assert ex1(test) == 2
-    assert ex1(test2) == 3
-    assert ex1(data) == 124
+def test_messages_with_replacement_test1():
+    test = open("test.txt", "r").read()
+    assert evaluate_messages(test, replace=True) == 2
 
-    assert ex1(test, replace=True) == 2
-    assert ex1(test2, replace=True) == 12
-    assert ex1(test3, replace=True) == 1
-    assert ex1(data, replace=True) == 228
+def test_messages_with_replacement_test2():
+    test2 = open("test2.txt", "r").read()
+    assert evaluate_messages(test2, replace=True) == 12
+
+def test_messages_with_replacement_test3():
+    test3 = open("test3.txt", "r").read()
+    assert evaluate_messages(test3, replace=True) == 1
+
+def test_messages_with_replacement():
+    data = open("data.txt", "r").read()
+    assert evaluate_messages(data, replace=True) == 228

@@ -11,10 +11,10 @@ def buildActiveSet(data):
     return result
 
 def getNeigbours(cube):
-    for x in range(cube[0]-1, cube[0]+2):
-        for y in range(cube[1]-1, cube[1]+2):
-            for z in range(cube[2]-1, cube[2] +2):
-                if x!=cube[0] or y!=cube[1] or z!=cube[2]:
+    for x in range(cube[0] - 1, cube[0] + 2):
+        for y in range(cube[1] - 1, cube[1] + 2):
+            for z in range(cube[2] - 1, cube[2] + 2):
+                if x != cube[0] or y != cube[1] or z != cube[2]:
                     yield (x, y, z)
 
 def doCycle(active):
@@ -52,12 +52,14 @@ def ex1(data, cycles):
     print("Ex1, active elements", result)
     return result
 
-
-if __name__ == "__main__":
+def test_count_active_first_cycle_test():
     testData = open("test.txt", "r").read()
-    data = open("data.txt", "r").read()
-
     assert ex1(testData, cycles=1) == 11
+
+def test_count_active_test():
+    testData = open("test.txt", "r").read()
     assert ex1(testData, cycles=6) == 112
 
+def test_count_active():
+    data = open("data.txt", "r").read()
     assert ex1(data, cycles=6) == 252
