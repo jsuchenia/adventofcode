@@ -1,7 +1,7 @@
 beautifulsoup4==4.12.2
 requests==2.31.0
 tqdm==4.65.0
-cpmpy==0.9.13
+cpmpy==0.9.15
 numpy==1.24.3
 sympy==1.12
 pytest==7.3.1
