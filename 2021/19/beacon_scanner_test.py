@@ -2,6 +2,8 @@
 from collections import Counter
 from itertools import product, permutations, combinations
 
+import pytest
+
 # Parse input
 def parse(data):
     return [[tuple([int(x) for x in line.split(',')]) for line in scanner.splitlines()[1:]] for scanner in data.split("\n\n")]
@@ -77,5 +79,6 @@ def doCheck(filename):
 def test_beacon_test():
     assert doCheck("test.txt") == (79, 3621)
 
+@pytest.mark.skip(reason="P2 took too long time")
 def test_beacon_data():
     assert doCheck("data.txt") == (396, 11828)

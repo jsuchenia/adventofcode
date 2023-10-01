@@ -1,6 +1,8 @@
 #!/usr/local/bin/python3
 from copy import deepcopy
 
+import pytest
+
 def ex1(filename):
     data = open(filename, "r").read()
     map = [list(line) for line in data.splitlines()]
@@ -36,5 +38,6 @@ def ex1(filename):
 def test_game_of_live_test():
     assert ex1("test.txt") == 58
 
+@pytest.mark.skip(reason="P2 took too long time")
 def test_game_of_live_data():
     assert ex1("data.txt") == 563

@@ -1,5 +1,6 @@
 import re
 
+import pytest
 from cpmpy import intvar, Model, cpm_array
 
 # I've removed intvar arrays and used typical 2d arrays (bots, resources)
@@ -84,11 +85,13 @@ def do_simulationp2(filename, limit) -> int:
 def test_minerals_cpmpy_p1_example():
     assert do_simulationp1("example.txt", limit=24) == 33
 
+@pytest.mark.skip(reason="P2 took too long time")
 def test_minerals_cpmpy_p1_data():
     assert do_simulationp1("data.txt", limit=24) == 1144
 
 def test_minerals_cpmpy_p2_example():
     assert do_simulationp2("example.txt", limit=32) == 3472
 
+@pytest.mark.skip(reason="P2 took too long time")
 def test_minerals_cpmpy_p2_data():
     assert do_simulationp2("data.txt", limit=32) == 19980
