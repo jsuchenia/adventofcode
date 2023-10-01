@@ -4,7 +4,7 @@ type: kubernetes
 
 steps:
   - name: build
-    image: python:3.11.4
+    image: python:3.11.5
     commands:
       - pip install -r requirements.txt
       - pytest --no-header -v --junit-xml results.xml
