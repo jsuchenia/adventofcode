@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+      - name: Get lsb-release
+        run: echo "::group::Setup python" && apt-get update && apt-get install -y lsb-release && apt-get clean all && echo "::endgroup::"
+        shell: bash
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
