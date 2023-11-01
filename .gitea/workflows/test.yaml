@@ -10,12 +10,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Set up Python 3.11
-        run: apt-get update && apt-get install -y pyenv
+        run: pip3 install --upgrade pip
+        run: pip3 install pyenv
       - name: Display Python version
         run: python3 -c "import sys; print(sys.version)"
       - name: Install dependencies
-        run: |
-            python3 -m pip install --upgrade pip
-            pip3 install -r requirements.txt        
+        run: pip3 install -r requirements.txt        
       - name: Run tests
         run: pytest --no-header -v --junit-xml results.xml
