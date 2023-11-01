@@ -10,22 +10,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Set up Python 3.11
-        shell: bash
-        run: |
-             apt-get update
-             apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
-             apt-get install -y python3-pip
-             pip3 install --upgrade pip
-             curl https://pyenv.run | bash
-             export PYENV_ROOT="$HOME/.pyenv"
-             /root/.pyenv/bin/pyenv install 3.11.6
-             /root/.pyenv/bin/pyenv global 3.11.6
-             eval "$(/root/.pyenv/bin/pyenv init -)"
+        uses: actions/setup-python@v4
+        with:
+           python-version: '3.11.6' 
       - name: Display Python version
-        shell: bash
         run: python3 -c "import sys; print(sys.version)"
       - name: Install dependencies
-        shell: bash
         run: pip3 install -r requirements.txt        
       - name: Run tests
         run: pytest --no-header -v --junit-xml results.xml
