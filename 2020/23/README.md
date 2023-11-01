@@ -82,3 +82,5 @@ After the crab is done, what order will the cups be in? Starting *after the cup 
 
 Using your labeling, simulate 100 moves. *What are the labels on the cups after cup `1`?*
 
+--- Part Two ---
+

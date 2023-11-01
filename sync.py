@@ -92,8 +92,9 @@ def get_input(year: int, day: int) -> str:
 
 def file_conains_part_two(readme_path: str):
     with open(readme_path) as f:
-        return any(line.find("--- Part Two ---") >= 0 for line in f.readlines())
-
+        lines = f.readlines()
+        r = any(line.find("--- Part Two ---") >= 0 for line in lines)
+        return r
 
 def sync_dir(root_dir: str):
     for year in get_dir_with_digits(root_dir):
