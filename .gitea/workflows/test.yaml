@@ -23,4 +23,4 @@ jobs:
       - name: Install dependencies
         run: poetry install        
       - name: Run tests
-        run: pytest --no-header -v --junit-xml results.xml
+        run: poetry run pytest --no-header -v --junit-xml results.xml
