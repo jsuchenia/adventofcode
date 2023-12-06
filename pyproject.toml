@@ -14,6 +14,7 @@ pandas = "*"
 networkx = "*"
 
 beautifulsoup4 = "*"
+python-slugify = "*"
 requests = "*"
 tqdm = "*"
 setuptools = "*"
