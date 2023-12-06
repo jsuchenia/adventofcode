@@ -40,7 +40,7 @@ def calc_results(t, distance) -> int:
     x1 = (t + sqrt(delta)) / 2
     x2 = (-t + sqrt(delta)) / -2
 
-    if x1 % 1 == 0:  # higher X is equal, so distance is equal, but we have to win
+    if x1 % 1 == 0:  # higher X is a number without fractional part, so distance is equal, but we have to win
         return int(x1) - int(x2) - 1
     return int(x1) - int(x2)
 

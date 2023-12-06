@@ -1,10 +1,8 @@
 # Improvements wrote after an initial implementation
-# First I used sympy but as it caused issue with test data for q1, I created manual math
 
 import re
 from math import prod
 
-import pytest
 from sympy import symbols, solve, Eq
 
 def get_data_q1(filename: str):
@@ -33,7 +31,7 @@ def solve_results(t, distance) -> int:
     x = symbols("x")
     results = solve(Eq(x * (t - x) - distance, 0), [x])
 
-    if results[1] % 1 == 0:  # higher X is equal, so distance is equal, but we have to win
+    if results[1] % 1 == 0:  # higher X is a number without fractional part, so distance is equal, but we have to win
         return int(results[1]) - int(results[0]) - 1
     return int(results[1]) - int(results[0])
 
@@ -50,7 +48,6 @@ def q2(filename) -> int:
     return solve_results(t, distance)
 
 
-@pytest.mark.xfail(reason="SymPY find out exact points, we need to handle only greater than 0")
 def test_q1_solve():
     assert q1("test.txt") == 288
     assert q1("data.txt") == 503424

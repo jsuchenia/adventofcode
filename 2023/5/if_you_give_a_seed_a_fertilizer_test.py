@@ -41,8 +41,9 @@ def process_mapping(seeds: Seeds, mapping: Block) -> Seeds:
                     seeds.append((start, new_start))
                 if stop > new_stop:
                     seeds.append((new_stop, stop))
+
                 break
-        else:  # Cheers to Julka
+        else:  # Cheers to JLucka - simplified after her comment
             result.append((start, stop))
 
     return result
