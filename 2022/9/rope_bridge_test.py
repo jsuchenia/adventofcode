@@ -1,15 +1,12 @@
-MOVES = {
-    'U': (0, 1),
-    'D': (0, -1),
-    'L': (-1, 0),
-    'R': (1, 0)
-}
+MOVES = {"U": (0, 1), "D": (0, -1), "L": (-1, 0), "R": (1, 0)}
+
 
 def read_data(file_name: str):
     with open(file_name) as f:
         moves = f.readlines()
     steps = [line.strip().split(" ") for line in moves]
     return [(MOVES[a], int(b)) for a, b in steps]
+
 
 def count_tail_positions(file_name, rope_length) -> int:
     moves = read_data(file_name)
@@ -30,17 +27,22 @@ def count_tail_positions(file_name, rope_length) -> int:
     print(f"Visited len {file_name=} {rope_length=}: {len(visited)}")
     return len(visited)
 
+
 def test_count_p1_example():
     assert count_tail_positions("example.txt", rope_length=2) == 13
+
 
 def test_count_p1_data():
     assert count_tail_positions("data.txt", rope_length=2) == 6175
 
+
 def test_count_p2_example():
     assert count_tail_positions("example.txt", rope_length=10) == 1
 
+
 def test_count_p2_example2():
     assert count_tail_positions("example2.txt", rope_length=10) == 36
+
 
 def test_count_p2_data():
     assert count_tail_positions("data.txt", rope_length=10) == 2578

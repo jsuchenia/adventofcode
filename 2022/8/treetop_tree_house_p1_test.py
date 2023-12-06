@@ -9,6 +9,7 @@ def is_visible(grid, y, x):
 
     return up or down or left or right
 
+
 def count_visible(file_name):
     with open(file_name) as f:
         data = f.readlines()
@@ -21,8 +22,10 @@ def count_visible(file_name):
     print(f"{counter=}")
     return counter
 
+
 def test_count_p1_example():
     assert count_visible("example.txt") == 21
+
 
 def test_count_p1_data():
     assert count_visible("data.txt") == 1662

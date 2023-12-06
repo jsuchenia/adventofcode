@@ -1,10 +1,11 @@
 import re
 
-from cpmpy import intvar, Model, cpm_array
+from cpmpy import Model, cpm_array, intvar
 
 # CP - Constrain programming - https://cpmpy.readthedocs.io/
 # Based on: https://www.reddit.com/r/adventofcode/comments/zpihwi/comment/j0ty6zr/?utm_source=share&utm_medium=web2x&context=3
 #     Code: https://pastebin.com/w2brfTme
+
 
 def read_data(filename: str):
     pattern = re.compile(r"\d+")
@@ -14,13 +15,15 @@ def read_data(filename: str):
 def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, limit):
     # Cost of each decision - each row is a decision, each colum is a cost of it (in particular resources)
     # 0 - is just wait, 1 - buy ORE harvester, 2 - buy CLAY harvester, 3 - buy obsidian harvester, 4 - buy geode harvester
-    cost_array = cpm_array([
-        [0, 0, 0, 0],
-        [ore_cost_ore, 0, 0, 0],
-        [clay_cost_ore, 0, 0, 0],
-        [obs_cost_ore, obs_cost_clay, 0, 0],
-        [geode_cost_ore, 0, geode_cost_obs, 0],
-    ])
+    cost_array = cpm_array(
+        [
+            [0, 0, 0, 0],
+            [ore_cost_ore, 0, 0, 0],
+            [clay_cost_ore, 0, 0, 0],
+            [obs_cost_ore, obs_cost_clay, 0, 0],
+            [geode_cost_ore, 0, geode_cost_obs, 0],
+        ]
+    )
     # Decision in each step (described above)
     decision = intvar(0, 4, shape=(limit + 1, 1), name="decision")
 

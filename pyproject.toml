@@ -7,16 +7,35 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
-beautifulsoup4 = "*"
-requests = "*"
-tqdm = "*"
 cpmpy = "*"
 numpy = "*"
 sympy = "*"
 pandas = "*"
-pytest = "*"
+networkx = "*"
+
+beautifulsoup4 = "*"
+requests = "*"
+tqdm = "*"
 setuptools = "*"
+ipython = "*"
+black = "*"
+isort = "*"
+ruff = "*"
+
+pytest = "*"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+console_output_style = "progress"
+
+[tool.black]
+line-length = 150
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+src_paths = ["2023", "2022", "2021"]

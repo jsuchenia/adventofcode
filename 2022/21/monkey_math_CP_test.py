@@ -1,13 +1,15 @@
 # cpmpy require precision to be set, we used small precision previously
 from functools import cache
 
-from cpmpy import intvar, Model
+from cpmpy import Model, intvar
 
 def read_data(filename: str) -> list[list[str, str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
-RANGE = 10 ** 13
+
+RANGE = 10**13
+
 
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
@@ -26,13 +28,13 @@ def estimate_humn_value(filename: str) -> int:
         right = val[7:]
 
         match val[5]:
-            case '+':
+            case "+":
                 return get_symbol(left) + get_symbol(right)
-            case '-':
+            case "-":
                 return get_symbol(left) - get_symbol(right)
-            case '*':
+            case "*":
                 return get_symbol(left) * get_symbol(right)
-            case '/':
+            case "/":
                 rs = get_symbol(right)
                 ls = get_symbol(left)
                 return ls // rs
@@ -48,8 +50,10 @@ def estimate_humn_value(filename: str) -> int:
     else:
         print("Can't solve!")
 
+
 def test_monkey_math_cpmpy_example():
     assert estimate_humn_value("example.txt") == 301
+
 
 def test_monkey_math_cpmpy_data():
     assert estimate_humn_value("data.txt") == 3330805295850

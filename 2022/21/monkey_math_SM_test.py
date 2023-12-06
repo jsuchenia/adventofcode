@@ -2,11 +2,12 @@
 # Sympy can do it better, but boolean values and constrains are harder to add
 from functools import cache
 
-from sympy import solve, Symbol, Eq, simplify
+from sympy import Eq, Symbol, simplify, solve
 
 def read_data(filename: str) -> list[list[str, str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
+
 
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
@@ -24,13 +25,13 @@ def estimate_humn_value(filename: str) -> int:
         right = val[7:]
 
         match val[5]:
-            case '+':
+            case "+":
                 return simplify(get_symbol(left) + get_symbol(right))
-            case '-':
+            case "-":
                 return simplify(get_symbol(left) - get_symbol(right))
-            case '*':
+            case "*":
                 return simplify(get_symbol(left) * get_symbol(right))
-            case '/':
+            case "/":
                 return simplify(get_symbol(left) / get_symbol(right))
 
     root = monkeys["root"]
@@ -40,8 +41,10 @@ def estimate_humn_value(filename: str) -> int:
     print(f"P2: {filename=} {result=}")
     return result
 
+
 def test_monkey_math_sympy_p2_example():
     assert estimate_humn_value("example.txt") == 301
+
 
 def test_monkey_math_sympy_p2_data():
     assert estimate_humn_value("data.txt") == 3330805295850

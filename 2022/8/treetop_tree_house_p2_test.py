@@ -10,6 +10,7 @@ def get_score(grid, y, x):
     # Only first (visible) distance used for score
     return up[0] * down[0] * left[0] * right[0]
 
+
 def get_max_score(file_name: str):
     with open(file_name) as f:
         data = f.readlines()
@@ -19,8 +20,10 @@ def get_max_score(file_name: str):
     print(f"{max_score=}")
     return max_score
 
+
 def test_score_p2_example():
     assert get_max_score("example.txt") == 8
+
 
 def test_score_p2_data():
     assert get_max_score("data.txt") == 537600

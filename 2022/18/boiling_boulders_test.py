@@ -1,10 +1,13 @@
 from collections import deque
 
+
 def read_data(filename: str) -> frozenset[tuple]:
     with open(filename) as f:
-        return frozenset(tuple(map(int, line.strip().split(','))) for line in f.readlines())
+        return frozenset(tuple(map(int, line.strip().split(","))) for line in f.readlines())
+
 
 PATTERN = [(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)]
+
 
 def generate_water(cubes: frozenset[tuple]) -> set[tuple]:
     limits = []
@@ -21,9 +24,7 @@ def generate_water(cubes: frozenset[tuple]) -> set[tuple]:
         for dx, dy, dz in PATTERN:
             pos = (air[0] + dx, air[1] + dy, air[2] + dz)
 
-            if not (limits[0][0] <= pos[0] <= limits[0][1]
-                    and limits[1][0] <= pos[1] <= limits[1][1]
-                    and limits[2][0] <= pos[2] <= limits[2][1]):
+            if not (limits[0][0] <= pos[0] <= limits[0][1] and limits[1][0] <= pos[1] <= limits[1][1] and limits[2][0] <= pos[2] <= limits[2][1]):
                 continue
 
             if (pos not in water) and (pos not in cubes):
@@ -31,6 +32,7 @@ def generate_water(cubes: frozenset[tuple]) -> set[tuple]:
                 q.append(pos)
 
     return water
+
 
 def count_surfaces(filename: str) -> (int, int):
     cubes = read_data(filename)
@@ -47,8 +49,10 @@ def count_surfaces(filename: str) -> (int, int):
     print(f"{result1=} {result2=}")
     return result1, result2
 
+
 def test_count_surfaces_example():
     assert count_surfaces("example.txt") == (64, 58)
+
 
 def test_count_surfaces_data():
     assert count_surfaces("data.txt") == (3530, 2000)

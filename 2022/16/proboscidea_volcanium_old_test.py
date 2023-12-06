@@ -5,6 +5,7 @@ import pytest
 
 # First implementation, based on collections - solved P1 (example + data), P2 for example
 
+
 def read_data(filename: str) -> dict[str, tuple]:
     id_pattern = re.compile(r" ([A-Z]+)")
     rate_pattern = re.compile(r"rate=(\d+);")
@@ -73,10 +74,12 @@ class Simul:
     def p2(self):
         paths = list(self.generate_moves("AA", [], self.valves_to_open, 0, 26))
         paths_len = len(paths)
-        result = max(paths[idx1][1] + paths[idx2][1]
-                     for idx1 in range(0, paths_len)
-                     for idx2 in range(idx1, paths_len)
-                     if set(paths[idx1][0]).isdisjoint(paths[idx2][0]))
+        result = max(
+            paths[idx1][1] + paths[idx2][1]
+            for idx1 in range(0, paths_len)
+            for idx2 in range(idx1, paths_len)
+            if set(paths[idx1][0]).isdisjoint(paths[idx2][0])
+        )
         print(f"P2: Result is {result=}")
         return result
 

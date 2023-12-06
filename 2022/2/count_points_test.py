@@ -26,10 +26,11 @@ points1 = [3, 6, 0]
 # }
 points2 = [3, 1, 2]
 
+
 def get_scores(file_name: str):
     with open(file_name, "r") as f:
         data = [line.strip().split(" ") for line in f.readlines()]
-    num = [(ord(x[0]) - ord('A'), ord(x[1]) - ord('X')) for x in data]
+    num = [(ord(x[0]) - ord("A"), ord(x[1]) - ord("X")) for x in data]
 
     score1 = sum([points1[(n[1] - n[0]) % 3] + n[1] + 1 for n in num])
     score2 = sum([points2[(n[1] + n[0]) % 3] + 3 * n[1] for n in num])
@@ -37,8 +38,10 @@ def get_scores(file_name: str):
     print(f"{score1=} {score2=}")
     return score1, score2
 
+
 def test_scores_example():
     assert get_scores("example.txt") == (15, 12)
+
 
 def test_scores_data():
     assert get_scores("data.txt") == (13009, 10398)

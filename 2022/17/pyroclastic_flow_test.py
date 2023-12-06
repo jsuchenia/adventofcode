@@ -5,16 +5,19 @@ def read_data(filename):
     with open(filename) as f:
         return f.read().strip()
 
+
 def is_shape_valid(cave, elems):
     return all(not (x < 0 or x > 6 or y < 0 or (x, y) in cave) for x, y in elems)
+
 
 ROCKS = [
     lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx + 2, sy), (sx + 3, sy)],
     lambda sx, sy: [(sx + 1, sy), (sx, sy + 1), (sx + 1, sy + 1), (sx + 2, sy + 1), (sx + 1, sy + 2)],
     lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx + 2, sy), (sx + 2, sy + 1), (sx + 2, sy + 2)],
     lambda sx, sy: [(sx, sy), (sx, sy + 1), (sx, sy + 2), (sx, sy + 3)],
-    lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx, sy + 1), (sx + 1, sy + 1)]
+    lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx, sy + 1), (sx + 1, sy + 1)],
 ]
+
 
 def simul_cave(filename, i) -> int:
     moves = read_data(filename)
@@ -30,7 +33,7 @@ def simul_cave(filename, i) -> int:
 
         while True:
             move = moves[move_idx := (move_idx + 1) % len(moves)]
-            nx = x + 1 if move == '>' else x - 1
+            nx = x + 1 if move == ">" else x - 1
 
             if is_shape_valid(cave, rock(nx, y)):
                 x = nx
@@ -65,14 +68,18 @@ def simul_cave(filename, i) -> int:
     print(f"Result {result=}")
     return result
 
+
 def test_simul_cave_p1_example():
     assert simul_cave("example.txt", 2022) == 3068
+
 
 def test_simul_cave_p1_data():
     assert simul_cave("data.txt", 2022) == 3161
 
+
 def test_simul_cave_p2_example():
     assert simul_cave("example.txt", 1_000_000_000_000) == 1_514_285_714_288
+
 
 def test_simul_cave_p2_data():
     assert simul_cave("data.txt", 1_000_000_000_000) == 1_575_931_232_076

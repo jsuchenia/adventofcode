@@ -2,6 +2,7 @@ def read_data(filename: str) -> list[list[str, str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
+
 def get_root_value(filename: str):
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
 
@@ -16,21 +17,23 @@ def get_root_value(filename: str):
         right = val[7:]
 
         match val[5]:
-            case '+':
+            case "+":
                 return get_value(left) + get_value(right)
-            case '-':
+            case "-":
                 return get_value(left) - get_value(right)
-            case '*':
+            case "*":
                 return get_value(left) * get_value(right)
-            case '/':
+            case "/":
                 return get_value(left) // get_value(right)
 
     result = get_value("root")
     print(f"P1 {filename=} {result=}")
     return result
 
+
 def test_monkey_math_p1_example():
     assert get_root_value("example.txt") == 152
+
 
 def test_monkey_math_p1_data():
     assert get_root_value("data.txt") == 145167969204648

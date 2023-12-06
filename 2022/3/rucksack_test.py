@@ -1,27 +1,30 @@
 #!/usr/bin/env python
 
+
 def read_data(file_name: str):
     with open(file_name) as f:
         bags = [line.strip() for line in f.readlines()]
     return bags
 
+
 def get_priority(letter):
     x = ord(letter)
-    if x < ord('a'):
-        return x - ord('A') + 27
+    if x < ord("a"):
+        return x - ord("A") + 27
     else:
-        return x - ord('a') + 1
+        return x - ord("a") + 1
+
 
 def calculate_priorities(file_name: str):
     bags = read_data(file_name)
 
     # Task 1 - find common between two parts
-    divided_bags = [(bag[0:len(bag) // 2], bag[len(bag) // 2:]) for bag in bags]
+    divided_bags = [(bag[0 : len(bag) // 2], bag[len(bag) // 2 :]) for bag in bags]
     commons1 = [(set(bag1) & set(bag2)).pop() for bag1, bag2 in divided_bags]
     priorities1 = [get_priority(letter) for letter in commons1]
 
     # Task2 find common between 3 lines
-    groups = [bags[idx:idx + 3] for idx in range(0, len(bags), 3)]
+    groups = [bags[idx : idx + 3] for idx in range(0, len(bags), 3)]
     commons2 = [(set(group[0]) & set(group[1]) & set(group[2])).pop() for group in groups]
     priorities2 = [get_priority(letter) for letter in commons2]
 
@@ -29,8 +32,10 @@ def calculate_priorities(file_name: str):
     print(f"{result=}")
     return result
 
+
 def test_calculate_priorities_example():
     assert calculate_priorities("example.txt") == (157, 70)
+
 
 def test_calculate_priorities_data():
     assert calculate_priorities("data.txt") == (7889, 2825)

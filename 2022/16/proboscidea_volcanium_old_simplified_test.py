@@ -1,7 +1,8 @@
 import re
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 
 # First implementation, based on collections - solved P1 (example + data), P2 for example
+
 
 def read_data(filename: str) -> dict[str, tuple]:
     id_pattern = re.compile(r" ([A-Z]+)")
@@ -15,6 +16,7 @@ def read_data(filename: str) -> dict[str, tuple]:
             m[ids[0]] = (int(rate[0]), ids[1:])
 
     return m
+
 
 def get_distance(graph, start, end) -> int:
     q = deque()
@@ -33,6 +35,7 @@ def get_distance(graph, start, end) -> int:
 
     raise ValueError(f"Empty queue and not in a graph!")
 
+
 def build_distance(graph):
     dist = {}
 
@@ -44,6 +47,7 @@ def build_distance(graph):
                 dist[(start, end)] = 0
 
     return dist
+
 
 class Simul:
     def __init__(self, filename):
@@ -84,21 +88,22 @@ class Simul:
             paths_dict[key] = max(path[1], paths_dict[key])
 
         print(f"P2: Reduction from {len(paths)} vs {len(paths_dict)}")
-        result = max(cost1 + cost2
-                     for path1, cost1 in paths_dict.items()
-                     for path2, cost2 in paths_dict.items()
-                     if path1.isdisjoint(path2))
+        result = max(cost1 + cost2 for path1, cost1 in paths_dict.items() for path2, cost2 in paths_dict.items() if path1.isdisjoint(path2))
         print(f"    Result is {result=}")
         return result
+
 
 def test_simul_cave_p1_example():
     assert Simul("example.txt").p1() == 1651
 
+
 def test_simul_cave_p1_data():
     assert Simul("data.txt").p1() == 1754
 
+
 def test_simul_cave_p2_example():
     assert Simul("example.txt").p2() == 1707
+
 
 def test_simul_cave_p2_data():
     assert Simul("data.txt").p2() == 2474

@@ -2,6 +2,7 @@ def read_commands(file_name: str):
     with open(file_name) as f:
         return [line.strip().split(" ") for line in f.readlines()]
 
+
 def run_program(file_name: str) -> (int, str):
     values, x = [], 1
 
@@ -16,24 +17,30 @@ def run_program(file_name: str) -> (int, str):
 
     print(f"{powersum=}")
     for idx in range(0, len(chars), 40):
-        print("".join(chars[idx:idx + 40]))
+        print("".join(chars[idx : idx + 40]))
 
     return powersum, "".join(chars)
 
+
 def test_run_example():
-    assert run_program("example.txt") == (13140,
-                                          "XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  " +
-                                          "XXX   XXX   XXX   XXX   XXX   XXX   XXX " +
-                                          "XXXX    XXXX    XXXX    XXXX    XXXX    " +
-                                          "XXXXX     XXXXX     XXXXX     XXXXX     " +
-                                          "XXXXXX      XXXXXX      XXXXXX      XXXX" +
-                                          "XXXXXXX       XXXXXXX       XXXXXXX     ")
+    assert run_program("example.txt") == (
+        13140,
+        "XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  "
+        + "XXX   XXX   XXX   XXX   XXX   XXX   XXX "
+        + "XXXX    XXXX    XXXX    XXXX    XXXX    "
+        + "XXXXX     XXXXX     XXXXX     XXXXX     "
+        + "XXXXXX      XXXXXX      XXXXXX      XXXX"
+        + "XXXXXXX       XXXXXXX       XXXXXXX     ",
+    )
+
 
 def test_run_data():
-    assert run_program("data.txt") == (14160,
-                                       "XXX    XX XXXX XXX  XXX  XXXX XXXX  XX  " +
-                                       "X  X    X X    X  X X  X X    X    X  X " +
-                                       "X  X    X XXX  X  X X  X XXX  XXX  X    " +
-                                       "XXX     X X    XXX  XXX  X    X    X    " +
-                                       "X X  X  X X    X X  X    X    X    X  X " +
-                                       "X  X  XX  XXXX X  X X    XXXX X     XX  ")
+    assert run_program("data.txt") == (
+        14160,
+        "XXX    XX XXXX XXX  XXX  XXXX XXXX  XX  "
+        + "X  X    X X    X  X X  X X    X    X  X "
+        + "X  X    X XXX  X  X X  X XXX  XXX  X    "
+        + "XXX     X X    XXX  XXX  X    X    X    "
+        + "X X  X  X X    X X  X    X    X    X  X "
+        + "X  X  XX  XXXX X  X X    XXXX X     XX  ",
+    )

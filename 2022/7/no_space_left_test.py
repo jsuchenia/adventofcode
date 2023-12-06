@@ -1,6 +1,6 @@
 def build_data(file_name: str):
     with open(file_name) as f:
-        data = f.read().split('\n')
+        data = f.read().split("\n")
 
     root, stack, cwd = {}, None, None
 
@@ -26,6 +26,7 @@ def build_data(file_name: str):
             cwd[f] = int(size)
     return root
 
+
 def count_size(name: str, element, dir_sizes: list) -> int:
     if isinstance(element, int):
         return element
@@ -36,7 +37,9 @@ def count_size(name: str, element, dir_sizes: list) -> int:
     dir_sizes.append((name, size))
     return size
 
+
 MAX_LIMIT = 40_000_000
+
 
 def traverse(file_name: str, size_limit: int = 100_000):
     root_dir = build_data(file_name)
@@ -54,8 +57,10 @@ def traverse(file_name: str, size_limit: int = 100_000):
     print(f"{result=}")
     return result
 
+
 def test_traverse_example():
     assert traverse("example.txt") == (95437, 24933642)
+
 
 def test_traverse_data():
     assert traverse("data.txt") == (1581595, 1544176)

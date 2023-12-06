@@ -6,10 +6,8 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-
 def get_dir_with_digits(root_dir: str) -> list[str]:
     return [dir for dir in os.listdir(root_dir) if dir.isdigit()]
-
 
 def html_tags_to_markdown(tag, is_first_article):
     children = tag.find_all(recursive=False)
@@ -62,7 +60,6 @@ def html_tags_to_markdown(tag, is_first_article):
     else:
         raise ValueError(f'Missing condition for tag: {tag.name}')
 
-
 def get_readme(year: int, day: int) -> str:
     url = f"https://adventofcode.com/{year}/day/{day}"
     response = requests.get(url, cookies={'session': os.getenv("AOC_SESSION")})
@@ -80,7 +77,6 @@ def get_readme(year: int, day: int) -> str:
 
     return content
 
-
 def get_input(year: int, day: int) -> str:
     url = f"https://adventofcode.com/{year}/day/{day}/input"
     response = requests.get(url, cookies={'session': os.getenv("AOC_SESSION")})
@@ -88,7 +84,6 @@ def get_input(year: int, day: int) -> str:
         raise ValueError(f"Querying the url {url} resulted in status code {response.status_code} with the following "
                          f"text: {response.text}")
     return response.text
-
 
 def file_conains_part_two(readme_path: str):
     with open(readme_path) as f:
@@ -111,7 +106,6 @@ def sync_dir(root_dir: str):
                 readme = get_readme(year, day)
                 with open(readme_path, "w") as f:
                     f.write(readme)
-
 
 if __name__ == "__main__":
     sync_dir(".")

@@ -38,8 +38,19 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
         c = []
         nt = t - 1
         if ore >= geode_cost_ore and obs >= geode_cost_obs:
-            c.append(((ore + r_ore - geode_cost_ore), (clay + r_clay), (obs + r_obs - geode_cost_obs), (geode + r_geode), r_ore, r_clay, r_obs,
-                      r_geode + 1, nt))
+            c.append(
+                (
+                    (ore + r_ore - geode_cost_ore),
+                    (clay + r_clay),
+                    (obs + r_obs - geode_cost_obs),
+                    (geode + r_geode),
+                    r_ore,
+                    r_clay,
+                    r_obs,
+                    r_geode + 1,
+                    nt,
+                )
+            )
 
         if ore >= obs_cost_ore and clay >= obs_cost_clay and r_obs < geode_cost_obs:
             c.append((ore + r_ore - obs_cost_ore, clay + r_clay - obs_cost_clay, obs + r_obs, geode + r_geode, r_ore, r_clay, r_obs + 1, r_geode, nt))

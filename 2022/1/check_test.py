@@ -9,6 +9,7 @@ def parse_file(file_name: str):
     elves = [sum([int(v) for v in elve_values.split("\n")]) for elve_values in elves_str]
     return elves
 
+
 def get_calories(file_name: str):
     data = parse_file(file_name)
     data.sort(reverse=True)
@@ -17,8 +18,10 @@ def get_calories(file_name: str):
     print(f"{result=}")
     return result
 
+
 def test_calories_example():
     assert get_calories("example.txt") == (24000, 45000)
+
 
 def test_calories_data():
     assert get_calories("data.txt") == (69693, 200945)

@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+
 def read_data(filename: str) -> set[tuple[int, int]]:
     field = set()
     with open(filename) as f:
@@ -10,6 +11,7 @@ def read_data(filename: str) -> set[tuple[int, int]]:
 
     return field
 
+
 def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False) -> int:
     orig = read_data(filename)
 
@@ -18,7 +20,7 @@ def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False)
         lambda x, y: [(x, y - 1), (x - 1, y - 1), (x + 1, y - 1)],  # N, NE, NW
         lambda x, y: [(x, y + 1), (x - 1, y + 1), (x + 1, y + 1)],  # S, SE, SW
         lambda x, y: [(x - 1, y), (x - 1, y - 1), (x - 1, y + 1)],  # W, NW, SW
-        lambda x, y: [(x + 1, y), (x + 1, y - 1), (x + 1, y + 1)]  # E, NE, SE
+        lambda x, y: [(x + 1, y), (x + 1, y - 1), (x + 1, y + 1)],  # E, NE, SE
     ]
 
     field = orig.copy()
@@ -75,17 +77,22 @@ def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False)
     print(f"{result=}")
     return result
 
+
 def test_unstable_diffusion_p1_small():
     assert do_scan("small.txt", repeats=10) == 25
+
 
 def test_unstable_diffusion_p1_example():
     assert do_scan("example.txt", repeats=10) == 110
 
+
 def test_unstable_diffusion_p1_data():
     assert do_scan("data.txt", repeats=10) == 4000
 
+
 def test_unstable_diffusion_p2_example():
     assert do_scan("example.txt", repeats=30, stop_when_not_moved=True) == 20
+
 
 def test_unstable_diffusion_p2_data():
     assert do_scan("data.txt", repeats=2000, stop_when_not_moved=True) == 1040

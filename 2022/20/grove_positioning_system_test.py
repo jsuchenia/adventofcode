@@ -2,6 +2,7 @@ def read_data(filename: str):
     with open(filename) as f:
         return [int(line.strip()) for line in f.readlines()]
 
+
 def mix(filename: str, ecnkey=1, repeats=1):
     nrs = read_data(filename)
     l = len(nrs)
@@ -27,14 +28,18 @@ def mix(filename: str, ecnkey=1, repeats=1):
     print(f"{result=} {s=}")
     return s
 
+
 def test_gps_p1_example():
     assert mix("example.txt") == 3
+
 
 def test_gps_p1_data():
     assert mix("data.txt") == 8721
 
+
 def test_gps_p2_example():
     assert mix("example.txt", ecnkey=811589153, repeats=10) == 1623178306
+
 
 def test_gps_p1_data():
     assert mix("data.txt", ecnkey=811589153, repeats=10) == 831878881825

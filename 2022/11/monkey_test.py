@@ -1,6 +1,7 @@
 import math
 from dataclasses import dataclass
 
+
 @dataclass(kw_only=True)
 class Monkey:
     items: list[int]
@@ -10,6 +11,7 @@ class Monkey:
     div_false: int
     counter: int = 0
 
+
 def parse_monkey(data):
     lines = data.splitlines()
     return Monkey(
@@ -17,12 +19,14 @@ def parse_monkey(data):
         operation=eval("lambda old: " + lines[2].split(":")[1].strip()[5:]),
         test_div=int(lines[3][21:].strip()),
         div_true=int(lines[4][29:].strip()),
-        div_false=int(lines[5][30:].strip())
+        div_false=int(lines[5][30:].strip()),
     )
+
 
 def read_data(file_name: str):
     with open(file_name) as f:
         return [parse_monkey(monkey) for monkey in f.read().split("\n\n")]
+
 
 def play_game(file_name: str, rounds: int, part_one: bool) -> int:
     monkeys = read_data(file_name)
@@ -48,18 +52,23 @@ def play_game(file_name: str, rounds: int, part_one: bool) -> int:
     print(f"{score=}")
     return score
 
+
 def test_monkey_p1_example():
     assert play_game("example.txt", rounds=20, part_one=True) == 10605
 
+
 def test_monkey_p1_data():
     assert play_game("data.txt", rounds=20, part_one=True) == 118674
+
 
 def test_monkey_p1_example_small():
     # P2 had different results for 20 rounds - clue for brute force
     assert play_game("example.txt", rounds=20, part_one=False) == 10197
 
+
 def test_monkey_p1_example():
     assert play_game("example.txt", rounds=10_000, part_one=False) == 2713310158
+
 
 def test_monkey_p1_data():
     assert play_game("data.txt", rounds=10_000, part_one=False) == 32333418600
