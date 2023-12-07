@@ -107,7 +107,7 @@ def q1(filename:str) -> int:
     
     return 0
     
-def q1(filename: str) -> int:
+def q2(filename: str) -> int:
     data = get_data(filename)
     
     return 0
@@ -115,8 +115,8 @@ def q1(filename: str) -> int:
 def test_q1():
     q1("test.txt")
 
-def test_q1():
-    q1("data.txt")
+def test_q2():
+    q2("data.txt")
 
 """
 
