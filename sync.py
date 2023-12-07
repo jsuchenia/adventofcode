@@ -131,11 +131,11 @@ def sync_dir(root_dir: str):
                 with open(readme_path, "w") as f:
                     f.write(readme)
 
-                result = re.search(r": (.+) ---", readme.splitlines()[0])[1]
-                test_name_path = os.path.join(root_dir, year, day, f"{slugify(result, separator='_')}_test.py")
+                title = re.search(r": (.+) ---", readme.splitlines()[0])[1]
+                test_name_path = os.path.join(root_dir, year, day, f"{slugify(title, separator='_')}_test.py")
                 if not os.path.exists(test_name_path):
                     with open(test_name_path, "w") as f:
-                        f.write(f"# {result}\n")
+                        f.write(f"# {title} - https://adventofcode.com/{year}/day/{day}\n")
                         f.write(TEMPLATE)
 
             data_path = os.path.join(root_dir, year, day, "data.txt")

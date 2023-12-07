@@ -4,9 +4,8 @@ from collections import Counter
 
 def get_data(filename: str) -> list[tuple[str, int]]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = [line.split() for line in f.read().splitlines()]
 
-    lines = [line.split() for line in lines]
     return [(hand, int(bid)) for hand, bid in lines]
 
 
@@ -16,14 +15,11 @@ TYPES = [[1, 1, 1, 1, 1], [2, 1, 1, 1], [2, 2, 1], [3, 1, 1], [3, 2], [4, 1], [5
 
 
 def get_type(hand: str) -> int:
-    counter = Counter(hand)
-    values = sorted(counter.values(), reverse=True)
+    values = sorted(Counter(hand).values(), reverse=True)
     return TYPES.index(values)
 
 
 def fix_joker_card(hand: str) -> str:
-    if "J" not in hand:
-        return hand
     if hand.count("J") == 5:
         return "AAAAA"
     counter = Counter(hand)
@@ -32,7 +28,7 @@ def fix_joker_card(hand: str) -> str:
     return hand.replace("J", m)
 
 
-def encode_hand(cmap, hand: str) -> str:
+def encode_hand(cmap: dict[str, str], hand: str) -> str:
     return "".join([cmap.get(c, c) for c in hand])
 
 
