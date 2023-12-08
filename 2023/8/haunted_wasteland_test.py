@@ -36,6 +36,8 @@ def q2(filename: str) -> int:
 
     # Data were prepared in this way that length from start -> first "..Z" node is then a cycle
     # We can simplify it to just one result (we don't have to find out a full cycle length with all interim steps)
+    # https://www.reddit.com/r/adventofcode/comments/18dfpub/2023_day_8_part_2_why_is_spoiler_correct/
+
     simulations = [simulate(steps, cmap, start, r"..Z") for start in starts]
     return math.lcm(*simulations)
 
