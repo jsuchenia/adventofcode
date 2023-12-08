@@ -33,6 +33,9 @@ def q1(filename: str) -> int:
 def q2(filename: str) -> int:
     steps, cmap = get_data(filename)
     starts = [key for key in cmap.keys() if re.match(r"..A", key)]
+
+    # Data were prepared in this way that length from start -> first "..Z" node is then a cycle
+    # We can simplify it to just one result (we don't have to find out a full cycle length with all interim steps)
     simulations = [simulate(steps, cmap, start, r"..Z") for start in starts]
     return math.lcm(*simulations)
 
