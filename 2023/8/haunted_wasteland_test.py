@@ -1,7 +1,8 @@
 # Haunted Wasteland - https://adventofcode.com/2023/day/8
-import math
 import re
 from itertools import cycle
+
+import math
 
 type CMap = dict[str, tuple[str, str]]
 
@@ -34,7 +35,7 @@ def q2(filename: str) -> int:
     steps, cmap = get_data(filename)
     starts = [key for key in cmap.keys() if re.match(r"..A", key)]
 
-    # Data were prepared in this way that length from start -> first "..Z" node is then a cycle
+    # Data was prepared in this way, that length from start -> first "..Z" node is then a cycle
     # We can simplify it to just one result (we don't have to find out a full cycle length with all interim steps)
     # https://www.reddit.com/r/adventofcode/comments/18dfpub/2023_day_8_part_2_why_is_spoiler_correct/
 
