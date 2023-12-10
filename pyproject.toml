@@ -7,11 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
+
+# Numeric libraries
 cpmpy = "*"
 numpy = "*"
 sympy = "*"
 pandas = "*"
 networkx = "*"
+shapely = "*"
 
 beautifulsoup4 = "*"
 python-slugify = "*"
