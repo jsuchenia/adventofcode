@@ -53,24 +53,64 @@ def get_connections(filename: str):
 def q1(filename: str) -> int:
     connections, start = get_connections(filename)
 
-    distances = dict()
-    distances[start] = 0
+    loop = set()
     q = deque()
     q.append(start)
 
     while q:
         cell = q.popleft()
+        loop.add(cell)
         for next_cell in connections[cell]:
-            if next_cell not in distances:
-                distances[next_cell] = distances[cell] + 1
+            if next_cell not in loop:
                 q.append(next_cell)
-    return max(distances.values())
+    return len(loop) // 2
 
 
 def q2(filename: str) -> int:
-    data = get_data(filename)
+    connections, start = get_connections(filename)
 
-    return 0
+    loop = set()
+    q = deque()
+    q.append(start)
+
+    while q:
+        cell = q.popleft()
+        loop.add(cell)
+        for next_cell in connections[cell]:
+            if next_cell not in loop:
+                q.append(next_cell)
+
+    data = get_data(filename)
+    inside = set()
+    for y, row in enumerate(data):
+        enclosed = False
+        horizontal_from_up = None
+        for x, cell in enumerate(row.strip()):
+            if (x, y) in loop:
+                if cell == "|":
+                    enclosed = not enclosed
+                elif cell == "L":
+                    horizontal_from_up = True
+                elif cell == "F":
+                    horizontal_from_up = False
+                elif cell in "7":
+                    if horizontal_from_up:
+                        enclosed = not enclosed
+                    horizontal_from_up = None
+                elif cell == "J":
+                    if not horizontal_from_up:
+                        enclosed = not enclosed
+                    horizontal_from_up = None
+                elif cell == "S":  # In a test data this condition is different
+                    enclosed = not enclosed
+                    horizontal_from_up = None
+            else:
+                if enclosed:
+                    # print((x, y))
+                    inside.add((x, y))
+
+    print(f"{len(inside)=}")
+    return len(inside)
 
 
 def test_q1():
@@ -79,6 +119,6 @@ def test_q1():
 
 
 def test_q2():
-    assert q2("test2.txt") == 8
-    # assert q2("test3.txt") == 10
-    # q2("data.txt")
+    # assert q2("test2.txt") == 4
+    # assert q2("test3.txt") == 8
+    assert q2("data.txt") == 467
