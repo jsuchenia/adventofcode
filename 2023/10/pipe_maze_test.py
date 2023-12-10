@@ -84,32 +84,28 @@ def q2(filename: str) -> int:
     inside = set()
     for y, row in enumerate(data):
         enclosed = False
-        horizontal_from_up = None
+        horizontal_start_char = None
         for x, cell in enumerate(row.strip()):
             if (x, y) in loop:
                 if cell == "|":
                     enclosed = not enclosed
-                elif cell == "L":
-                    horizontal_from_up = True
-                elif cell == "F":
-                    horizontal_from_up = False
+                elif cell in "LF":
+                    horizontal_start_char = cell
                 elif cell in "7":
-                    if horizontal_from_up:
+                    if horizontal_start_char == "L":
                         enclosed = not enclosed
-                    horizontal_from_up = None
+                    horizontal_start_char = None
                 elif cell == "J":
-                    if not horizontal_from_up:
+                    if horizontal_start_char == "F":
                         enclosed = not enclosed
-                    horizontal_from_up = None
-                elif cell == "S":  # In a test data this condition is different
-                    enclosed = not enclosed
-                    horizontal_from_up = None
+                    horizontal_start_char = None
+                elif cell == "S":
+                    if connections[start][1][0] - start[0]:
+                        enclosed = not enclosed
+                    horizontal_start_char = None
             else:
                 if enclosed:
-                    # print((x, y))
                     inside.add((x, y))
-
-    print(f"{len(inside)=}")
     return len(inside)
 
 
@@ -119,6 +115,6 @@ def test_q1():
 
 
 def test_q2():
-    # assert q2("test2.txt") == 4
-    # assert q2("test3.txt") == 8
+    assert q2("test2.txt") == 4
+    assert q2("test3.txt") == 8
     assert q2("data.txt") == 467
