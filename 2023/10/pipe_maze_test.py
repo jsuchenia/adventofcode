@@ -53,14 +53,6 @@ def get_connections(filename: str):
 def q1(filename: str) -> int:
     connections, start = get_connections(filename)
 
-    def is_valid(cell) -> bool:
-        x, y = cell
-        if not 0 <= y <= len(data):
-            return False
-        if not 0 <= x <= len(data[0].strip()):
-            return False
-        return True
-
     distances = dict()
     distances[start] = 0
     q = deque()
@@ -69,7 +61,7 @@ def q1(filename: str) -> int:
     while q:
         cell = q.popleft()
         for next_cell in connections[cell]:
-            if is_valid(next_cell) and next_cell not in distances:
+            if next_cell not in distances:
                 distances[next_cell] = distances[cell] + 1
                 q.append(next_cell)
     return max(distances.values())
