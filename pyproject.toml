@@ -16,16 +16,18 @@ pandas = "*"
 networkx = "*"
 shapely = "*"
 
+[tool.poetry.group.sync.dependencies]
 beautifulsoup4 = "*"
 python-slugify = "*"
 requests = "*"
-tqdm = "*"
 setuptools = "*"
+
+[tool.poetry.group.dev.dependencies]
+tqdm = "*"
 ipython = "*"
 black = "*"
 isort = "*"
 ruff = "*"
-
 pytest = "*"
 
 [build-system]
