@@ -1,5 +1,4 @@
 # Cosmic Expansion - https://adventofcode.com/2023/day/11
-from functools import cache
 from itertools import combinations
 
 type Point = tuple[int, int]
@@ -8,55 +7,42 @@ type Point = tuple[int, int]
 def get_data(filename: str) -> set[Point]:
     with open(filename) as f:
         lines = f.read().splitlines()
-
-    galaxies = set()
-
-    for y, line in enumerate(lines):
-        for x, char in enumerate(line):
-            if char == "#":
-                galaxies.add((x, y))
-    return galaxies
+    return {(x, y) for y, line in enumerate(lines) for x, char in enumerate(line) if char == "#"}
 
 
-def expand_galaxy(galaxy: set[Point]) -> set[Point]:
-    xs = [x for x, y in galaxy]
-    ys = [y for x, y in galaxy]
+def expand_galaxy(galaxy: set[Point], scaling_factor) -> set[Point]:
+    all_x = [x for x, y in galaxy]
+    all_y = [y for x, y in galaxy]
 
-    empty_x = [x for x in range(max(xs)) if x not in xs]
-    empty_y = [y for y in range(max(ys)) if y not in ys]
+    empty_x = [x for x in range(max(all_x)) if x not in all_x]
+    empty_y = [y for y in range(max(all_y)) if y not in all_y]
 
-    @cache
     def expand(x, y):
         dx = len([ex for ex in empty_x if ex < x])
         dy = len([ey for ey in empty_y if ey < y])
-        return x + dx, y + dy
+        return x + dx * (scaling_factor - 1), y + dy * (scaling_factor - 1)
 
-    result = set()
-    for x, y in galaxy:
-        result.add(expand(x, y))
-
-    return result
+    return {expand(x, y) for x, y in galaxy}
 
 
 def distance(p1, p2):
-    x = abs(p1[0] - p2[0])
-    y = abs(p1[1] - p2[1])
-
-    return x + y
+    return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
 
 def q1(filename: str) -> int:
     galaxy = get_data(filename)
-    galaxy = expand_galaxy(galaxy)
+    galaxy = expand_galaxy(galaxy, scaling_factor=2)
 
     distances = [distance(p1, p2) for p1, p2 in combinations(galaxy, 2)]
     return sum(distances)
 
 
-def q2(filename: str) -> int:
-    data = get_data(filename)
+def q2(filename: str, scaling_factor) -> int:
+    galaxy = get_data(filename)
+    galaxy = expand_galaxy(galaxy, scaling_factor=scaling_factor)
 
-    return 0
+    distances = [distance(p1, p2) for p1, p2 in combinations(galaxy, 2)]
+    return sum(distances)
 
 
 def test_q1():
@@ -65,4 +51,8 @@ def test_q1():
 
 
 def test_q2():
-    q2("data.txt")
+    assert q2("test.txt", scaling_factor=10) == 1030
+    assert q2("test.txt", scaling_factor=100) == 8410
+    assert q2("test.txt", scaling_factor=1_000_000) == 82000210
+
+    assert q2("data.txt", scaling_factor=1_000_000) == 742305960572
