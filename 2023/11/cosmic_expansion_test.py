@@ -11,8 +11,8 @@ def get_data(filename: str) -> set[Point]:
 
 
 def expand_galaxy(galaxy: set[Point], scaling_factor: int) -> set[Point]:
-    all_x = [x for x, y in galaxy]
-    all_y = [y for x, y in galaxy]
+    all_x = {x for x, y in galaxy}
+    all_y = {y for x, y in galaxy}
 
     empty_x = [x for x in range(max(all_x)) if x not in all_x]
     empty_y = [y for y in range(max(all_y)) if y not in all_y]

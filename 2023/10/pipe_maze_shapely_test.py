@@ -9,8 +9,7 @@ type Connections = dict[MazePoint, list[MazePoint]]
 
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
-        lines = f.read().splitlines()
-    return lines
+        return f.read().splitlines()
 
 
 def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
@@ -39,15 +38,13 @@ def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
 
 def compute_loop(connections: Connections, start: MazePoint) -> list[MazePoint]:
     point = start
-    results = [start]
+    results = []
     prev_node = None
-    while True:
-        next_nodes = [p for p in connections[point] if p != prev_node]
-        prev_node = point
-        point = next_nodes[0]
-        if point == start:
-            break
+
+    while point != start or not prev_node:
         results.append(point)
+        next_nodes = [p for p in connections[point] if p != prev_node]
+        prev_node, point = point, next_nodes[0]
     return results
 
 
