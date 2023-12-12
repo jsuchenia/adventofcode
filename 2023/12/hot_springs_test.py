@@ -15,14 +15,12 @@ def get_data(filename: str):
 
 @cache
 def check_line(line: str, nums):
-    needed_springs = sum(nums)
+    if (needed_springs := sum(nums)) == 0:
+        return 0 if "#" in line else 1
 
-    if needed_springs == 0:
-        return 1 if "#" not in line else 0
-
-    results = 0
-    size = nums[0]
-    possible_windows = len(line) - needed_springs + 1  # At least one window
+    results, size = 0, nums[0]
+    needed_dots = len(nums) - 1
+    possible_windows = len(line) - needed_springs - needed_dots + 1  # At least one window
 
     for i in range(possible_windows):
         before = line[:i]
@@ -39,28 +37,17 @@ def check_line(line: str, nums):
             continue
 
         results += check_line(after[1:], nums[1:])
-
     return results
 
 
 def q1(filename: str) -> int:
     data = get_data(filename)
-    result = 0
-    for line, nums in data:
-        result += check_line(line, nums)
-
-    return result
+    return sum([check_line(line=line, nums=nums) for line, nums in data])
 
 
 def q2(filename: str) -> int:
     data = get_data(filename)
-    result = 0
-    for line, nums in data:
-        line = "?".join([line] * 5)
-        nums = nums * 5
-        result += check_line(line, nums)
-
-    return result
+    return sum([check_line(line="?".join([line] * 5), nums=nums * 5) for line, nums in data])
 
 
 def test_line():
