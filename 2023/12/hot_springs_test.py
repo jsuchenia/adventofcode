@@ -7,7 +7,7 @@ def get_data(filename: str):
         results = []
         for line in f.read().splitlines():
             data, nums = line.split()
-            nums = tuple([int(n) for n in nums.split(",")])
+            nums = tuple(int(n) for n in nums.split(","))
             results.append((data, nums))
 
         return results
@@ -18,19 +18,19 @@ def check_line(line: str, nums):
     if (needed_springs := sum(nums)) == 0:
         return 0 if "#" in line else 1
 
-    results, size = 0, nums[0]
+    results, block_size = 0, nums[0]
     needed_dots = len(nums) - 1
-    possible_windows = len(line) - needed_springs - needed_dots + 1  # At least one window
-
+    # possible_windows = len(line) - block_size + 1
+    possible_windows = len(line) - needed_springs - needed_dots + 1  # At least one block
     for i in range(possible_windows):
         before = line[:i]
-        window = line[i : i + size]
-        after = line[i + size :]
+        block = line[i : i + block_size]
+        after = line[i + block_size :]
 
         if "#" in before:
             continue
 
-        if not all(c in "#?" for c in window):
+        if "." in block:
             continue
 
         if after and after[0] not in ".?":
