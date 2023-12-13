@@ -70,11 +70,11 @@ def test_exclusion_zone_count_line_example():
 
 @pytest.mark.skip(reason="It uses too much memory (more than 1GiB) NUC")
 def test_exclusion_zone_count_line_data():
-    assert count_cover_line("data.txt", line=2000000) == 5809294
+    assert count_cover_line("data.txt", line=2_000_000) == 5809294
 
 def test_find_missing_spot_example():
     assert find_missing_spot("example.txt", max_range=20) == 56000011
 
 @pytest.mark.skip(reason="Memory limit (more than 1GiB)")
 def test_find_missing_spot_data():
-    assert find_missing_spot("data.txt", max_range=4000000) == 10693731308112
+    assert find_missing_spot("data.txt", max_range=4_000_000) == 10693731308112
