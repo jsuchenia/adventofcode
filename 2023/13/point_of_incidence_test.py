@@ -6,7 +6,7 @@ def get_mirrors(filename: str) -> list[str]:
         return f.read().split("\n\n")
 
 def count_diff_chars(*lines) -> int:
-    return sum(1 if c1 != c2 else 0 for c1, c2 in zip(*lines))
+    return sum(len(set(c)) != 1 for c in zip(*lines))
 
 def get_reflection_position(data: list[str], diff: int) -> int:
     for i in range(1, len(data)):
