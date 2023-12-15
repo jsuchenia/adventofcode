@@ -25,9 +25,7 @@ def q2(filename: str) -> int:
             boxes[HASH(label)][label] = int(value)
         elif s.endswith('-'):
             label = s[:-1]
-            lenses = boxes[HASH(label)]
-            if label in lenses:
-                del lenses[label]
+            boxes[HASH(label)].pop(label, None)
 
     return sum(
         (box + 1) * idx * value
