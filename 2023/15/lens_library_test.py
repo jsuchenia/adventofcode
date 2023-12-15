@@ -29,7 +29,7 @@ def q2(filename: str) -> int:
     return sum(
         (box + 1) * idx * value
         for box, lenses in boxes.items()
-        for idx, (lens, value) in enumerate(lenses.items(), start=1))
+        for idx, value in enumerate(lenses.values(), start=1))
 
 def test_hash():
     assert HASH("HASH") == 52

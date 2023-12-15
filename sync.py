@@ -11,7 +11,6 @@ from slugify import slugify
 def get_dir_with_digits(root_dir: str) -> list[str]:
     return [dir for dir in os.listdir(root_dir) if dir.isdigit()]
 
-
 def html_tags_to_markdown(tag, is_first_article):
     children = tag.find_all(recursive=False)
 
@@ -63,7 +62,6 @@ def html_tags_to_markdown(tag, is_first_article):
     else:
         raise ValueError(f"Missing condition for tag: {tag.name}")
 
-
 def get_readme(year: str, day: str) -> str:
     url = f"https://adventofcode.com/{year}/day/{day}"
     response = requests.get(url, cookies={"session": os.getenv("AOC_SESSION")})
@@ -80,7 +78,6 @@ def get_readme(year: str, day: str) -> str:
 
     return content
 
-
 def get_input(year: str, day: str) -> str:
     url = f"https://adventofcode.com/{year}/day/{day}/input"
     response = requests.get(url, cookies={"session": os.getenv("AOC_SESSION")})
@@ -88,13 +85,11 @@ def get_input(year: str, day: str) -> str:
         raise ValueError(f"Querying the url {url} resulted in status code {response.status_code} with the following " f"text: {response.text}")
     return response.text
 
-
 def file_conains_part_two(readme_path: str):
     with open(readme_path) as f:
         lines = f.readlines()
         r = any(line.find("--- Part Two ---") >= 0 for line in lines)
         return r
-
 
 TEMPLATE = """
 def get_data(filename: str) -> list[str]:
@@ -116,10 +111,9 @@ def test_q1():
     q1("test.txt")
 
 def test_q2():
-    q2("data.txt")
+    q2("test.txt")
 
 """
-
 
 def sync_dir(root_dir: str):
     for year in get_dir_with_digits(root_dir):
@@ -143,7 +137,6 @@ def sync_dir(root_dir: str):
                 print(f"Downloading DATA for {year}/{day}")
                 with open(data_path, "w") as f:
                     f.write(get_input(year, day))
-
 
 if __name__ == "__main__":
     sync_dir(".")

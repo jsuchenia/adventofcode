@@ -25,9 +25,6 @@ setuptools = "*"
 [tool.poetry.group.dev.dependencies]
 tqdm = "*"
 ipython = "*"
-black = "*"
-isort = "*"
-ruff = "*"
 pytest = "*"
 
 [build-system]
