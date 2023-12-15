@@ -1,15 +1,13 @@
 # Lens Library - https://adventofcode.com/2023/day/15
 from collections import defaultdict
+from functools import reduce
 
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().strip().split(',')
 
 def HASH(s: str) -> int:
-    h = 0
-    for chr in s:
-        h = ((h + ord(chr)) * 17) % 256
-    return h
+    return reduce(lambda h, c: ((h + ord(c)) * 17) % 256, s, 0)
 
 def q1(filename: str) -> int:
     return sum(HASH(s) for s in get_data(filename))
