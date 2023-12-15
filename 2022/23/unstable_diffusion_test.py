@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-
 def read_data(filename: str) -> set[tuple[int, int]]:
     field = set()
     with open(filename) as f:
@@ -10,7 +9,6 @@ def read_data(filename: str) -> set[tuple[int, int]]:
                     field.add((x, y))
 
     return field
-
 
 def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False) -> int:
     orig = read_data(filename)
@@ -63,7 +61,6 @@ def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False)
         # print("\n")
 
         if stop_when_not_moved and field == dst_field:
-            print(f"Not moved in round {i + 1}")
             return i + 1
 
         field = dst_field
@@ -73,26 +70,19 @@ def do_scan(filename: str, repeats: int = 10, stop_when_not_moved: bool = False)
     min_y = min(y for x, y in field)
     max_y = max(y for x, y in field)
 
-    result = (max_x - min_x + 1) * (max_y - min_y + 1) - len(field)
-    print(f"{result=}")
-    return result
-
+    return (max_x - min_x + 1) * (max_y - min_y + 1) - len(field)
 
 def test_unstable_diffusion_p1_small():
     assert do_scan("small.txt", repeats=10) == 25
 
-
 def test_unstable_diffusion_p1_example():
     assert do_scan("example.txt", repeats=10) == 110
-
 
 def test_unstable_diffusion_p1_data():
     assert do_scan("data.txt", repeats=10) == 4000
 
-
 def test_unstable_diffusion_p2_example():
     assert do_scan("example.txt", repeats=30, stop_when_not_moved=True) == 20
-
 
 def test_unstable_diffusion_p2_data():
     assert do_scan("data.txt", repeats=2000, stop_when_not_moved=True) == 1040

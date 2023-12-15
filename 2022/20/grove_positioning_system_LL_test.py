@@ -7,11 +7,9 @@ class N:
         self.next = None
         self.prev = None
 
-
 def read_data(filename: str):
     with open(filename) as f:
         return [int(line.strip()) for line in f.readlines()]
-
 
 def mix(filename: str, enckey=1, repeats=1):
     nrs = read_data(filename)
@@ -60,22 +58,16 @@ def mix(filename: str, enckey=1, repeats=1):
             zero = zero.next
         result.append(zero.val)
 
-    s = sum(result)
-    print(f"{result=} {s=}")
-    return s
-
+    return sum(result)
 
 def test_gps_ll_p1_example():
     assert mix("example.txt") == 3
 
-
 def test_gps_ll_p1_data():
     assert mix("data.txt") == 8721
 
-
 def test_gps_ll_p2_example():
     assert mix("example.txt", enckey=811589153, repeats=10) == 1623178306
-
 
 def test_gps_ll_p2_data():
     assert mix("data.txt", enckey=811589153, repeats=10) == 831878881825

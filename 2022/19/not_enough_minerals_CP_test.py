@@ -59,7 +59,6 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
     model.maximize(resources[limit, 3])  # Objective: maximize the number of geodes in the lat step
 
     if model.solve():
-        print(f"  [{id}] {model.status()}")
         return resources[limit, 3].value()
     raise ValueError("No solution for this clue!")
 
@@ -71,7 +70,6 @@ def do_simulationp1(filename, limit) -> int:
         r = simul(*b, limit=limit)
         result += r * b[0]
 
-    print(f"P1: Multiplication result: {result}")
     return result
 
 def do_simulationp2(filename, limit) -> int:
@@ -82,7 +80,6 @@ def do_simulationp2(filename, limit) -> int:
         r = simul(*b, limit=limit)
         result *= r
 
-    print(f"P2: Multiplication result: {result}")
     return result
 
 def test_minerals_cpmpy_p1_example():

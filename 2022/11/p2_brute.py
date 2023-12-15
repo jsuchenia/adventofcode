@@ -30,7 +30,6 @@ def play_game(file_name: str, factor: int) -> int:
         if idx in CHECKPOINTS:
             if counters != CHECKPOINTS[idx]:
                 return -1
-            print(f"Probably good factor {factor=} {idx=}")
 
     print(f"FOOOOUND! {factor=}")
     return 0

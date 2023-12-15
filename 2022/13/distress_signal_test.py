@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 import math
 
-
 def read_data(filename: str) -> list:
     with open(filename) as f:
         pairs = [pair.split("\n") for pair in f.read().split("\n\n")]
     return [(eval(pair[0]), eval(pair[1])) for pair in pairs]
-
 
 def check_equal(left, right) -> bool | None:
     if isinstance(left, int) and isinstance(right, int):
@@ -28,16 +26,11 @@ def check_equal(left, right) -> bool | None:
     else:
         return check_equal(left, [right])
 
-
 def p1(filename: str) -> int:
     pairs = read_data(filename)
     statuses = [(idx + 1, check_equal(pair[0], pair[1])) for idx, pair in enumerate(pairs)]
 
-    print(f"p1 {filename=} {statuses=}")
-    result = sum(status[0] for status in statuses if status[1])
-    print(f"p1 {filename=} {result=}")
-    return result
-
+    return sum(status[0] for status in statuses if status[1])
 
 class Comparator:
     def __init__(self, obj):
@@ -45,7 +38,6 @@ class Comparator:
 
     def __lt__(self, other):
         return check_equal(self.obj, other.obj)
-
 
 def p2(filename: str) -> int:
     extra_packets = [[[2]], [[6]]]
@@ -56,24 +48,16 @@ def p2(filename: str) -> int:
     packets.sort(key=lambda pair: Comparator(pair))
 
     extra_positions = [packets.index(element) + 1 for element in extra_packets]
-    print(f"p2 {filename=} {extra_positions=}")
-    result = math.prod(extra_positions)
-    print(f"p2 {filename=} {result=}")
-
-    return result
-
+    return math.prod(extra_positions)
 
 def test_distress_signal_p1_example():
     assert p1("example.txt") == 13
 
-
 def test_distress_signal_p1_data():
     assert p1("data.txt") == 5605
 
-
 def test_distress_signal_p2_example():
     assert p2("example.txt") == 140
-
 
 def test_distress_signal_p2_data():
     assert p2("data.txt") == 24969

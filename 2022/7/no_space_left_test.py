@@ -26,20 +26,16 @@ def build_data(file_name: str):
             cwd[f] = int(size)
     return root
 
-
 def count_size(name: str, element, dir_sizes: list) -> int:
     if isinstance(element, int):
         return element
 
     size = sum([count_size(f"{name}/{key}", value, dir_sizes) for key, value in element.items()])
 
-    print(f"dif {name} with size {size}")
     dir_sizes.append((name, size))
     return size
 
-
 MAX_LIMIT = 40_000_000
-
 
 def traverse(file_name: str, size_limit: int = 100_000):
     root_dir = build_data(file_name)
@@ -47,20 +43,13 @@ def traverse(file_name: str, size_limit: int = 100_000):
     root_size = count_size("", root_dir, dir_sizes)
 
     small_sizes = sum([size for name, size in dir_sizes if size <= size_limit])
-    print(f"Total weight of small dirs is {small_sizes}")
-
     found = [size for name, size in dir_sizes if size >= root_size - MAX_LIMIT]
     found.sort()
-    print(f"Smallest one that fit is {found[0]}")
 
-    result = (small_sizes, found[0])
-    print(f"{result=}")
-    return result
-
+    return (small_sizes, found[0])
 
 def test_traverse_example():
     assert traverse("example.txt") == (95437, 24933642)
-
 
 def test_traverse_data():
     assert traverse("data.txt") == (1581595, 1544176)

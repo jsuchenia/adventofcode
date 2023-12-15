@@ -7,9 +7,7 @@ def read_data(filename: str) -> list[list[str, str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
-
-RANGE = 10**13
-
+RANGE = 10 ** 13
 
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
@@ -44,16 +42,11 @@ def estimate_humn_value(filename: str) -> int:
     right_symbol = get_symbol(root[7:])
     model = Model(left_symbol == right_symbol)
     if model.solve():
-        result = human.value()
-        print(f"P2: {filename=} {result=}")
-        return result
-    else:
-        print("Can't solve!")
-
+        return human.value()
+    raise ValueError("Can't solve")
 
 def test_monkey_math_cpmpy_example():
     assert estimate_humn_value("example.txt") == 301
-
 
 def test_monkey_math_cpmpy_data():
     assert estimate_humn_value("data.txt") == 3330805295850

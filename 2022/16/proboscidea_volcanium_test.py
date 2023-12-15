@@ -85,16 +85,12 @@ class Simul:
 
     def p1(self):
         valves_to_open = frozenset([key for key, value in self.graph.items() if value[0] > 0])
-        result = self.simul_p1("AA", valves_to_open, 30)
-        print(f"P1: Result is {result=} P1:{self.simul_p1.cache_info()}")
-        return result
+        return self.simul_p1("AA", valves_to_open, 30)
 
     def p2(self):
         valves_to_open = frozenset([key for key, value in self.graph.items() if value[0] > 0])
 
-        result = self.simul_p2("AA", valves_to_open, 26)
-        print(f"P2: Result is {result=} P1:{self.simul_p1.cache_info()} P2:{self.simul_p2.cache_info()}")
-        return result
+        return self.simul_p2("AA", valves_to_open, 26)
 
 def test_cave_simulation_p1_example():
     assert Simul("example.txt").p1() == 1651

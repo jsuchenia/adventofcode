@@ -1,6 +1,5 @@
 import re
 
-
 def read_data(filename: str):
     with open(filename) as f:
         lines = [line.rstrip() for line in f.readlines()]
@@ -10,9 +9,7 @@ def read_data(filename: str):
 
     return re.findall(r"(\d+|R|L)", path), grove
 
-
 MOVES = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-
 
 def get_next_move2d(grove: list, point: tuple, move: int):
     x, y = point
@@ -26,7 +23,6 @@ def get_next_move2d(grove: list, point: tuple, move: int):
             break
 
     return x, y
-
 
 ###### 150
 #  12#
@@ -104,7 +100,6 @@ def get_next_move3d(grove: list, point: tuple, move: int):
                 y = 199
     return (x, y), move
 
-
 def walk_over_map(filename: str, cube=False):
     move = 0
     path, grove = read_data(filename)
@@ -129,26 +124,19 @@ def walk_over_map(filename: str, cube=False):
         elif p == "L":
             move = (move - 1) % len(MOVES)
 
-    result = 1000 * (pos[1] + 1) + 4 * (pos[0] + 1) + move
-    print(f"{result=}")
-    return result
-
+    return 1000 * (pos[1] + 1) + 4 * (pos[0] + 1) + move
 
 def test_monkey_map_example():
     assert walk_over_map("example.txt") == 6032
 
-
 def test_monkey_map_data():
     assert walk_over_map("data.txt") == 75254
-
 
 def test_monkey_map_data_with_bug():
     assert walk_over_map("data_with_bug.txt") == 75254
 
-
 def test_monkey_map_p2_bug():
     assert walk_over_map("data_with_bug.txt", cube=True) == 112110
-
 
 def test_monkey_map_p2_data():
     assert walk_over_map("data.txt", cube=True) == 108311

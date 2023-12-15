@@ -5,7 +5,6 @@ type Rule = list[int]
 type Block = list[Rule]
 type Seeds = list[tuple[int, int]]
 
-
 def get_data(filename: str) -> tuple[Seeds, list[Block]]:
     with open(filename, "r") as f:
         data = f.read()
@@ -21,7 +20,6 @@ def get_data(filename: str) -> tuple[Seeds, list[Block]]:
             block_mapping.append([int(n) for n in b.split()])
         mapping.append(block_mapping)
     return seeds, mapping
-
 
 def process_mapping(seeds: Seeds, mapping: Block) -> Seeds:
     result = []
@@ -48,7 +46,6 @@ def process_mapping(seeds: Seeds, mapping: Block) -> Seeds:
 
     return result
 
-
 def q1(filename: str) -> int:
     input_seeds, mappings = get_data(filename)
 
@@ -58,23 +55,19 @@ def q1(filename: str) -> int:
 
     return min([s[0] for s in seeds])
 
-
 def q2(filename: str) -> int:
     input_seeds, mappings = get_data(filename)
 
     seeds = [(input_seeds[idx], input_seeds[idx] + input_seeds[idx + 1]) for idx in range(0, len(input_seeds), 2)]
-    print(seeds)
+
     for mapping in mappings:
         seeds = process_mapping(seeds, mapping)
 
-    print(seeds)
     return min([s[0] for s in seeds])
-
 
 def test_q1():
     assert q1("test.txt") == 35
     assert q1("data.txt") == 993500720
-
 
 def test_q2():
     assert q2("test.txt") == 46

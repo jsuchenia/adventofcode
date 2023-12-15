@@ -27,9 +27,7 @@ def count_cover_line(filename: str, line: int) -> int:
             coverage.add(x)
         if yb == line:
             beacons.add(xb)
-    size = len(coverage) - len(beacons)
-    print(f"{filename=} Coverage: {len(coverage)} Beacons: {len(beacons)} {size=}")
-    return size
+    return len(coverage) - len(beacons)
 
 def find_missing_spot(filename: str, max_range: int) -> int:
     data = read_data(filename)
@@ -47,7 +45,6 @@ def find_missing_spot(filename: str, max_range: int) -> int:
             xmax = min(xs + spray, max_range)
             line_coverage[line].append((xmin, xmax))
 
-    print(f"{filename=} Coverage created, now checking consistency!")
     for line, coverage in line_coverage.items():
         coverage.sort(key=lambda x: x[0])
         x = 0
@@ -55,13 +52,10 @@ def find_missing_spot(filename: str, max_range: int) -> int:
             xmin, xmax = c
 
             if xmin > x + 1:
-                print(f"{filename=} Found inconsistency! - p=({x + 1}, {line})")
                 freq = (x + 1) * 4000000 + line
-                print(f"{filename=} {freq=}")
                 return freq
             x = max(x, xmax)
         if x < max_range:
-            print("Not covered line!?", x, line)
             return 0
     return 0
 

@@ -1,13 +1,10 @@
 from collections import deque
 
-
 def read_data(filename: str) -> frozenset[tuple]:
     with open(filename) as f:
         return frozenset(tuple(map(int, line.strip().split(","))) for line in f.readlines())
 
-
 PATTERN = [(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)]
-
 
 def generate_water(cubes: frozenset[tuple]) -> set[tuple]:
     limits = []
@@ -33,7 +30,6 @@ def generate_water(cubes: frozenset[tuple]) -> set[tuple]:
 
     return water
 
-
 def count_surfaces(filename: str) -> (int, int):
     cubes = read_data(filename)
     water = generate_water(cubes)
@@ -46,13 +42,10 @@ def count_surfaces(filename: str) -> (int, int):
             if (cube[0] + dx, cube[1] + dy, cube[2] + dz) in water:
                 result2 += 1
 
-    print(f"{result1=} {result2=}")
     return result1, result2
-
 
 def test_count_surfaces_example():
     assert count_surfaces("example.txt") == (64, 58)
-
 
 def test_count_surfaces_data():
     assert count_surfaces("data.txt") == (3530, 2000)

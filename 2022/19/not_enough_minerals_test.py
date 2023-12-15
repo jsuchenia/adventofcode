@@ -73,7 +73,6 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
             if new_state not in seen:
                 q.append(new_state)
 
-    print(f"Final result for {id=} after all simulations {result=}")
     return result
 
 def do_simulationp1(filename, limit) -> int:
@@ -83,9 +82,7 @@ def do_simulationp1(filename, limit) -> int:
     for b in blueprints:
         r = simul(*b, limit=limit)
         result += r * b[0]
-        print(f"P1 Result of ID: {b[0]} - {r}")
 
-    print(f"P1: Multiplication result: {result}")
     return result
 
 def do_simulationp2(filename, limit) -> int:
@@ -95,9 +92,7 @@ def do_simulationp2(filename, limit) -> int:
     for b in blueprints[:3]:
         r = simul(*b, limit=limit)
         result *= r
-        print(f"P2 Result of ID: {b[0]} - {r}")
 
-    print(f"P2: Multiplication result: {result}")
     return result
 
 def test_minerals_p1_example():

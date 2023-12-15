@@ -5,10 +5,8 @@ def read_data(filename):
     with open(filename) as f:
         return f.read().strip()
 
-
 def is_shape_valid(cave, elems):
     return all(not (x < 0 or x > 6 or y < 0 or (x, y) in cave) for x, y in elems)
-
 
 ROCKS = [
     lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx + 2, sy), (sx + 3, sy)],
@@ -17,7 +15,6 @@ ROCKS = [
     lambda sx, sy: [(sx, sy), (sx, sy + 1), (sx, sy + 2), (sx, sy + 3)],
     lambda sx, sy: [(sx, sy), (sx + 1, sy), (sx, sy + 1), (sx + 1, sy + 1)],
 ]
-
 
 def simul_cave(filename, i) -> int:
     moves = read_data(filename)
@@ -58,28 +55,20 @@ def simul_cave(filename, i) -> int:
             if i % diff_i == 0:  # Only for final estimation as cave will be invalid
                 factor = i // diff_i
                 highest += factor * (highest - old_highest)
-                result = highest + 1
+                return highest + 1
 
-                print(f"Estimated result {result=}")
-                return result
         stats[stats_id] = i, highest
 
-    result = highest + 1
-    print(f"Result {result=}")
-    return result
-
+    return highest + 1
 
 def test_simul_cave_p1_example():
     assert simul_cave("example.txt", 2022) == 3068
 
-
 def test_simul_cave_p1_data():
     assert simul_cave("data.txt", 2022) == 3161
 
-
 def test_simul_cave_p2_example():
     assert simul_cave("example.txt", 1_000_000_000_000) == 1_514_285_714_288
-
 
 def test_simul_cave_p2_data():
     assert simul_cave("data.txt", 1_000_000_000_000) == 1_575_931_232_076

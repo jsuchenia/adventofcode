@@ -1,10 +1,8 @@
 from collections import deque
 
-
 def get_data(filename: str):
     with open(filename) as f:
         return [line.strip() for line in f.readlines()]
-
 
 def get_elevation(chr):
     if chr == "S":
@@ -13,7 +11,6 @@ def get_elevation(chr):
         return 25
     else:
         return ord(chr) - ord("a")
-
 
 def get_available_childs(data, y, x, reverse) -> list:
     moves = []
@@ -27,7 +24,6 @@ def get_available_childs(data, y, x, reverse) -> list:
             if (not reverse and next_elevation <= elevation + 1) or (reverse and next_elevation >= elevation - 1):
                 moves.append((nx, ny))
     return moves
-
 
 def build_graph(data, reverse):
     graph, starts, end = {}, [], None
@@ -45,7 +41,6 @@ def build_graph(data, reverse):
             elif char == "a":
                 starts.append(pos)
     return graph, starts, end
-
 
 def bfs(graph, *, root, ends):
     queue = deque()
@@ -67,15 +62,12 @@ def bfs(graph, *, root, ends):
                 if child in graph:
                     queue.append((weight + 1, child))
 
-
 def count_steps_from_end(filename: str) -> int:
     data = get_data(filename)
     graph, starts, end = build_graph(data, reverse=True)
     min_score = bfs(graph, root=end, ends=starts)
 
-    print(f"going down {filename=} {min_score=}")
     return min_score
-
 
 def count_steps_from_start(filename: str) -> int:
     data = get_data(filename)
@@ -83,21 +75,16 @@ def count_steps_from_start(filename: str) -> int:
 
     score = bfs(graph, root=starts[0], ends=[end])
 
-    print(f"climbing up {filename=} {score=}")
     return score
-
 
 def test_cont_steps_p1_example():
     assert count_steps_from_start("example.txt") == 31
 
-
 def test_cont_steps_p1_data():
     assert count_steps_from_start("data.txt") == 490
 
-
 def test_cont_steps_p2_example():
     assert count_steps_from_end("example.txt") == 29
-
 
 def test_cont_steps_p2_data():
     assert count_steps_from_end("data.txt") == 488

@@ -1,6 +1,5 @@
 import re
 
-
 def read_data(file_name: str):
     with open(file_name) as f:
         data = f.read()
@@ -24,7 +23,6 @@ def read_data(file_name: str):
     moves = [moves_pattern.match(line).groups() for line in moves_raw.split("\n")]
     return status_map, moves
 
-
 def do_moves(file_name: str, reverse_order=True):
     status, moves = read_data(file_name)
 
@@ -36,21 +34,16 @@ def do_moves(file_name: str, reverse_order=True):
         status[dst] += transport[::-1] if reverse_order else transport
 
     result = "".join([value[-1] for value in status.values()])
-    print(f"{result=}")
     return result
-
 
 def test_moves_p1_example():
     assert do_moves("example.txt") == "CMZ"
 
-
 def test_moves_p1_data():
     assert do_moves("data.txt") == "FWNSHLDNZ"
 
-
 def test_moves_p2_example():
     assert do_moves("example.txt", reverse_order=False) == "MCD"
-
 
 def test_moves_p2_data():
     assert do_moves("data.txt", reverse_order=False) == "RNRGDNFQG"

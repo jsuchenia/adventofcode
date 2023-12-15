@@ -6,11 +6,9 @@
 type MazePoint = tuple[int, int]
 type Connections = dict[MazePoint, list[MazePoint]]
 
-
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().splitlines()
-
 
 def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
     connections = dict()
@@ -35,7 +33,6 @@ def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
     connections[start] = [src for src, conn in connections.items() for dst in conn if dst == start]
     return connections, start
 
-
 def compute_loop(connections: Connections, start: MazePoint) -> list[MazePoint]:
     point = start
     results = []
@@ -46,7 +43,6 @@ def compute_loop(connections: Connections, start: MazePoint) -> list[MazePoint]:
         next_nodes = [p for p in connections[point] if p != prev_node]
         prev_node, point = point, next_nodes[0]
     return results
-
 
 def q2(filename: str) -> int:
     lines = get_data(filename)
@@ -63,9 +59,7 @@ def q2(filename: str) -> int:
     area = abs(s / 2)
 
     # Pick's theroem
-    print(area - len(loop) / 2 + 1)
     return int(area - len(loop) / 2 + 1)
-
 
 def test_q2():
     assert q2("test2.txt") == 4

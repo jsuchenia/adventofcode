@@ -8,7 +8,6 @@ def read_data(filename: str) -> list[list[str, str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
-
 def estimate_humn_value(filename: str) -> int:
     monkeys = {monkey.strip(): op.strip() for monkey, op in read_data(filename)}
 
@@ -37,14 +36,10 @@ def estimate_humn_value(filename: str) -> int:
     root = monkeys["root"]
     left_symbol = get_symbol(root[:4])
     right_symbol = get_symbol(root[7:])
-    result = int(solve(Eq(left_symbol, right_symbol))[0])
-    print(f"P2: {filename=} {result=}")
-    return result
-
+    return int(solve(Eq(left_symbol, right_symbol))[0])
 
 def test_monkey_math_sympy_p2_example():
     assert estimate_humn_value("example.txt") == 301
-
 
 def test_monkey_math_sympy_p2_data():
     assert estimate_humn_value("data.txt") == 3330805295850

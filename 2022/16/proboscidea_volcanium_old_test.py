@@ -67,21 +67,17 @@ class Simul:
         yield path, emission
 
     def p1(self):
-        result = max(emission for path, emission in self.generate_moves("AA", [], self.valves_to_open, 0, 30))
-        print(f"P1: Result is {result=}")
-        return result
+        return max(emission for path, emission in self.generate_moves("AA", [], self.valves_to_open, 0, 30))
 
     def p2(self):
         paths = list(self.generate_moves("AA", [], self.valves_to_open, 0, 26))
         paths_len = len(paths)
-        result = max(
+        return max(
             paths[idx1][1] + paths[idx2][1]
             for idx1 in range(0, paths_len)
             for idx2 in range(idx1, paths_len)
             if set(paths[idx1][0]).isdisjoint(paths[idx2][0])
         )
-        print(f"P2: Result is {result=}")
-        return result
 
 def test_simul_cave_p1_example():
     assert Simul("example.txt").p1() == 1651
