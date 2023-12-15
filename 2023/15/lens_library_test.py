@@ -20,12 +20,11 @@ def q2(filename: str) -> int:
 
     boxes = defaultdict(dict)
     for s in get_data(filename):
-        if '=' in s:
-            label, value = s.split('=')
-            boxes[HASH(label)][label] = int(value)
-        elif s.endswith('-'):
-            label = s[:-1]
-            boxes[HASH(label)].pop(label, None)
+        match s.strip('-').split('='):
+            case [label, value]:
+                boxes[HASH(label)][label] = int(value)
+            case [label]:
+                boxes[HASH(label)].pop(label, None)
 
     return sum(
         (box + 1) * idx * value
