@@ -18,7 +18,7 @@ def get_data(filename: str) -> Grid:
                 grid[(x, y)] = chr
         return grid, len(lines[0]), len(lines)
 
-def count_energy(data: Grid, start: Point, direction: Point) -> int:
+def count_energy(start: Point, direction: Point, data: Grid, ) -> int:
     grid, max_x, max_y = data
 
     def is_valid(p: Point) -> bool:
@@ -81,18 +81,15 @@ def count_energy(data: Grid, start: Point, direction: Point) -> int:
     return len(visited)
 
 def q1(filename: str) -> int:
-    return count_energy(get_data(filename), (0, 0), E)
+    return count_energy((0, 0), E, get_data(filename))
 
 def q2(filename: str) -> int:
     _, max_x, max_y = grid = get_data(filename)
 
-    def count(start, direction):
-        return count_energy(grid, start, direction)
-
-    results = [count((x, 0), S) for x in range(max_x)]
-    results += [count((x, max_y - 1), N) for x in range(max_x)]
-    results += [count((0, y), E) for y in range(max_y)]
-    results += [count((max_x - 1, y), W) for y in range(max_y)]
+    results = [count_energy((x, 0), S, grid) for x in range(max_x)]
+    results += [count_energy((x, max_y - 1), N, grid) for x in range(max_x)]
+    results += [count_energy((0, y), E, grid) for y in range(max_y)]
+    results += [count_energy((max_x - 1, y), W, grid) for y in range(max_y)]
 
     return max(results)
 
