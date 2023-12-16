@@ -1,8 +1,5 @@
 # The Floor Will Be Lava - https://adventofcode.com/2023/day/16
-import asyncio
 from collections import deque, defaultdict
-
-import pytest
 
 type Point = tuple[int, int]
 type Grid = tuple[dict[Point, str], int, int]
@@ -21,7 +18,7 @@ def get_data(filename: str) -> Grid:
                 grid[(x, y)] = chr
         return grid, len(lines[0]), len(lines)
 
-async def count_energy(data: Grid, start: Point, direction: Point) -> int:
+def count_energy(data: Grid, start: Point, direction: Point) -> int:
     grid, max_x, max_y = data
 
     def is_valid(p: Point) -> bool:
@@ -83,25 +80,26 @@ async def count_energy(data: Grid, start: Point, direction: Point) -> int:
 
     return len(visited)
 
-async def q1(filename: str) -> int:
-    return await count_energy(get_data(filename), (0, 0), E)
+def q1(filename: str) -> int:
+    return count_energy(get_data(filename), (0, 0), E)
 
-async def q2(filename: str) -> int:
+def q2(filename: str) -> int:
     _, max_x, max_y = grid = get_data(filename)
 
-    results = [count_energy(grid, (x, 0), S) for x in range(max_x)]
-    results += [count_energy(grid, (x, max_y - 1), N) for x in range(max_x)]
-    results += [count_energy(grid, (0, y), E) for y in range(max_y)]
-    results += [count_energy(grid, (max_x - 1, y), W) for y in range(max_y)]
+    def count(start, direction):
+        return count_energy(grid, start, direction)
 
-    return max(await asyncio.gather(*results))
+    results = [count((x, 0), S) for x in range(max_x)]
+    results += [count((x, max_y - 1), N) for x in range(max_x)]
+    results += [count((0, y), E) for y in range(max_y)]
+    results += [count((max_x - 1, y), W) for y in range(max_y)]
 
-@pytest.mark.asyncio
-async def test_q1():
-    assert await q1("test.txt") == 46
-    assert await q1("data.txt") == 6883
+    return max(results)
 
-@pytest.mark.asyncio
-async def test_q2():
-    assert await q2("test.txt") == 51
-    assert await q2("data.txt") == 7228
+def test_q1():
+    assert q1("test.txt") == 46
+    assert q1("data.txt") == 6883
+
+def test_q2():
+    assert q2("test.txt") == 51
+    assert q2("data.txt") == 7228
