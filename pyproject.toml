@@ -27,6 +27,7 @@ tqdm = "*"
 ipython = "*"
 pytest = "*"
 pytest-asyncio = "*"
+pytest-xdist = "*"
 
 [build-system]
 requires = ["poetry-core"]
