@@ -10,6 +10,10 @@ S = (0, 1)
 E = (1, 0)
 W = (-1, 0)
 
+# Dijkstra algorithm - with a limitation about n
+# So as a state we keep all params and use cost as a priority
+# BTW: heapq is faster than queue.PriorityQueue (twice slower)
+
 def solve(grid, min_n, max_n) -> int:
     visited = set()
     q = [(0, 0, 0, 0, 0, 0)]
