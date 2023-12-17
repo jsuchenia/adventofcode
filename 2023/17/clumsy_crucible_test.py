@@ -1,4 +1,5 @@
 # Clumsy Crucible - https://adventofcode.com/2023/day/17
+import math
 from heapq import heappop, heappush
 
 def get_data(filename: str) -> list[list[int]]:
@@ -14,12 +15,13 @@ W = (-1, 0)
 # So as a state we keep all params and use cost as a priority
 
 # BTW: heapq is faster than queue.PriorityQueue (twice slower)
-# BTW2: distance() function implements heuristic needed for A* - special case of it is 0 (then it's pure Dijkstra)
-# BTW3: A* in this implementation is ~2-3% slower than pure Dijkstra
+# BTW2: A* in this implementation is ~2-3% slower than pure Dijkstra
 
 def solve(grid, min_n, max_n) -> int:
-    visited = set()
+    visited = dict()
     grid_size = len(grid) + len(grid[0])
+    min_result = math.inf
+    target = (len(grid[0]) - 1, len(grid) - 1)
 
     def is_valid(px, py) -> bool:
         if not 0 <= px < len(grid[0]):
@@ -28,35 +30,39 @@ def solve(grid, min_n, max_n) -> int:
             return False
         return True
 
+    # A* - when 0, pure Dijkstra
     def distance(px, py) -> int:
         return grid_size - px - py
 
     q = [(0, 0, 0, 0, 0, 0, 0)]
     while q:
         _, x, y, cost, dx, dy, n = heappop(q)
-        if x == len(grid[0]) - 1 and y == len(grid) - 1 and n >= min_n:
-            return cost
+        if (x, y) == target and n >= min_n and cost < min_result:
+            min_result = cost
+
+        if cost > min_result:
+            continue
 
         state = (x, y, dx, dy, n)
-        if state in visited:
+        if state in visited and cost >= visited[state]:
             continue
-        visited.add(state)
+        visited[state] = cost
 
         for nx, ny in [E, S, W, N]:
             if not is_valid(new_x := x + nx, new_y := y + ny):
                 continue
 
-            new_cost = cost + grid[new_y][new_x]
-            new_distance = distance(new_x, new_y)
             if (nx, ny) == (dx, dy):
                 if n < max_n:
-                    heappush(q, (new_cost + new_distance, new_x, new_y, new_cost, dx, dy, n + 1))
+                    new_cost = cost + grid[new_y][new_x]
+                    heappush(q, (new_cost + distance(new_x, new_y), new_x, new_y, new_cost, dx, dy, n + 1))
 
             elif (nx, ny) != (-dx, -dy):
                 if n >= min_n or cost == 0:
-                    heappush(q, (new_cost + new_distance, new_x, new_y, new_cost, nx, ny, 1))
+                    new_cost = cost + grid[new_y][new_x]
+                    heappush(q, (new_cost + distance(new_x, new_y), new_x, new_y, new_cost, nx, ny, 1))
 
-    raise ValueError("No path available")
+    return min_result
 
 def q1(filename: str) -> int:
     grid = get_data(filename)
