@@ -31,7 +31,7 @@ def solve(grid, min_n, max_n) -> int:
             continue
         visited.add(state)
 
-        for nx, ny in [N, S, E, W]:
+        for nx, ny in [E, S, W, N]:
             if not is_valid(new_x := x + nx, new_y := y + ny):
                 continue
 
