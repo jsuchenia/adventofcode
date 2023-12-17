@@ -4,10 +4,11 @@ import networkx as nx
 
 def solve(filename: str, min_n: int, max_n: int) -> int:
     with open(filename) as f:
-        data = [[int(n) for n in line.strip()] for line in f.read().splitlines()]
+        lines = [line.strip() for line in f.read().splitlines()]
 
-    max_y = len(data)
-    max_x = len(data[0])
+    data = {(x, y): int(n) for y, line in enumerate(lines) for x, n in enumerate(line)}
+    max_y = len(lines)
+    max_x = len(lines[0])
 
     def is_valid(x: int, y: int) -> bool:
         if not 0 <= x < max_x:
@@ -24,22 +25,14 @@ def solve(filename: str, min_n: int, max_n: int) -> int:
 
             costs = [0, 0, 0, 0]
             for delta in range(1, max_n + 1):
-                if is_valid(x + delta, y):
-                    costs[0] += data[y][x + delta]
-                    if delta >= min_n:
-                        graph.add_edge(src_H, (x + delta, y, "V"), weight=costs[0])
-                if is_valid(x - delta, y):
-                    costs[1] += data[y][x - delta]
-                    if delta >= min_n:
-                        graph.add_edge(src_H, (x - delta, y, "V"), weight=costs[1])
-                if is_valid(x, y + delta):
-                    costs[2] += data[y + delta][x]
-                    if delta >= min_n:
-                        graph.add_edge(src_V, (x, y + delta, "H"), weight=costs[2])
-                if is_valid(x, y - delta):
-                    costs[3] += data[y - delta][x]
-                    if delta >= min_n:
-                        graph.add_edge(src_V, (x, y - delta, "H"), weight=costs[3])
+                for idx, new_point in enumerate([(x + delta, y, "V"), (x - delta, y, "V"), (x, y - delta, "H"), (x, y + delta, "H")]):
+                    new_x, new_y, direction = new_point
+                    if not is_valid(new_x, new_y):
+                        continue
+                    costs[idx] += data[(new_x, new_y)]
+                    if delta < min_n:
+                        continue
+                    graph.add_edge(src_H if direction == "V" else src_V, new_point, weight=costs[idx])
 
     graph.add_edge("start", (0, 0, "H"), weight=0)
     graph.add_edge("start", (0, 0, "V"), weight=0)
