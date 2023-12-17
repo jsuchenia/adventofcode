@@ -12,11 +12,14 @@ W = (-1, 0)
 
 # Dijkstra algorithm - with a limitation about n
 # So as a state we keep all params and use cost as a priority
+
 # BTW: heapq is faster than queue.PriorityQueue (twice slower)
+# BTW2: distance() function implements heuristic needed for A* - special case of it is 0 (then it's pure Dijkstra)
+# BTW3: A* in this implementation is ~2-3% slower than pure Dijkstra
 
 def solve(grid, min_n, max_n) -> int:
     visited = set()
-    q = [(0, 0, 0, 0, 0, 0)]
+    grid_size = len(grid) + len(grid[0])
 
     def is_valid(px, py) -> bool:
         if not 0 <= px < len(grid[0]):
@@ -25,8 +28,12 @@ def solve(grid, min_n, max_n) -> int:
             return False
         return True
 
+    def distance(px, py) -> int:
+        return grid_size - px - py
+
+    q = [(0, 0, 0, 0, 0, 0, 0)]
     while q:
-        cost, x, y, dx, dy, n = heappop(q)
+        _, x, y, cost, dx, dy, n = heappop(q)
         if x == len(grid[0]) - 1 and y == len(grid) - 1 and n >= min_n:
             return cost
 
@@ -40,13 +47,14 @@ def solve(grid, min_n, max_n) -> int:
                 continue
 
             new_cost = cost + grid[new_y][new_x]
+            new_distance = distance(new_x, new_y)
             if (nx, ny) == (dx, dy):
                 if n < max_n:
-                    heappush(q, (new_cost, new_x, new_y, dx, dy, n + 1))
+                    heappush(q, (new_cost + new_distance, new_x, new_y, new_cost, dx, dy, n + 1))
 
             elif (nx, ny) != (-dx, -dy):
                 if n >= min_n or cost == 0:
-                    heappush(q, (new_cost, new_x, new_y, nx, ny, 1))
+                    heappush(q, (new_cost + new_distance, new_x, new_y, new_cost, nx, ny, 1))
 
     raise ValueError("No path available")
 
