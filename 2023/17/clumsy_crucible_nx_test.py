@@ -10,29 +10,18 @@ def solve(filename: str, min_n: int, max_n: int) -> int:
     max_y = len(lines)
     max_x = len(lines[0])
 
-    def is_valid(x: int, y: int) -> bool:
-        if not 0 <= x < max_x:
-            return False
-        if not 0 <= y < max_y:
-            return False
-        return True
-
     graph = nx.DiGraph()
-    for y in range(max_y):
-        for x in range(max_x):
-            src_H = (x, y, "H")
-            src_V = (x, y, "V")
-
-            costs = [0, 0, 0, 0]
-            for delta in range(1, max_n + 1):
-                for idx, new_point in enumerate([(x + delta, y, "V"), (x - delta, y, "V"), (x, y - delta, "H"), (x, y + delta, "H")]):
-                    new_x, new_y, direction = new_point
-                    if not is_valid(new_x, new_y):
-                        continue
-                    costs[idx] += data[(new_x, new_y)]
-                    if delta < min_n:
-                        continue
-                    graph.add_edge(src_H if direction == "V" else src_V, new_point, weight=costs[idx])
+    for x, y in data.keys():
+        costs = [0, 0, 0, 0]
+        for delta in range(1, max_n + 1):
+            for idx, new_point in enumerate([(x + delta, y, "V"), (x - delta, y, "V"), (x, y - delta, "H"), (x, y + delta, "H")]):
+                new_x, new_y, direction = new_point
+                if not (new_x, new_y) in data:
+                    continue
+                costs[idx] += data[(new_x, new_y)]
+                if delta < min_n:
+                    continue
+                graph.add_edge((x, y, "H" if direction == "V" else "V"), new_point, weight=costs[idx])
 
     graph.add_edge("start", (0, 0, "H"), weight=0)
     graph.add_edge("start", (0, 0, "V"), weight=0)
