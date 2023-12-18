@@ -1,6 +1,5 @@
 import re
 
-
 def get_data(filename: str) -> dict[int, int]:
     with open(filename, "r") as f:
         lines = f.read().splitlines()
@@ -8,22 +7,20 @@ def get_data(filename: str) -> dict[int, int]:
     cards = {}
 
     for line in lines:
-        card = int(re.match("Card\s+(\d+):", line)[1])
+        card = int(re.match(r"Card\s+(\d+):", line)[1])
 
         numbers = line.split(":")[1]
         win_str, oth_str = numbers.split("|")
-        win = set(int(n) for n in re.findall("(\d+)", win_str))
-        oth = set(int(n) for n in re.findall("(\d+)", oth_str))
+        win = set(int(n) for n in re.findall(r"(\d+)", win_str))
+        oth = set(int(n) for n in re.findall(r"(\d+)", oth_str))
 
         cards[card] = len(win & oth)
     return cards
-
 
 def q1(filename: str) -> int:
     cards = get_data(filename)
     results = [1 << (points - 1) for points in cards.values() if points]
     return sum(results)
-
 
 def q2(filename: str) -> int:
     cards = get_data(filename)
@@ -35,11 +32,9 @@ def q2(filename: str) -> int:
 
     return sum(card_numbers.values())
 
-
 def test_q1():
     assert q1("test.txt") == 13
     assert q1("data.txt") == 20117
-
 
 def test_q2():
     assert q2("test.txt") == 30
