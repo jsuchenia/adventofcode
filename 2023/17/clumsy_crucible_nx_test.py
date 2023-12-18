@@ -1,6 +1,6 @@
 # Clumsy Crucible - https://adventofcode.com/2023/day/17
 
-import networkx as nx
+from networkx import DiGraph, shortest_path_length
 
 def solve(filename: str, min_n: int, max_n: int) -> int:
     with open(filename) as f:
@@ -10,25 +10,24 @@ def solve(filename: str, min_n: int, max_n: int) -> int:
     max_y = len(lines)
     max_x = len(lines[0])
 
-    graph = nx.DiGraph()
+    graph = DiGraph()
     for x, y in data.keys():
-        costs = [0, 0, 0, 0]
-        for delta in range(1, max_n + 1):
-            for idx, new_point in enumerate([(x + delta, y, "V"), (x - delta, y, "V"), (x, y - delta, "H"), (x, y + delta, "H")]):
-                new_x, new_y, direction = new_point
-                if not (new_x, new_y) in data:
-                    continue
-                costs[idx] += data[(new_x, new_y)]
+        costs = [0] * 4
+        for idx, (dx, dy, d) in enumerate([(1, 0, "V"), (-1, 0, "V"), (0, -1, "H"), (0, 1, "H")]):
+            for delta in range(1, max_n + 1):
+                if not (nx := x + dx * delta, ny := y + dy * delta) in data:
+                    break
+                costs[idx] += data[(nx, ny)]
                 if delta < min_n:
                     continue
-                graph.add_edge((x, y, "H" if direction == "V" else "V"), new_point, weight=costs[idx])
+                graph.add_edge((x, y, "H" if d == "V" else "V"), (nx, ny, d), weight=costs[idx])
 
     graph.add_edge("start", (0, 0, "H"), weight=0)
     graph.add_edge("start", (0, 0, "V"), weight=0)
     graph.add_edge((max_x - 1, max_y - 1, "H"), "end", weight=0)
     graph.add_edge((max_x - 1, max_y - 1, "V"), "end", weight=0)
 
-    return nx.shortest_path_length(graph, source="start", target="end", weight="weight")
+    return shortest_path_length(graph, source="start", target="end", weight="weight")
 
 def q1(filename: str) -> int:
     return solve(filename, min_n=0, max_n=3)
