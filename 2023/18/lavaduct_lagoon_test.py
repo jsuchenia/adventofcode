@@ -31,9 +31,9 @@ def q2(filename: str) -> int:
     data = get_data(filename)
     x = y = 0
     points = [Point(x, y)]
-    for _, _, h in data:
-        value = int(h[:-1], 16)
-        direction = h[-1:]
+    for _, _, rgb in data:
+        value = int(rgb[:-1], 16)
+        direction = rgb[-1:]
         if direction == "0":
             x += value
         elif direction == "2":
