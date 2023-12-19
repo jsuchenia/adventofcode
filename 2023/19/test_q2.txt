@@ -1,0 +1,6 @@
+pa{s<2:A,R}
+pm{a<2:pa,R}
+px{m<2:pm,R}
+in{x<2:px,R}
+
+{x=1,m=1,a=1,s=1}

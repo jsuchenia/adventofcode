@@ -1,4 +1,4 @@
-def read_data(filename: str) -> list[list[str, str]]:
+def read_data(filename: str) -> list[list[str]]:
     with open(filename) as f:
         return [line.strip().split(":", maxsplit=1) for line in f.readlines()]
 
