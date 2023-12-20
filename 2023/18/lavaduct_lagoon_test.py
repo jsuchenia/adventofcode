@@ -1,6 +1,7 @@
 # Lavaduct Lagoon - https://adventofcode.com/2023/day/18
 import re
 
+import matplotlib.pyplot as plt
 # This is what we learned during day 10
 from shapely import Point, Polygon
 
@@ -8,7 +9,7 @@ def get_data(filename: str) -> list[tuple]:
     with open(filename) as f:
         return [re.match(r"(\w) (\d+) \(#(.*)\)", line).groups() for line in f.read().splitlines()]
 
-def q1(filename: str) -> int:
+def q1(filename: str, img_name=None) -> int:
     data = get_data(filename)
     x = y = 0
     points = [Point(x, y)]
@@ -25,9 +26,17 @@ def q1(filename: str) -> int:
         points.append(Point(x, y))
 
     p = Polygon(points)
+    if img_name:
+        x, y = p.exterior.xy
+        plt.xscale('linear')
+        plt.yscale('linear')
+        plt.title(img_name)
+        plt.plot(x, y)
+        plt.savefig(img_name)
+
     return int(p.area + p.length / 2 + 1)
 
-def q2(filename: str) -> int:
+def q2(filename: str, img_name=None) -> int:
     data = get_data(filename)
     x = y = 0
     points = [Point(x, y)]
@@ -45,6 +54,13 @@ def q2(filename: str) -> int:
         points.append(Point(x, y))
 
     p = Polygon(points)
+    if img_name:
+        x, y = p.exterior.xy
+        plt.xscale('linear')
+        plt.yscale('linear')
+        plt.title(img_name)
+        plt.plot(x, y)
+        plt.savefig(img_name)
     return int(p.area + p.length / 2 + 1)
 
 def test_q1():

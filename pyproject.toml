@@ -25,6 +25,7 @@ setuptools = "*"
 [tool.poetry.group.dev.dependencies]
 tqdm = "*"
 ipython = "*"
+matplotlib = "*"
 pytest = "*"
 pytest-asyncio = "*"
 pytest-xdist = "*"

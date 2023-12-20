@@ -4,6 +4,10 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from math import lcm
 
+import matplotlib.pyplot as plt
+import pytest
+from networkx import DiGraph, draw_planar
+
 @dataclass(kw_only=True)
 class Module:
     targets: list[str]
@@ -109,3 +113,14 @@ def test_q1():
 
 def test_q2():
     assert q2("data.txt") == 228282646835717
+
+@pytest.mark.skip
+def test_visualise_input():
+    modules = get_data("data.txt")
+    g = DiGraph()
+    for name, module in modules.items():
+        for target in module.targets:
+            g.add_edge(name, target)
+    print("Drawing...")
+    draw_planar(g, with_labels=True)
+    plt.savefig('data.png')

@@ -1,16 +1,15 @@
 # Pipe Maze - https://adventofcode.com/2023/day/10
 # Implementation in shapely library - something new
-
+import pytest
+from matplotlib import pyplot as plt
 from shapely import Point, Polygon
 
 type MazePoint = tuple[int, int]
 type Connections = dict[MazePoint, list[MazePoint]]
 
-
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().splitlines()
-
 
 def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
     connections = dict()
@@ -35,7 +34,6 @@ def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
     connections[start] = [src for src, conn in connections.items() for dst in conn if dst == start]
     return connections, start
 
-
 def compute_loop(connections: Connections, start: MazePoint) -> list[MazePoint]:
     point = start
     results = []
@@ -47,14 +45,12 @@ def compute_loop(connections: Connections, start: MazePoint) -> list[MazePoint]:
         prev_node, point = point, next_nodes[0]
     return results
 
-
 def q1(filename: str) -> int:
     lines = get_data(filename)
     connections, start = parse_connections(lines)
     points = [Point(p) for p in compute_loop(connections, start)]
     p = Polygon(points)
     return p.boundary.length // 2
-
 
 def q2(filename: str) -> int:
     lines = get_data(filename)
@@ -68,13 +64,30 @@ def q2(filename: str) -> int:
     # print(f"{len(interior_points)=}")
     return interior
 
+def visualise(filename: str):
+    lines = get_data(filename)
+    connections, start = parse_connections(lines)
+    points = [Point(p) for p in compute_loop(connections, start)]
+    p = Polygon(points)
+
+    x, y = p.exterior.xy
+    plt.clf()
+    plt.xscale('linear')
+    plt.yscale('linear')
+    plt.title(filename)
+    plt.plot(x, y)
+    plt.savefig(filename + ".png")
 
 def test_q1():
     assert q1("test.txt") == 8
     assert q1("data.txt") == 6927
 
-
 def test_q2():
     assert q2("test2.txt") == 4
     assert q2("test3.txt") == 8
     assert q2("data.txt") == 467
+
+@pytest.mark.skip
+def test_visualize():
+    visualise("test.txt")
+    visualise("data.txt")
