@@ -1,9 +1,8 @@
 # Pulse Propagation - https://adventofcode.com/2023/day/20
 
-from collections import defaultdict
+from collections import defaultdict, deque
 from dataclasses import dataclass
 from math import lcm
-from queue import Queue
 
 @dataclass(kw_only=True)
 class Module:
@@ -43,13 +42,13 @@ def q1(filename: str, button_pushes=1000) -> int:
     low = high = 0
 
     for _ in range(button_pushes):
-        q = Queue()
+        q = deque()
         for target in modules["broadcaster"].targets:
-            q.put((target, False, "broadcaster"))
+            q.append((target, False, "broadcaster"))
         low += 1
 
-        while not q.empty():
-            target, signal, source = q.get()
+        while q:
+            target, signal, source = q.popleft()
             high += signal
             low += not signal
 
@@ -59,13 +58,13 @@ def q1(filename: str, button_pushes=1000) -> int:
                 if not signal:
                     module.status = not module.status
                     for dst in module.targets:
-                        q.put((dst, module.status, target))
+                        q.append((dst, module.status, target))
             elif isinstance(module, Conjunction):
                 module.last_signal[source] = signal
                 output = not all(module.last_signal.values())
 
                 for dst in module.targets:
-                    q.put((dst, output, target))
+                    q.append((dst, output, target))
 
     return high * low
 
@@ -78,12 +77,12 @@ def q2(filename: str) -> int:
 
     while True:
         button_pushes += 1
-        q = Queue()
+        q = deque()
         for target in modules["broadcaster"].targets:
-            q.put((target, False, "broadcaster"))
+            q.append((target, False, "broadcaster"))
 
-        while not q.empty():
-            target, signal, source = q.get()
+        while q:
+            target, signal, source = q.popleft()
             module = modules.get(target, Module(targets=[]))
 
             # Rx is in only nr, which is conjunction - so all inputs needs to be True
@@ -98,12 +97,12 @@ def q2(filename: str) -> int:
                 if not signal:
                     module.status = not module.status
                     for dst in module.targets:
-                        q.put((dst, module.status, target))
+                        q.append((dst, module.status, target))
             elif isinstance(module, Conjunction):
                 module.last_signal[source] = signal
                 output = not all(module.last_signal.values())
                 for dst in module.targets:
-                    q.put((dst, output, target))
+                    q.append((dst, output, target))
 
 def test_q1():
     assert q1("test.txt", button_pushes=1) == 32
