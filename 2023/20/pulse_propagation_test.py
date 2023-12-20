@@ -85,7 +85,7 @@ def q2(filename: str) -> int:
             target, signal, source = q.popleft()
             module = modules.get(target, None)
 
-            # Rx is in only nr, which is conjunction - so all inputs needs to be True
+            # "rx is only in "nr" module, which is conjunction - so all inputs needs to be True
             # And the same situation as in day 8 - we can use lcm()
             if target == observe and signal and isinstance(module, Conjunction):
                 cycles[source] = button_pushes
