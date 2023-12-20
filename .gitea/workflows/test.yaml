@@ -12,7 +12,7 @@ jobs:
         shell: bash
         run: |
           apt-get update
-          apt-get install -y nodejs git curl wget libgraphviz-dev
+          apt-get install -y nodejs git curl wget libgraphviz-dev build-essential
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Set up Python 3.12
