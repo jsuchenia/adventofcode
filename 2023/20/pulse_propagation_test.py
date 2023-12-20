@@ -54,7 +54,7 @@ def q1(filename: str, button_pushes=1000) -> int:
             high += signal
             low += not signal
 
-            module = modules.get(target, Module(targets=[]))
+            module = modules.get(target, None)
 
             if isinstance(module, FlipFlop):
                 if not signal:
@@ -83,7 +83,7 @@ def q2(filename: str) -> int:
 
         while q:
             target, signal, source = q.popleft()
-            module = modules.get(target, Module(targets=[]))
+            module = modules.get(target, None)
 
             # Rx is in only nr, which is conjunction - so all inputs needs to be True
             # And the same situation as in day 8 - we can use lcm()
