@@ -1,10 +1,23 @@
 # Pulse Propagation - https://adventofcode.com/2023/day/20
 
 from collections import defaultdict
+from dataclasses import dataclass
 from math import lcm
 from queue import Queue
 
-def get_data(filename: str) -> dict[str, list]:
+@dataclass(kw_only=True)
+class Module:
+    targets: list[str]
+
+@dataclass(kw_only=True)
+class FlipFlop(Module):
+    status: bool
+
+@dataclass(kw_only=True)
+class Conjunction(Module):
+    last_signal: dict[str]
+
+def get_data(filename: str) -> dict[str, Module]:
     with open(filename) as f:
         lines = f.read().splitlines()
     lines = [line.strip().split(' -> ') for line in lines]
@@ -13,15 +26,16 @@ def get_data(filename: str) -> dict[str, list]:
     for name, targets in lines:
         targets = [target.strip() for target in targets.split(',')]
         if name[0] == '%':
-            modules[name[1:]] = [targets, '%', False]
+            modules[name[1:]] = FlipFlop(targets=targets, status=False)
         elif name[0] == '&':
-            modules[name[1:]] = [targets, '&', {}]
+            modules[name[1:]] = Conjunction(targets=targets, last_signal=dict[str]())
         else:
-            modules[name] = [targets, 'b']
+            modules[name] = Module(targets=targets)
+
     for name, module in modules.items():
-        for target in module[0]:
-            if target in modules and modules[target][1] == '&':
-                modules[target][2][name] = False
+        for target in module.targets:
+            if target in modules and isinstance(modules[target], Conjunction):
+                modules[target].last_signal[name] = False
     return modules
 
 def q1(filename: str, button_pushes=1000) -> int:
@@ -30,84 +44,66 @@ def q1(filename: str, button_pushes=1000) -> int:
 
     for _ in range(button_pushes):
         q = Queue()
-        for target in modules["broadcaster"][0]:
+        for target in modules["broadcaster"].targets:
             q.put((target, False, "broadcaster"))
         low += 1
 
         while not q.empty():
             target, signal, source = q.get()
-            # print(f"from: {source} to {target} - {signal}")
-            if signal:
-                high += 1
-            else:
-                low += 1
+            high += signal
+            low += not signal
 
-            if target not in modules:
-                continue
-            module = modules[target]
-            module_type = module[1]
+            module = modules.get(target, Module(targets=[]))
 
-            if module_type == '%':
+            if isinstance(module, FlipFlop):
                 if not signal:
-                    module[2] = not module[2]
-                    output = module[2]
-                    for dst in module[0]:
-                        q.put((dst, output, target))
-            elif module_type == '&':
-                module[2][source] = signal
-                # print(f"Checking {target} - {module[2]}")
-                output = False if all(val == True for val in module[2].values()) else True
-                for dst in module[0]:
-                    q.put((dst, output, target))
-            else:
-                raise ValueError("Unsupported type")
+                    module.status = not module.status
+                    for dst in module.targets:
+                        q.put((dst, module.status, target))
+            elif isinstance(module, Conjunction):
+                module.last_signal[source] = signal
+                output = not all(module.last_signal.values())
 
-        # print(f"{high=} {low=}")
+                for dst in module.targets:
+                    q.put((dst, output, target))
 
     return high * low
 
 def q2(filename: str) -> int:
     modules = get_data(filename)
     # Rx is only in nr - but extract it from a code
-    observe = [name for name, module in modules.items() if "rx" in module[0]][0]
+    observe = [name for name, module in modules.items() if "rx" in module.targets][0]
     cycles = defaultdict(int)
     button_pushes = 0
 
     while True:
         button_pushes += 1
         q = Queue()
-        for target in modules["broadcaster"][0]:
+        for target in modules["broadcaster"].targets:
             q.put((target, False, "broadcaster"))
 
         while not q.empty():
             target, signal, source = q.get()
+            module = modules.get(target, Module(targets=[]))
 
-            # Rx is in nr, which is conjunction - so all inputs needs to be True
+            # Rx is in only nr, which is conjunction - so all inputs needs to be True
             # And the same situation as in day 8 - we can use lcm()
-            if target == observe and signal:
+            if target == observe and signal and isinstance(module, Conjunction):
                 cycles[source] = button_pushes
-                if len(cycles) == len(modules[observe][2]):
+                if len(cycles) == len(module.last_signal):
+                    # Hello day 8 - long time no see
                     return lcm(*cycles.values())
 
-            if target not in modules:
-                continue
-            module = modules[target]
-            module_type = module[1]
-
-            if module_type == '%':
+            if isinstance(module, FlipFlop):
                 if not signal:
-                    module[2] = not module[2]
-                    output = module[2]
-                    for dst in module[0]:
-                        q.put((dst, output, target))
-            elif module_type == '&':
-                module[2][source] = signal
-                # print(f"Checking {target} - {module[2]}")
-                output = False if all(val == True for val in module[2].values()) else True
-                for dst in module[0]:
+                    module.status = not module.status
+                    for dst in module.targets:
+                        q.put((dst, module.status, target))
+            elif isinstance(module, Conjunction):
+                module.last_signal[source] = signal
+                output = not all(module.last_signal.values())
+                for dst in module.targets:
                     q.put((dst, output, target))
-            else:
-                raise ValueError("Unsupported module type")
 
 def test_q1():
     assert q1("test.txt", button_pushes=1) == 32
