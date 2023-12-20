@@ -42,9 +42,7 @@ def q1(filename: str, button_pushes=1000) -> int:
     low = high = 0
 
     for _ in range(button_pushes):
-        q = deque()
-        for target in modules["broadcaster"].targets:
-            q.append((target, False, "broadcaster"))
+        q = deque((target, False, "broadcaster") for target in modules["broadcaster"].targets)
         low += 1
 
         while q:
@@ -77,9 +75,7 @@ def q2(filename: str) -> int:
 
     while True:
         button_pushes += 1
-        q = deque()
-        for target in modules["broadcaster"].targets:
-            q.append((target, False, "broadcaster"))
+        q = deque((target, False, "broadcaster") for target in modules["broadcaster"].targets)
 
         while q:
             target, signal, source = q.popleft()
