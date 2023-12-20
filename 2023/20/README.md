@@ -157,3 +157,4 @@ waiting for all pulses to be fully handled after each push of the button. *What 
 total number of high pulses sent?*
 
 ![data.txt](data.png "data.txt")
+![data.txt](data-graphviz.png "data.txt")

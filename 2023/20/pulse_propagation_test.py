@@ -4,9 +4,10 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from math import lcm
 
-import matplotlib.pyplot as plt
 import pytest
+from matplotlib import pyplot as plt
 from networkx import DiGraph, draw_planar
+from networkx.drawing.nx_agraph import to_agraph
 
 @dataclass(kw_only=True)
 class Module:
@@ -115,12 +116,24 @@ def test_q2():
     assert q2("data.txt") == 228282646835717
 
 @pytest.mark.skip
-def test_visualise_input():
+def test_visualise_matplot():
     modules = get_data("data.txt")
     g = DiGraph()
     for name, module in modules.items():
         for target in module.targets:
             g.add_edge(name, target)
     print("Drawing...")
+    plt.clf()
     draw_planar(g, with_labels=True)
     plt.savefig('data.png')
+
+@pytest.mark.skip
+def test_visualise_graphviz():
+    modules = get_data("data.txt")
+    g = DiGraph()
+    for name, module in modules.items():
+        for target in module.targets:
+            g.add_edge(name, target)
+    print("Drawing...")
+    a = to_agraph(g)
+    a.draw("data-graphviz.png", format="png", prog="fdp")
