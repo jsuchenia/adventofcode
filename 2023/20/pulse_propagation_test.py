@@ -1,6 +1,6 @@
 # Pulse Propagation - https://adventofcode.com/2023/day/20
 
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass
 from math import lcm
 
@@ -75,7 +75,7 @@ def q2(filename: str) -> int:
     modules = get_data(filename)
     # Rx is only in nr - but extract it from a code
     observe = [name for name, module in modules.items() if "rx" in module.targets][0]
-    cycles = defaultdict(int)
+    cycles = {}
     button_pushes = 0
 
     while True:
