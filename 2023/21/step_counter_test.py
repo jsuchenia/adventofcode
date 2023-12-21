@@ -13,7 +13,7 @@ def get_start(lines):
     for y, line in enumerate(lines):
         for x, char in enumerate(line):
             if char == "S":
-                return (x, y)
+                return x, y
     raise ValueError("No start point")
 
 def q1(filename: str, steps) -> int:
@@ -50,18 +50,19 @@ def q1(filename: str, steps) -> int:
 
 def q2(filename="data.txt", steps=26501365) -> int:
     data = get_data(filename)
-    # From wolfram alpha: 26501365 and 131, only 26501365 = 202300 × 131 + 65 - nothing special
+    # From wolfram alpha: 26501365 and 131 - no relations, only 26501365 = 202300 × 131 + 65
 
-    n = steps // len(data)  # 202300 - we have samples, each with 131 step
-    p = steps % len(data)  # 65 - also magic value as it's a half of a size of a grid
+    size = len(data)
+    n = steps // size  # 202300 - we have samples, each with 131 step
+    p = steps % size  # 65 - also magic value as it's a half of a size of a grid
 
     val0 = q1(filename, steps=p)  # 3742
-    val1 = 33564  # q1(filename, steps=1*n + p)  # 33564
-    val2 = 93148  # q1(filename, steps=2*n + p)  # 93148
-    val3 = 182494  # q1(filename, steps=3*n + p)  # 182494 (3 minutes...)
+    val1 = 33564  # q1(filename, steps=1 * size + p)  # 33564 (~2 sec)
+    val2 = 93148  # q1(filename, steps=2 * size + p)  # 93148 (~13 sec)
+    val3 = 182494  # q1(filename, steps=3 * size + p)  # 182494 (~3 minutes...)
     # val202300 - target
     print(f"{val0=} {val1=} {val2=} {val3=}")
-    
+
     diff1 = val1 - val0  # 29822
     diff2 = val2 - val1  # 59584 = val0 + 1*ddiff
     diff3 = val3 - val2  # 89346 = val0 + 2*ddiff
@@ -71,11 +72,11 @@ def q2(filename="data.txt", steps=26501365) -> int:
     ddiff2 = diff3 - diff2  # 29762 # BINGO!!
     print(f"DIFF OF DIFF {ddiff1=} {ddiff2=}")
 
-    assert ddiff1 == ddiff2
-    assert diff3 - diff1 == 2 * ddiff1
+    # assert ddiff1 == ddiff2
+    # assert diff3 - diff1 == 2 * ddiff1
 
     # diff = 29762*x + 29822
-    # Linear function of delta (where x is a block (each of 131 moves))
+    # Linear function of delta (where x is per each 131 block - value is a real value)
 
     def diff(x):
         for i in range(x):
@@ -101,13 +102,14 @@ def test_q1_nostrict():
 def test_q2_data_nostrict(filename="data.txt", steps=26501365):
     data = get_data(filename)
 
-    n = steps // len(data)  # 202300
-    p = steps % len(data)  # 65
+    size = len(data)
+    n = steps // size  # 202300
+    p = steps % size  # 65
 
-    assert q1("data.txt", steps=p) == 3742
-    assert q1("data.txt", steps=1 * n + p) == 33564
-    assert q1("data.txt", steps=2 * n + p) == 93148
-    assert q1("data.txt", steps=3 * n + p) == 182494  # (3 minutes...)
+    assert q1("data.txt", steps=p) == 3742  # 96ms
+    assert q1("data.txt", steps=1 * size + p) == 33564  # 2sec 380ms
+    assert q1("data.txt", steps=2 * size + p) == 93148  # 13 sec 135ms
+    assert q1("data.txt", steps=3 * size + p) == 182494  # (3 minutes...)
 
 @pytest.mark.skip
 def test_plot_points():
