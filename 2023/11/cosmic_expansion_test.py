@@ -3,12 +3,10 @@ from itertools import combinations
 
 type Point = tuple[int, int]
 
-
 def get_data(filename: str) -> set[Point]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
     return {(x, y) for y, line in enumerate(lines) for x, char in enumerate(line) if char == "#"}
-
 
 def expand_galaxy(galaxy: set[Point], scaling_factor: int) -> set[Point]:
     all_x = {x for x, y in galaxy}
@@ -24,10 +22,8 @@ def expand_galaxy(galaxy: set[Point], scaling_factor: int) -> set[Point]:
 
     return {expand(x, y) for x, y in galaxy}
 
-
 def distance(p1: Point, p2: Point) -> int:
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
-
 
 def q1(filename: str) -> int:
     galaxy = get_data(filename)
@@ -36,7 +32,6 @@ def q1(filename: str) -> int:
     distances = [distance(p1, p2) for p1, p2 in combinations(galaxy, 2)]
     return sum(distances)
 
-
 def q2(filename: str, scaling_factor: int) -> int:
     galaxy = get_data(filename)
     galaxy = expand_galaxy(galaxy, scaling_factor=scaling_factor)
@@ -44,11 +39,9 @@ def q2(filename: str, scaling_factor: int) -> int:
     distances = [distance(p1, p2) for p1, p2 in combinations(galaxy, 2)]
     return sum(distances)
 
-
 def test_q1():
     assert q1("test.txt") == 374
     assert q1("data.txt") == 9445168
-
 
 def test_q2():
     assert q2("test.txt", scaling_factor=10) == 1030

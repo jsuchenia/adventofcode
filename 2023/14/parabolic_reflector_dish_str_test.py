@@ -7,7 +7,7 @@ type Platform = list[list[str]]
 
 def get_data(filename: str) -> Platform:
     with open(filename) as f:
-        return list(list(line) for line in f.read().splitlines())
+        return list(list(line) for line in f.read().strip().splitlines())
 
 def move(platform: Platform) -> Platform:
     while True:

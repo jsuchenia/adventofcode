@@ -3,7 +3,7 @@ from math import prod
 
 def get_data(filename: str) -> tuple[dict, list]:
     with open(filename) as f:
-        rules, values = f.read().split('\n\n')
+        rules, values = f.read().strip().split('\n\n')
 
     workflows = {}
     for rule in rules.split('\n'):

@@ -4,7 +4,7 @@ from heapq import heappop, heappush
 
 def get_data(filename: str) -> list[list[int]]:
     with open(filename) as f:
-        return [[int(n) for n in line.strip()] for line in f.read().splitlines()]
+        return [[int(n) for n in line.strip()] for line in f.read().strip().splitlines()]
 
 N = (0, -1)
 S = (0, 1)

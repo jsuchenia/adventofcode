@@ -5,7 +5,7 @@ import pytest
 
 def get_data_q1(filename: str):
     with open(filename, "r") as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
 
     times = [int(n) for n in re.findall(r"(\d+)", lines[0])]
     distances = [int(n) for n in re.findall(r"(\d+)", lines[1])]
@@ -14,7 +14,7 @@ def get_data_q1(filename: str):
 
 def get_data_q2(filename: str):
     with open(filename, "r") as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
 
     t = int(re.search(r"(\d+)", lines[0].replace(" ", ""))[1])
     distance = int(re.search(r"(\d+)", lines[1].replace(" ", ""))[1])

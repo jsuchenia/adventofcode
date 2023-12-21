@@ -94,7 +94,7 @@ def file_conains_part_two(readme_path: str):
 TEMPLATE = """
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
     return lines
     
 def q1(filename:str) -> int:

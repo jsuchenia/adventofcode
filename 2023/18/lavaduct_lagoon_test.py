@@ -7,7 +7,7 @@ from shapely import Point, Polygon
 
 def get_data(filename: str) -> list[tuple]:
     with open(filename) as f:
-        return [re.match(r"(\w) (\d+) \(#(.*)\)", line).groups() for line in f.read().splitlines()]
+        return [re.match(r"(\w) (\d+) \(#(.*)\)", line).groups() for line in f.read().strip().splitlines()]
 
 def q1(filename: str, img_name=None) -> int:
     data = get_data(filename)

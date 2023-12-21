@@ -4,12 +4,10 @@ from collections import deque
 type Point = tuple[int, int]
 type Connections = dict[Point, list[Point]]
 
-
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
     return lines
-
 
 def parse_connections(lines: list[str]) -> tuple[Connections, Point]:
     connections = dict()
@@ -34,7 +32,6 @@ def parse_connections(lines: list[str]) -> tuple[Connections, Point]:
     connections[start] = [src for src, conn in connections.items() for dst in conn if dst == start]
     return connections, start
 
-
 def compute_loop(connections, start) -> set[Point]:
     visited = set()
     q = deque()
@@ -50,13 +47,11 @@ def compute_loop(connections, start) -> set[Point]:
 
     return visited
 
-
 def q1(filename: str) -> int:
     lines = get_data(filename)
     connections, start = parse_connections(lines)
     loop = compute_loop(connections, start)
     return len(loop) // 2
-
 
 def q2(filename: str) -> int:
     lines = get_data(filename)
@@ -85,11 +80,9 @@ def q2(filename: str) -> int:
                 inside.add((x, y))
     return len(inside)
 
-
 def test_q1():
     assert q1("test.txt") == 8
     assert q1("data.txt") == 6927
-
 
 def test_q2():
     assert q2("test2.txt") == 4

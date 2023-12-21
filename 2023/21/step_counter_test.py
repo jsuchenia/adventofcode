@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
     return lines
 
 def get_start(lines):

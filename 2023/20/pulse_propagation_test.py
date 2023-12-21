@@ -23,7 +23,7 @@ class Conjunction(Module):
 
 def get_data(filename: str) -> dict[str, Module]:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
     lines = [line.strip().split(' -> ') for line in lines]
 
     modules = {}

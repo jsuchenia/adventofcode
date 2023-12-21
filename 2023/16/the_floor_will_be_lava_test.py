@@ -11,7 +11,7 @@ W = (-1, 0)
 
 def get_data(filename: str) -> Grid:
     with open(filename) as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
         grid = {}
         for y, line in enumerate(lines):
             for x, chr in enumerate(line):

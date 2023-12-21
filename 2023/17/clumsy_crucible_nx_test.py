@@ -4,7 +4,7 @@ from networkx import DiGraph, shortest_path_length
 
 def solve(filename: str, min_n: int, max_n: int) -> int:
     with open(filename) as f:
-        lines = [line.strip() for line in f.read().splitlines()]
+        lines = [line.strip() for line in f.read().strip().splitlines()]
 
     data = {(x, y): int(n) for y, line in enumerate(lines) for x, n in enumerate(line)}
     max_y = len(lines)

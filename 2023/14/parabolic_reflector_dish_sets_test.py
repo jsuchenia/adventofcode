@@ -5,7 +5,7 @@ type Rock = tuple[int, int]
 def get_data(filename: str) -> dict[Rock, str]:
     with open(filename) as f:
         return {(x, y): c
-                for y, line in enumerate(f.read().splitlines())
+                for y, line in enumerate(f.read().strip().splitlines())
                 for x, c in enumerate(line)
                 if c != '.'}
 

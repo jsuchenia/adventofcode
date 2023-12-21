@@ -8,7 +8,7 @@ type Connections = dict[MazePoint, list[MazePoint]]
 
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
-        return f.read().splitlines()
+        return f.read().strip().splitlines()
 
 def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
     connections = dict()

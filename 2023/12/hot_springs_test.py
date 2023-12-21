@@ -4,7 +4,7 @@ from functools import cache
 def get_data(filename: str):
     with open(filename) as f:
         results = []
-        for line in f.read().splitlines():
+        for line in f.read().strip().splitlines():
             data, nums = line.split()
             nums = tuple(int(n) for n in nums.split(","))
             results.append((data, nums))

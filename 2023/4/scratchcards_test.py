@@ -2,7 +2,7 @@ import re
 
 def get_data(filename: str) -> dict[int, int]:
     with open(filename, "r") as f:
-        lines = f.read().splitlines()
+        lines = f.read().strip().splitlines()
 
     cards = {}
 
