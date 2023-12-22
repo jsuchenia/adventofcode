@@ -72,13 +72,17 @@ def q2(filename: str) -> int:
 
     results = 0
     for idx, brick in enumerate(bricks):
-        failing = {brick}
+        falling = {brick}
+        max_z = brick[1].z
 
         for other in bricks[idx + 1:]:
-            if len(supported_by[other]) > 0 and len(supported_by[other] - failing) == 0:
-                failing.add(other)
-        if len(failing) > 1:
-            results += len(failing) - 1
+            if other[0].z - max_z > 1:
+                break
+            if len(supported_by[other]) > 0 and len(supported_by[other] - falling) == 0:
+                falling.add(other)
+                max_z = max(max_z, other[1].z)
+        if len(falling) > 1:
+            results += len(falling) - 1
     return results
 
 def test_q1():
