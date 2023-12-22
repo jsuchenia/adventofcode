@@ -1,5 +1,6 @@
 # Step Counter - https://adventofcode.com/2023/day/21
 from collections import deque
+from datetime import datetime
 
 import pytest
 from matplotlib import pyplot as plt
@@ -126,10 +127,15 @@ def test_q2_data(filename="data.txt", steps=26501365):
     size = len(data)
     p = steps % size  # 65
 
+    # Fastest one was i5 2GHz - timings from that computer
     assert q1("data.txt", steps=p) == 3742  # 96ms
     assert q1("data.txt", steps=1 * size + p) == 33564  # 2sec 380ms
-    assert q1("data.txt", steps=2 * size + p) == 93148  # 13 sec 135ms
-    assert q1("data.txt", steps=3 * size + p) == 182494  # (3 minutes...)
+    assert q1("data.txt", steps=2 * size + p) == 93148  # 7 sec
+    assert q1("data.txt", steps=3 * size + p) == 182494  # (1 minute...)
+    assert q1("data.txt", steps=4 * size + p) == 301602  # (2 minutes...)
+    assert q1("data.txt", steps=5 * size + p) == 450472  # (4 minutes...)
+    assert q1("data.txt", steps=6 * size + p) == 629104  # (7 minutes...)
+    assert q1("data.txt", steps=7 * size + p) == 837498  # (12 minutes...)
 
 @pytest.mark.skip("Used during work on p2")
 def test_plot_points():
@@ -158,3 +164,52 @@ def test_plot_points():
     plt.grid(True)
     plt.ticklabel_format(useOffset=False, style='plain')
     plt.savefig("test.txt.png")
+
+# Compare different CPUs to get data faster
+# Fastest one was i5 Macbook PRO 2Ghz - Python 3.12.1 - 8 samples in less than 20 minutes
+# Second was Macbook Air M2 - Python 3.12.1
+# Third one - Server with Xenon 1.6GHz - but with Python 3.5
+def q2_gen(filename="data.txt", steps=26501365):
+    lines = get_data(filename)
+    size = len(lines)
+    start = (len(lines) // 2, len(lines) // 2)
+
+    def is_valid(xc, yc):
+        return lines[yc % len(lines)][xc % len(lines[0])] != '#'
+
+    p = steps % size
+
+    visited = set()
+    q = deque([(start[0], start[1], 0)])
+    results = []
+    target = p
+    last_step = 0
+
+    while q:
+        x, y, step = state = q.popleft()
+
+        if step > target:
+            results.append(len(visited))
+            now = datetime.now()
+            print(f"{now} {target=} {results=}")
+            target += size
+
+        if step > last_step:
+            visited.clear()
+            last_step = step
+
+        if state in visited:
+            continue
+        visited.add(state)
+
+        if step > last_step:
+            visited[last_step].clear()
+            last_step = step
+
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            if not is_valid(nx := x + dx, ny := y + dy):
+                continue
+            q.append((nx, ny, step + 1))
+
+# if __name__ == "__main__":
+#     q2_gen()
