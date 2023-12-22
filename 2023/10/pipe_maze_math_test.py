@@ -58,7 +58,7 @@ def q2(filename: str) -> int:
 
     area = abs(s / 2)
 
-    # Pick's theroem
+    # Pick's theorem
     return int(area - len(loop) / 2 + 1)
 
 def test_q2():

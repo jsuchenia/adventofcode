@@ -1,6 +1,5 @@
 # Point of Incidence - https://adventofcode.com/2023/day/13
 
-
 def get_mirrors(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().split("\n\n")

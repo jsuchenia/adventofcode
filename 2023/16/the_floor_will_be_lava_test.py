@@ -28,8 +28,7 @@ def count_energy(start: Point, direction: Point, data: Grid, ) -> int:
             return False
         return True
 
-    q = deque()
-    q.append((start, direction))
+    q = deque([(start, direction)])
     visited = defaultdict(set)
 
     while q:

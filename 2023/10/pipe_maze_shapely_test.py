@@ -12,7 +12,7 @@ def get_data(filename: str) -> list[str]:
         return f.read().strip().splitlines()
 
 def parse_connections(lines: list[str]) -> tuple[Connections, MazePoint]:
-    connections = dict()
+    connections = {}
     start = None
     for y, row in enumerate(lines):
         for x, cell in enumerate(row.strip()):

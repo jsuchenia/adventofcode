@@ -13,14 +13,14 @@ def solve(filename: str, min_n: int, max_n: int) -> int:
     graph = DiGraph()
     for x, y in data.keys():
         costs = [0] * 4
-        for idx, (dx, dy, d) in enumerate([(1, 0, "V"), (-1, 0, "V"), (0, -1, "H"), (0, 1, "H")]):
+        for idx, (dx, dy, direction) in enumerate([(1, 0, "V"), (-1, 0, "V"), (0, -1, "H"), (0, 1, "H")]):
             for delta in range(1, max_n + 1):
                 if not (nx := x + dx * delta, ny := y + dy * delta) in data:
                     break
                 costs[idx] += data[(nx, ny)]
                 if delta < min_n:
                     continue
-                graph.add_edge((x, y, "H" if d == "V" else "V"), (nx, ny, d), weight=costs[idx])
+                graph.add_edge((x, y, "H" if direction == "V" else "V"), (nx, ny, direction), weight=costs[idx])
 
     graph.add_edge("start", (0, 0, "H"), weight=0)
     graph.add_edge("start", (0, 0, "V"), weight=0)
