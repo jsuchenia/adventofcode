@@ -27,22 +27,27 @@ def overlap_xy(b1: Brick, b2: Brick) -> bool:
     return max(b1[0].x, b2[0].x) <= min(b1[1].x, b2[1].x) and max(b1[0].y, b2[0].y) <= min(b1[1].y, b2[1].y)
 
 def fall_down(bricks: list[Brick]) -> None:
-    for idx, brick in enumerate(bricks):
+    for brick in bricks:
         max_z = 0
-        for other in bricks[:idx]:
+        for other in bricks:
+            if other[1].z >= brick[0].z:
+                break
             if overlap_xy(brick, other):
                 max_z = max(max_z, other[1].z)
         if (dz := brick[0].z - max_z) > 1:
             brick[0].z -= (dz - 1)
             brick[1].z -= (dz - 1)
+    bricks.sort(key=lambda b: b[0].z)
 
 type SupportDict = dict[Brick, set[Brick]]
 
 def calculate_supports(bricks) -> tuple[SupportDict, SupportDict]:
     supports, supported_by = defaultdict(set), defaultdict(set)
 
-    for idx, brick in enumerate(bricks):
-        for other in bricks[:idx]:
+    for brick in bricks:
+        for other in bricks:
+            if other[0].z >= brick[0].z:
+                break
             if overlap_xy(brick, other) and other[1].z + 1 == brick[0].z:
                 supports[other].add(brick)
                 supported_by[brick].add(other)
