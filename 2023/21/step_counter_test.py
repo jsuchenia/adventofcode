@@ -50,7 +50,7 @@ def q1(filename: str, steps) -> int:
 
 def q2(filename="data.txt", steps=26501365) -> int:
     data = get_data(filename)
-    # From wolfram alpha: 26501365 and 131 - no relations, only 26501365 = 202300 × 131 + 65
+    # From wolfram alpha: 26501365 and 131 - no relations, only 26501365 = 202300 * 131 + 65
 
     size = len(data)
     n = steps // size  # 202300 - 2023*100 - probably some clue - we have samples, each with 131 step
