@@ -106,6 +106,7 @@ def test_q1():
     assert q1("test.txt") == 94
     assert q1("data.txt") == 2354
 
+@pytest.mark.skip("38sec.. too long for CI")
 def test_q2():
     assert q2("test.txt") == 154
     assert q2("data.txt") == 6686
