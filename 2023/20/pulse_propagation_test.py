@@ -135,5 +135,5 @@ def test_visualise_graphviz():
         for target in module.targets:
             g.add_edge(name, target)
     print("Drawing...")
-    a = to_agraph(g)
+    a = to_agraph(g, )
     a.draw("data-graphviz.png", format="png", prog="fdp")
