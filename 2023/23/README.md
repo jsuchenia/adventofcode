@@ -115,4 +115,5 @@ In the example above, this increases the longest hike to `154` steps:
 
 Find the longest hike you can take through the surprisingly dry hiking trails listed on your map. *How many steps long is the longest hike?*
 
-![data.txt](data-graphviz.png "data.txt")
+![data.txt](data-graphviz-q1.png "data.txt")
+![data.txt](data-graphviz-q2.png "data.txt")
