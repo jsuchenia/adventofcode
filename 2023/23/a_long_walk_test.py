@@ -47,12 +47,9 @@ def convert_to_weighted(g: Graph, start) -> Graph:
     ng = DiGraph()
     q = deque()
     q.append(start)
-    visited = set()
     while q:
         node = q.popleft()
-        if node in visited:
-            continue
-        visited.add(node)
+
         for edge in g.edges(node):
             distance = 1
             measured = {node}
@@ -68,9 +65,10 @@ def convert_to_weighted(g: Graph, start) -> Graph:
                 target = filtered_nodes.pop()
             if target:
                 # print(f"{node=} -> {target=} {distance=}")
-                ng.add_edge(node, target, distance=distance)
-                if target not in visited:
-                    q.append(target)
+                if not ng.has_edge(node, target) or ng[node][target]['distance'] < distance:
+                    ng.add_edge(node, target, distance=distance)
+                    if target not in q:
+                        q.append(target)
     return ng
 
 def q1(filename: str) -> int:
@@ -89,7 +87,12 @@ def test_q1():
     assert q1("test.txt") == 94
     assert q1("data.txt") == 2354
 
-@pytest.mark.skip("1 minute - can be improved..")
+# @pytest.mark.skip("1 minute - can be improved")
 def test_q2():
+    assert q2("test.txt") == 154
+    assert q2("data.txt") == 6686
+
+@pytest.mark.skip("1 minute - sounds like networkx overhead")
+def test_q2_v2():
     assert q2("test.txt") == 154
     assert q2("data.txt") == 6686
