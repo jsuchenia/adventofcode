@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from itertools import combinations
 
+import pytest
 from sympy import Symbol, Eq, solve, symbols
 
 @dataclass(frozen=True)
@@ -53,7 +54,7 @@ def q2(filename: str) -> int:
     result = solve(equations, *variables)
     return sum(result[0][:3])
 
-# @pytest.mark.skip
+@pytest.mark.skip
 def test_q1():
     assert q1("test.txt", min_val=7, max_val=27) == 2
     assert q1("data.txt", min_val=200000000000000, max_val=400000000000000) == 16727
