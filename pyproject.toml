@@ -13,8 +13,10 @@ cpmpy = "*"
 numpy = "*"
 sympy = "*"
 pandas = "*"
+scipy = "*"
 networkx = "*"
 shapely = "*"
+pydantic = "*"
 
 [tool.poetry.group.sync.dependencies]
 beautifulsoup4 = "*"
@@ -25,11 +27,13 @@ setuptools = "*"
 [tool.poetry.group.dev.dependencies]
 tqdm = "*"
 ipython = "*"
-matplotlib = "*"
-pygraphviz = "*"
 pytest = "*"
 pytest-asyncio = "*"
 pytest-xdist = "*"
+
+[tool.poetry.group.vis.dependencies]
+matplotlib = "*"
+pygraphviz = "*"
 
 [build-system]
 requires = ["poetry-core"]
