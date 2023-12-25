@@ -6,11 +6,7 @@ import pytest
 from networkx import DiGraph, Graph, all_simple_paths, path_weight
 from networkx.drawing.nx_agraph import to_agraph
 
-N = (0, -1)
-S = (0, 1)
-E = (1, 0)
-W = (-1, 0)
-
+N, S, E, W = (0, -1), (0, 1), (1, 0), (-1, 0)
 DIRECTIONS_q1 = {'.': [N, S, E, W], '>': [E], '<': [W], 'v': [S], '^': [N], '#': []}
 DIRECTIONS_q2 = {'.': [N, S, E, W], '>': [N, S, E, W], '<': [N, S, E, W], 'v': [N, S, E, W], '^': [N, S, E, W], '#': []}
 
@@ -32,13 +28,11 @@ def get_data(filename: str, directions) -> tuple[Graph, Point, Point]:
     for y, line in enumerate(lines):
         for x, chr in enumerate(line):
             for dx, dy in directions[chr]:
-                nx = x + dx
-                ny = y + dy
-                if is_valid(nx, ny):
+                if is_valid(nx := x + dx, ny := y + dy):
                     g.add_edge((x, y), (nx, ny))
 
-    start = (1, 0)
-    end = (len(lines[0]) - 2, len(lines) - 1)
+    start, end = (1, 0), (len(lines[0]) - 2, len(lines) - 1)
+
     assert is_valid(*start)
     assert is_valid(*end)
 
@@ -47,28 +41,27 @@ def get_data(filename: str, directions) -> tuple[Graph, Point, Point]:
 # data.txt converted to 36 nodes only..
 def convert_to_weighted(g: Graph, start) -> Graph:
     ng = DiGraph()
-    q = deque()
-    q.append(start)
+    q = deque([start])
+
     while q:
         node = q.popleft()
 
         for target in g[node]:
-            distance = 1
             measured = {node}
+
             while True:
-                target_nodes = g[target].keys()
-                filtered_nodes = target_nodes - measured
+                filtered_nodes = g[target].keys() - measured
                 if len(filtered_nodes) != 1:
                     break
-                distance += 1
                 measured.add(target)
                 target = filtered_nodes.pop()
-            if target:
-                # print(f"{node=} -> {target=} {distance=}")
-                if not ng.has_edge(node, target) or ng[node][target]['weight'] < distance:
-                    ng.add_edge(node, target, weight=distance)
-                    if target not in q:
-                        q.append(target)
+
+            if not target:
+                continue
+
+            if not ng.has_edge(node, target) or ng[node][target]['weight'] < len(measured):
+                ng.add_edge(node, target, weight=len(measured))
+                q.append(target)
     return ng
 
 def q1(filename: str) -> int:
