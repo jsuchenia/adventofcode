@@ -2,7 +2,7 @@
 from math import prod
 
 import pytest
-from networkx import Graph, minimum_edge_cut, connected_components
+from networkx import Graph, minimum_edge_cut, connected_components, is_connected
 from networkx.drawing.nx_agraph import to_agraph
 
 def get_data(filename: str) -> Graph:
@@ -17,8 +17,13 @@ def get_data(filename: str) -> Graph:
 
 def q1(filename: str) -> int:
     g = get_data(filename)
-    g.remove_edges_from(minimum_edge_cut(g))
-    return prod(len(c) for c in connected_components(g))
+    assert is_connected(g)
+
+    edges = minimum_edge_cut(g)
+    g.remove_edges_from(edges)
+    assert not is_connected(g)
+
+    return prod(map(len, connected_components(g)))
 
 def test_q1():
     assert q1("test.txt") == 54
