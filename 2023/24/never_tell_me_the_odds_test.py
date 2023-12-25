@@ -2,8 +2,7 @@
 from dataclasses import dataclass
 from itertools import combinations
 
-import pytest
-from sympy import Symbol, Eq, solve, symbols
+from sympy import Symbol, Eq, solve, symbols, lambdify
 
 @dataclass(frozen=True)
 class Hailstone:
@@ -18,23 +17,38 @@ def get_data(filename: str) -> list[Hailstone]:
     with open(filename) as f:
         return [Hailstone(*map(int, line.split(','))) for line in f.read().strip().replace('@', ',').splitlines()]
 
+def prepare_functions():
+    ta, tb = symbols("ta tb")
+    adx, ax, ady, ay = symbols("adx ax ady ay")
+    bdx, bx, bdy, by = symbols("bdx bx bdy by")
+
+    results = solve([Eq(adx * ta + ax, bdx * tb + bx), Eq(ady * ta + ay, bdy * tb + by)], ta, tb)
+
+    fun_ta = lambdify(((ax, ay, adx, ady), (bx, by, bdx, bdy)), results[ta])
+    fun_tb = lambdify(((ax, ay, adx, ady), (bx, by, bdx, bdy)), results[tb])
+
+    return fun_ta, fun_tb
+
 def q1_sympy(filename: str, min_val: int, max_val: int) -> int:
     hs = get_data(filename)
 
+    fun_ta, fun_tb = prepare_functions()
+
     c = 0
     for a, b in combinations(hs, 2):
-        # Sympy
-        ta, tb = Symbol("ta"), Symbol("tb")
+        try:
+            ta = fun_ta((a.x, a.y, a.dx, a.dy), (b.x, b.y, b.dx, b.dy))
+            tb = fun_tb((a.x, a.y, a.dx, a.dy), (b.x, b.y, b.dx, b.dy))
+        except ZeroDivisionError:
+            continue
 
-        eq_x = Eq(a.dx * ta + a.x, b.dx * tb + b.x)
-        eq_y = Eq(a.dy * ta + a.y, b.dy * tb + b.y)
+        if ta <= 0 or tb <= 0:
+            continue
 
-        result = solve([eq_x, eq_y], ta, tb)
-        if result and result[ta] > 0 and result[tb] > 0:
-            pos_x = a.dx * result[ta] + a.x
-            pos_y = a.dy * result[ta] + a.y
-            if min_val <= pos_x <= max_val and min_val <= pos_y <= max_val:
-                c += 1
+        pos_x, pos_y = a.dx * ta + a.x, a.dy * ta + a.y
+
+        if min_val <= pos_x <= max_val and min_val <= pos_y <= max_val:
+            c += 1
     return c
 
 def q1_math(filename: str, min_val: int, max_val: int) -> int:
@@ -81,7 +95,6 @@ def q2(filename: str) -> int:
     result = solve(equations, *variables)
     return sum(result[0][:3])
 
-@pytest.mark.skip
 def test_q1_sympy():
     assert q1_sympy("test.txt", min_val=7, max_val=27) == 2
     assert q1_sympy("data.txt", min_val=200000000000000, max_val=400000000000000) == 16727
