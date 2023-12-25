@@ -50,19 +50,18 @@ def q1_math(filename: str, min_val: int, max_val: int) -> int:
         x3, y3 = b.x, b.y
         x4, y4 = b.x + b.dx, b.y + b.dy
 
-        denominator = ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-        if denominator != 0:
-            ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
-            px, py = x1 + ua * (x2 - x1), y1 + ua * (y2 - y1)
+        if (denominator := ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))) == 0:
+            continue
 
-            if not min_val <= px <= max_val or not min_val <= py <= max_val:
-                continue
+        ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
+        px, py = x1 + ua * (x2 - x1), y1 + ua * (y2 - y1)
 
-            in_future_a = (px > x1) == (x2 > x1)  # px grow when x2 grow - checking if it happened in a future, both true or both false
-            in_future_b = (px > x3) == (x4 > x3)
+        if not min_val <= px <= max_val or not min_val <= py <= max_val:
+            continue
 
-            if in_future_a and in_future_b:
-                c += 1
+        # px grow when x2 grow - checking if it happened in a future, both true or both false
+        if (px > x1) == (x2 > x1) and (px > x3) == (x4 > x3):
+            c += 1
     return c
 
 def q2(filename: str) -> int:
