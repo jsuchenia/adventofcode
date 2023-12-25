@@ -13,6 +13,9 @@ class Hailstone:
     dy: int
     dz: int
 
+    def get_xy(self):
+        return self.x, self.y, self.dx, self.dy
+
 def get_data(filename: str) -> list[Hailstone]:
     with open(filename) as f:
         return [Hailstone(*map(int, line.split(','))) for line in f.read().strip().replace('@', ',').splitlines()]
@@ -37,17 +40,17 @@ def q1_sympy(filename: str, min_val: int, max_val: int) -> int:
     c = 0
     for a, b in combinations(hs, 2):
         try:
-            ta = fun_ta((a.x, a.y, a.dx, a.dy), (b.x, b.y, b.dx, b.dy))
-            tb = fun_tb((a.x, a.y, a.dx, a.dy), (b.x, b.y, b.dx, b.dy))
+            ta = fun_ta(a.get_xy(), b.get_xy())
+            tb = fun_tb(a.get_xy(), b.get_xy())
         except ZeroDivisionError:
             continue
 
         if ta <= 0 or tb <= 0:
             continue
 
-        pos_x, pos_y = a.dx * ta + a.x, a.dy * ta + a.y
+        x, y = a.dx * ta + a.x, a.dy * ta + a.y
 
-        if min_val <= pos_x <= max_val and min_val <= pos_y <= max_val:
+        if min_val <= x <= max_val and min_val <= y <= max_val:
             c += 1
     return c
 
