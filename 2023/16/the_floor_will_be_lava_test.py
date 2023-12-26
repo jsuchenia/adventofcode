@@ -1,6 +1,8 @@
 # The Floor Will Be Lava - https://adventofcode.com/2023/day/16
 from collections import deque, defaultdict
 
+import pytest
+
 type Point = tuple[int, int]
 type Grid = tuple[dict[Point, str], int, int]
 
@@ -92,10 +94,10 @@ def q2(filename: str) -> int:
 
     return max(results)
 
-def test_q1():
-    assert q1("test.txt") == 46
-    assert q1("data.txt") == 6883
+@pytest.mark.parametrize("filename, result", [("test.txt", 46), ("data.txt", 6883)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 51
-    assert q2("data.txt") == 7228
+@pytest.mark.parametrize("filename, result", [("test.txt", 51), ("data.txt", 7228)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

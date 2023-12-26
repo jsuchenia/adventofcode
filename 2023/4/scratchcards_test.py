@@ -1,5 +1,7 @@
 import re
 
+import pytest
+
 def get_data(filename: str) -> dict[int, int]:
     with open(filename, "r") as f:
         lines = f.read().strip().splitlines()
@@ -32,10 +34,10 @@ def q2(filename: str) -> int:
 
     return sum(card_numbers.values())
 
-def test_q1():
-    assert q1("test.txt") == 13
-    assert q1("data.txt") == 20117
+@pytest.mark.parametrize("filename, result", [("test.txt", 13), ("data.txt", 20117)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 30
-    assert q2("data.txt") == 13768818
+@pytest.mark.parametrize("filename, result", [("test.txt", 30), ("data.txt", 13768818)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

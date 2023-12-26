@@ -1,4 +1,5 @@
 # Parabolic Reflector Dish - https://adventofcode.com/2023/day/14
+import pytest
 
 type Rock = tuple[int, int]
 
@@ -58,10 +59,10 @@ def q2(filename: str, rounds=1_000_000_000) -> int:
 
     return sum(size - y + 1 for x, y in rounded_rocks)
 
-def test_q1():
-    assert q1("test.txt") == 136
-    assert q1("data.txt") == 113424
+@pytest.mark.parametrize("filename, result", [("test.txt", 136), ("data.txt", 113424)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 64
-    assert q2("data.txt") == 96003
+@pytest.mark.parametrize("filename, result", [("test.txt", 64), ("data.txt", 96003)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

@@ -1,6 +1,8 @@
 # Cosmic Expansion - https://adventofcode.com/2023/day/11
 from itertools import combinations
 
+import pytest
+
 type Point = tuple[int, int]
 
 def get_data(filename: str) -> set[Point]:
@@ -39,9 +41,9 @@ def q2(filename: str, scaling_factor: int) -> int:
     distances = [distance(p1, p2) for p1, p2 in combinations(galaxy, 2)]
     return sum(distances)
 
-def test_q1():
-    assert q1("test.txt") == 374
-    assert q1("data.txt") == 9445168
+@pytest.mark.parametrize("filename, result", [("test.txt", 374), ("data.txt", 9445168)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
 def test_q2():
     assert q2("test.txt", scaling_factor=10) == 1030

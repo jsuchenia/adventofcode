@@ -1,6 +1,8 @@
 # Mirage Maintenance - https://adventofcode.com/2023/day/9
 from itertools import pairwise
 
+import pytest
+
 def get_data(filename: str) -> list[list[int]]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
@@ -27,10 +29,10 @@ def q2(filename: str) -> int:
     data = get_data(filename)
     return sum([guess_first(line) for line in data])
 
-def test_q1():
-    assert q1("test.txt") == 114
-    assert q1("data.txt") == 2005352194
+@pytest.mark.parametrize("filename, result", [("test.txt", 114), ("data.txt", 2005352194)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 2
-    assert q2("data.txt") == 1077
+@pytest.mark.parametrize("filename, result", [("test.txt", 2), ("data.txt", 1077)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

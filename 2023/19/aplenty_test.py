@@ -1,6 +1,8 @@
 # Aplenty - https://adventofcode.com/2023/day/19
 from math import prod
 
+import pytest
+
 def get_data(filename: str) -> tuple[dict, list]:
     with open(filename) as f:
         rules, values = f.read().strip().split('\n\n')
@@ -75,15 +77,15 @@ def q2(filename: str) -> int:
 
     return count_ranges({key: (1, 4000) for key in "xmas"}, "in")
 
-def test_q1():
-    assert q1("test.txt") == 19114
-    assert q1("data.txt") == 342650
+@pytest.mark.parametrize("filename, result", [("test.txt", 19114), ("data.txt", 342650)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
 def test_q2_custom():
     assert q2("test_q2.txt") == 1
     assert q2("test_q2_2.txt") == 4
     assert q2("test_q2_3.txt") == 0
 
-def test_q2():
-    assert q2("test.txt") == 167409079868000
-    assert q2("data.txt") == 130303473508222
+@pytest.mark.parametrize("filename, result", [("test.txt", 167409079868000), ("data.txt", 130303473508222)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

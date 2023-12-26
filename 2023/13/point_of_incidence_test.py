@@ -1,4 +1,5 @@
 # Point of Incidence - https://adventofcode.com/2023/day/13
+import pytest
 
 def get_mirrors(filename: str) -> list[str]:
     with open(filename) as f:
@@ -26,10 +27,10 @@ def q1(filename: str, diff) -> int:
     mirrors = get_mirrors(filename)
     return sum(get_score(mirror, diff) for mirror in mirrors)
 
-def test_q1():
-    assert q1("test.txt", diff=0) == 405
-    assert q1("data.txt", diff=0) == 33122
+@pytest.mark.parametrize("filename, result", [("test.txt", 405), ("data.txt", 33122)])
+def test_q1(filename: str, result: int):
+    assert q1(filename, diff=0) == result
 
-def test_q2():
-    assert q1("test.txt", diff=1) == 400
-    assert q1("data.txt", diff=1) == 32312
+@pytest.mark.parametrize("filename, result", [("test.txt", 400), ("data.txt", 32312)])
+def test_q2(filename: str, result: int):
+    assert q1(filename, diff=1) == result

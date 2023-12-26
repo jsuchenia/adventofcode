@@ -2,8 +2,9 @@ import re
 from collections import Counter, defaultdict
 from math import prod
 
-type Colors = dict[str, int]
+import pytest
 
+type Colors = dict[str, int]
 
 # class Colors(TypedDict):
 #     green: int
@@ -27,7 +28,6 @@ def get_data(filename: str) -> dict[int, Colors]:
         games[game_id] = max_elements
     return games
 
-
 def q1(filename: str) -> int:
     games = get_data(filename)
 
@@ -36,19 +36,16 @@ def q1(filename: str) -> int:
 
     return sum(game_ids)
 
-
 def q2(filename: str) -> int:
     games = get_data(filename)
     powers = [prod(elements.values()) for elements in games.values()]
 
     return sum(powers)
 
+@pytest.mark.parametrize("filename, result", [("test1.txt", 8), ("data.txt", 2727)])
+def test_q1_test(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q1_test():
-    assert q1("test1.txt") == 8
-    assert q1("data.txt") == 2727
-
-
-def test_q2_test():
-    assert q2("test1.txt") == 2286
-    assert q2("data.txt") == 56580
+@pytest.mark.parametrize("filename, result", [("test1.txt", 2286), ("data.txt", 56580)])
+def test_q2_test(filename: str, result: int):
+    assert q2(filename) == result

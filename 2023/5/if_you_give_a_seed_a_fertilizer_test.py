@@ -1,6 +1,8 @@
 # https://adventofcode.com/2023/day/5
 import re
 
+import pytest
+
 type Rule = list[int]
 type Block = list[Rule]
 type Seeds = list[tuple[int, int]]
@@ -65,10 +67,10 @@ def q2(filename: str) -> int:
 
     return min([s[0] for s in seeds])
 
-def test_q1():
-    assert q1("test.txt") == 35
-    assert q1("data.txt") == 993500720
+@pytest.mark.parametrize("filename, result", [("test.txt", 35), ("data.txt", 993500720)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 46
-    assert q2("data.txt") == 4917124
+@pytest.mark.parametrize("filename, result", [("test.txt", 46), ("data.txt", 4917124)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

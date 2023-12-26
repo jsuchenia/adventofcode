@@ -1,3 +1,5 @@
+import pytest
+
 def get_data(file_name: str) -> list[str]:
     with open(file_name, "r") as f:
         return [line.strip() for line in f.readlines()]
@@ -29,10 +31,10 @@ def solution2(file_name: str) -> int:
     only_two = [int(line[0] + line[-1]) for line in converted]
     return sum(only_two)
 
-def test_part_1():
-    assert solution1("test.txt") == 142
-    assert solution1("data.txt") == 54304
+@pytest.mark.parametrize("filename, result", [("test.txt", 142), ("data.txt", 54304)])
+def test_part_1(filename: str, result: int):
+    assert solution1(filename) == result
 
-def test_part_2():
-    assert solution2("test2.txt") == 281
-    assert solution2("data.txt") == 54418
+@pytest.mark.parametrize("filename, result", [("test2.txt", 281), ("data.txt", 54418)])
+def test_part_2(filename: str, result: int):
+    assert solution2(filename) == result

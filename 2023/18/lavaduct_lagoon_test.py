@@ -2,6 +2,7 @@
 import re
 
 import matplotlib.pyplot as plt
+import pytest
 # This is what we learned during day 10
 from shapely import Point, Polygon
 
@@ -63,10 +64,10 @@ def q2(filename: str, img_name=None) -> int:
         plt.savefig(img_name)
     return int(p.area + p.length / 2 + 1)
 
-def test_q1():
-    assert q1("test.txt") == 62
-    assert q1("data.txt") == 52035
+@pytest.mark.parametrize("filename, result", [("test.txt", 62), ("data.txt", 52035)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 952408144115
-    assert q2("data.txt") == 60612092439765
+@pytest.mark.parametrize("filename, result", [("test.txt", 952408144115), ("data.txt", 60612092439765)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

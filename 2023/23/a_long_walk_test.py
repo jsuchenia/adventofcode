@@ -3,7 +3,7 @@ from collections import deque
 from heapq import heappop, heappush
 
 import pytest
-from networkx import DiGraph, Graph, all_simple_paths, path_weight
+from networkx import DiGraph, Graph, all_simple_edge_paths
 from networkx.drawing.nx_agraph import to_agraph
 
 N, S, E, W = (0, -1), (0, 1), (1, 0), (-1, 0)
@@ -38,47 +38,47 @@ def get_data(filename: str, directions) -> tuple[Graph, Point, Point]:
 
     return g, start, end
 
-# data.txt converted to 36 nodes only..
-def convert_to_weighted(g: Graph, start) -> Graph:
-    ng = DiGraph()
+# data.txt converted to 36 nodes only ...
+def generate_minor_graph(g: Graph, start) -> Graph:
+    """ https://en.wikipedia.org/wiki/Graph_minor """
+
+    ng = DiGraph()  # For q1 we need to stay on DiGraph ...
     q = deque([start])
 
     while q:
         node = q.popleft()
 
-        for target in g[node]:
+        for target in g[node].keys():
             measured = {node}
 
-            while True:
-                filtered_nodes = g[target].keys() - measured
-                if len(filtered_nodes) != 1:
-                    break
+            while len(filtered_nodes := g[target].keys() - measured) == 1:
                 measured.add(target)
                 target = filtered_nodes.pop()
 
-            if not target:
-                continue
-
-            if not ng.has_edge(node, target) or ng[node][target]['weight'] < len(measured):
+            if not ng.has_edge(node, target):
                 ng.add_edge(node, target, weight=len(measured))
                 q.append(target)
     return ng
 
 def q1(filename: str) -> int:
     g, start, end = get_data(filename, directions=DIRECTIONS_q1)
-    wg = convert_to_weighted(g, start)
-    paths = all_simple_paths(wg, start, end)
-    return max(path_weight(wg, path, weight='weight') for path in paths)
+    wg = generate_minor_graph(g, start)
+    edge_weights = [sum(wg[a][b]['weight'] for a, b in path) for path in all_simple_edge_paths(wg, start, end)]
+    return max(edge_weights)
 
 def q2(filename: str) -> int:
     g, start, end = get_data(filename, directions=DIRECTIONS_q2)
-    wg = convert_to_weighted(g, start)
+    wg = generate_minor_graph(g, start)
 
-    # Calculate all paths using networkx - 1min 20sec
+    # Calculate all paths using all_simple_paths - 1min 20sec
     # paths = all_simple_paths(wg, start, end)
     # return max(path_weight(wg, path, weight='weight') for path in paths)
 
-    # Calculate all possible paths manually- 38sec...
+    # Calculate using edge_paths - 53sec
+    # edge_weights = [sum(wg[a][b]['weight'] for a, b in path) for path in all_simple_edge_paths(wg, start, end)]
+    # return max(edge_weights)
+
+    # Calculate all possible paths manually (with a priority q) - 36sec...
     q = [(0, start, {start}, 0)]
     end_costs = []
     while q:
@@ -95,18 +95,25 @@ def q2(filename: str) -> int:
 
     return max(end_costs)
 
-def test_q1():
-    assert q1("test.txt") == 94
-    assert q1("data.txt") == 2354
+@pytest.mark.parametrize("filename, result", [("test.txt", 9), ("data.txt", 36)])
+def test_minor(filename: str, result: int):
+    g, start, end = get_data(filename, directions=DIRECTIONS_q2)
+    wg = generate_minor_graph(g, start)
+
+    assert len(wg.nodes) == result
+
+@pytest.mark.parametrize("filename, result", [("test.txt", 94), ("data.txt", 2354)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
 @pytest.mark.skip("38sec.. too long for CI")
-def test_q2():
-    assert q2("test.txt") == 154
-    assert q2("data.txt") == 6686
+@pytest.mark.parametrize("filename, result", [("test.txt", 154), ("data.txt", 6686)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result
 
 @pytest.mark.skip
 def test_visualize_q2():
     g, start, end = get_data("data.txt", directions=DIRECTIONS_q2)
-    wg = convert_to_weighted(g, start)
+    wg = generate_minor_graph(g, start)
     a = to_agraph(wg)
-    a.draw("data-graphviz.png", format="png", prog="fdp")
+    a.draw("data-graphviz-q2.png", format="png", prog="fdp")

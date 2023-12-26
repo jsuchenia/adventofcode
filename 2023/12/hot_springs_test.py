@@ -1,6 +1,8 @@
 # Hot Springs - https://adventofcode.com/2023/day/12
 from functools import cache
 
+import pytest
+
 def get_data(filename: str):
     with open(filename) as f:
         results = []
@@ -49,10 +51,10 @@ def test_line():
     assert check_line("???.###", (1, 1, 3)) == 1
     assert check_line(".??..??...?##.", (1, 1, 3)) == 4
 
-def test_q1():
-    assert q1("test.txt") == 21
-    assert q1("data.txt") == 7379
+@pytest.mark.parametrize("filename, result", [("test.txt", 21), ("data.txt", 7379)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 525152
-    assert q2("data.txt") == 7732028747925
+@pytest.mark.parametrize("filename, result", [("test.txt", 525152), ("data.txt", 7732028747925)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

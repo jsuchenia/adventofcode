@@ -1,6 +1,8 @@
 # Camel Cards
 from collections import Counter
 
+import pytest
+
 def get_data(filename: str) -> list[tuple[str, int]]:
     with open(filename) as f:
         lines = [line.split() for line in f.read().strip().splitlines()]
@@ -40,10 +42,10 @@ def q2(filename: str) -> int:
     bids = [line[1] * idx for idx, line in enumerate(lines, start=1)]
     return sum(bids)
 
-def test_q1():
-    assert q1("test.txt") == 6440
-    assert q1("data.txt") == 253603890
+@pytest.mark.parametrize("filename, result", [("test.txt", 6440), ("data.txt", 253603890)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 5905
-    assert q2("data.txt") == 253630098
+@pytest.mark.parametrize("filename, result", [("test.txt", 5905), ("data.txt", 253630098)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

@@ -1,5 +1,5 @@
 # Clumsy Crucible - https://adventofcode.com/2023/day/17
-
+import pytest
 from networkx import DiGraph, shortest_path_length
 
 def solve(filename: str, min_n: int, max_n: int) -> int:
@@ -35,10 +35,10 @@ def q1(filename: str) -> int:
 def q2(filename: str) -> int:
     return solve(filename, min_n=4, max_n=10)
 
-def test_q1():
-    assert q1("test.txt") == 102
-    assert q1("data.txt") == 1076
+@pytest.mark.parametrize("filename, result", [("test.txt", 102), ("data.txt", 1076)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 94
-    assert q2("data.txt") == 1219
+@pytest.mark.parametrize("filename, result", [("test.txt", 94), ("data.txt", 1219)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

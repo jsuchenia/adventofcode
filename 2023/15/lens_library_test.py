@@ -2,6 +2,8 @@
 from collections import defaultdict
 from functools import reduce
 
+import pytest
+
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
         return f.read().strip().split(',')
@@ -32,10 +34,10 @@ def q2(filename: str) -> int:
 def test_hash():
     assert HASH("HASH") == 52
 
-def test_q1():
-    assert q1("test.txt") == 1320
-    assert q1("data.txt") == 507291
+@pytest.mark.parametrize("filename, result", [("test.txt", 1320), ("data.txt", 507291)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 145
-    assert q2("data.txt") == 296921
+@pytest.mark.parametrize("filename, result", [("test.txt", 145), ("data.txt", 296921)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from itertools import combinations
 
+import pytest
 from sympy import Symbol, Eq, solve, symbols, lambdify
 
 @dataclass(frozen=True)
@@ -106,6 +107,6 @@ def test_q1_math():
     assert q1_math("test.txt", min_val=7, max_val=27) == 2
     assert q1_math("data.txt", min_val=200000000000000, max_val=400000000000000) == 16727
 
-def test_q2():
-    assert q2("test.txt") == 47
-    assert q2("data.txt") == 606772018765659
+@pytest.mark.parametrize("filename, result", [("test.txt", 47), ("data.txt", 606772018765659)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

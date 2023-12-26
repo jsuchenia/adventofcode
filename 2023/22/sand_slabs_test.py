@@ -2,6 +2,8 @@
 from collections import defaultdict
 from dataclasses import dataclass
 
+import pytest
+
 @dataclass(unsafe_hash=True)
 class Cube:
     x: int
@@ -85,10 +87,10 @@ def q2(filename: str) -> int:
             results += len(falling) - 1
     return results
 
-def test_q1():
-    assert q1("test.txt") == 5
-    assert q1("data.txt") == 395
+@pytest.mark.parametrize("filename, result", [("test.txt", 5), ("data.txt", 395)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-def test_q2():
-    assert q2("test.txt") == 7
-    assert q2("data.txt") == 64714
+@pytest.mark.parametrize("filename, result", [("test.txt", 7), ("data.txt", 64714)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result

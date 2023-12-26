@@ -25,9 +25,9 @@ def q1(filename: str) -> int:
 
     return prod(map(len, connected_components(g)))
 
-def test_q1():
-    assert q1("test.txt") == 54
-    assert q1("data.txt") == 531437
+@pytest.mark.parametrize("filename, result", [("test.txt", 54), ("data.txt", 531437)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
 @pytest.mark.skip
 def test_graph():
