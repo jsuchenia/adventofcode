@@ -26,10 +26,13 @@ def prepare_functions():
     adx, ax, ady, ay = symbols("adx ax ady ay")
     bdx, bx, bdy, by = symbols("bdx bx bdy by")
 
+    # Solve two linear equation - when two lines will cross each-other
     results = solve([Eq(adx * ta + ax, bdx * tb + bx), Eq(ady * ta + ay, bdy * tb + by)], ta, tb)
 
-    fun_ta = lambdify(((ax, ay, adx, ady), (bx, by, bdx, bdy)), results[ta])
-    fun_tb = lambdify(((ax, ay, adx, ady), (bx, by, bdx, bdy)), results[tb])
+    # Compile two functions (to calculate time of points: A and B)
+    function_params = ((ax, ay, adx, ady), (bx, by, bdx, bdy))
+    fun_ta = lambdify(function_params, results[ta])
+    fun_tb = lambdify(function_params, results[tb])
 
     return fun_ta, fun_tb
 
