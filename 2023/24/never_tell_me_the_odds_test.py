@@ -21,6 +21,9 @@ def get_data(filename: str) -> list[Hailstone]:
     with open(filename) as f:
         return [Hailstone(*map(int, line.split(','))) for line in f.read().strip().replace('@', ',').splitlines()]
 
+# With a separate solver created for each combination - first part took 1m 20sec
+# This version is using a solver on symbols, and then compile it to scipy/numpy code
+# With a compiled version - all combinations can be done within 300ms
 def prepare_functions():
     ta, tb = symbols("ta tb")
     adx, ax, ady, ay = symbols("adx ax ady ay")
@@ -91,8 +94,12 @@ def q2(filename: str) -> int:
 
     equations = []
     variables = [*sym]
+
+    # We need only first three hailstones (I've started on 10 - but reduced to 3 after all)
     for idx, a in enumerate(hs[:3]):
-        t = Symbol(f't_{idx}')  # remember that each intersection will have a different time, so it needs its own variable
+        # Intersection of a rock with Hailstone will happen at the same time (rock will have to hit it),
+        # but the time will be different for each one
+        t = Symbol(f't_{idx}')
 
         equations.append(Eq(x + dx * t, a.dx * t + a.x))
         equations.append(Eq(y + dy * t, a.dy * t + a.y))
