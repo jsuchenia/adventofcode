@@ -32,12 +32,10 @@ def q2(filename) -> int:
 
     return [x * (t - x) > distance for x in range(t)].count(True)
 
-def test_q1():
-    assert q1("test.txt") == 288
-    assert q1("data.txt") == 503424
+@pytest.mark.parametrize("filename, result", [("test.txt", 288), ("data.txt", 503424)])
+def test_q1(filename: str, result: int):
+    assert q1(filename) == result
 
-# 2.3 sec on my laptop
-@pytest.mark.skip
-def test_q2():
-    assert q2("test.txt") == 71503
-    assert q2("data.txt") == 32607562
+@pytest.mark.parametrize("filename, result", [("test.txt", 71503), ("data.txt", 32607562)])
+def test_q2(filename: str, result: int):
+    assert q2(filename) == result
