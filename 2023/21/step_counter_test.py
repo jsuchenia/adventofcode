@@ -139,6 +139,9 @@ def test_q2_data(filename="data.txt", steps=26501365):
 
 @pytest.mark.skip("Used during work on p2")
 def test_plot_points():
+    # Note:
+    # Later investigation proved that those points can form quadratic function - without first two elements
+    # https://www.wolframalpha.com/input?i=quadratic+fit+%7B%7B50%2C1594%7D%2C%7B100%2C6536%7D%2C%7B500%2C167004%7D%2C%7B1000%2C668697%7D%2C%7B5000%2C16733044%7D%7D
     q1_points = [(6, 16), (10, 50), (50, 1594), (100, 6536), (500, 167004), (1000, 668697), (5000, 16733044)]
 
     x = [p[0] for p in q1_points]
