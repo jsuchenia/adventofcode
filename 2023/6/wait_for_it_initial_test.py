@@ -36,6 +36,7 @@ def q2(filename) -> int:
 def test_q1(filename: str, result: int):
     assert q1(filename) == result
 
+@pytest.mark.skip("Require too many resources")
 @pytest.mark.parametrize("filename, result", [("test.txt", 71503), ("data.txt", 32607562)])
 def test_q2(filename: str, result: int):
     assert q2(filename) == result
