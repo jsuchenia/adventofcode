@@ -9,7 +9,7 @@ def read_data(filename: str):
         return [list(map(int, pattern.findall(line))) for line in f.readlines()]
 
 # DFS like - go deep and check how much goede we earn
-def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, limit):
+def simul(ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_cost_ore, geode_cost_obs, limit):
     q = deque()
     q.append((0, 0, 0, 0, 1, 0, 0, 0, limit))
 
@@ -52,7 +52,7 @@ def simul(id, ore_cost_ore, clay_cost_ore, obs_cost_ore, obs_cost_clay, geode_co
                 )
             )
 
-        if ore >= obs_cost_ore and clay >= obs_cost_clay and r_obs < geode_cost_obs:
+        elif ore >= obs_cost_ore and clay >= obs_cost_clay and r_obs < geode_cost_obs:
             c.append((ore + r_ore - obs_cost_ore, clay + r_clay - obs_cost_clay, obs + r_obs, geode + r_geode, r_ore, r_clay, r_obs + 1, r_geode, nt))
 
         if ore >= clay_cost_ore and r_clay < obs_cost_clay:
@@ -80,7 +80,7 @@ def do_simulationp1(filename, limit) -> int:
     result = 0
 
     for b in blueprints:
-        r = simul(*b, limit=limit)
+        r = simul(*b[1:], limit=limit)
         result += r * b[0]
 
     return result
@@ -90,7 +90,7 @@ def do_simulationp2(filename, limit) -> int:
     result = 1
 
     for b in blueprints[:3]:
-        r = simul(*b, limit=limit)
+        r = simul(*b[1:], limit=limit)
         result *= r
 
     return result
@@ -101,10 +101,10 @@ def test_minerals_p1_example():
 def test_minerals_p1_data():
     assert do_simulationp1("data.txt", limit=24) == 1144
 
-@pytest.mark.skip(reason="P2 took too long time")
+@pytest.mark.skip(reason="P2 took too long time - 51sec")
 def test_minerals_p2_example():
     assert do_simulationp2("example.txt", limit=32) == 3472
 
-@pytest.mark.skip(reason="P2 took too long time")
+@pytest.mark.skip(reason="P2 took too long time - 18sec")
 def test_minerals_p2_data():
     assert do_simulationp2("data.txt", limit=32) == 19980
