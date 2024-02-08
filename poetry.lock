@@ -247,13 +247,13 @@ test-no-images = ["pytest", "pytest-cov", "pytest-xdist", "wurlitzer"]
 
 [[package]]
 name = "cpmpy"
-version = "0.9.18"
+version = "0.9.19"
 description = "A numpy-based library for modeling constraint programming problems"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "cpmpy-0.9.18-py3-none-any.whl", hash = "sha256:a5396d0087643f0bed706bd3050d1e7d0af5f4d2298fc19a09b5ca95ac13e86d"},
-    {file = "cpmpy-0.9.18.tar.gz", hash = "sha256:68828549793115157cb6ca1354cfb8bdf41b046f5b103f9581365c25c2445a49"},
+    {file = "cpmpy-0.9.19-py3-none-any.whl", hash = "sha256:8e2501592486397f8b4610eed5a5e1b77e5dc61566dd813bbb456c4243f7be3d"},
+    {file = "cpmpy-0.9.19.tar.gz", hash = "sha256:d3f358766679f45ae966d394a031f252652f8dadb2c61933559594a631c17333"},
 ]
 
 [package.dependencies]
