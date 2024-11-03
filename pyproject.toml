@@ -47,6 +47,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 minversion = "7.0"
 console_output_style = "progress"
+asyncio_default_fixture_loop_scope = "function"
+asyncio_mode = "auto"
 
 [tool.black]
 line-length = 150
