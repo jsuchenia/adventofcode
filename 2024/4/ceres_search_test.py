@@ -19,10 +19,8 @@ def q1(filename: str) -> int:
     count = 0
     for y, x in product(range(len(data)), range(len(data[0]))):
         for dy, dx in [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]:
-            if (val(y, x) == 'X' and
-                    val(y + dy, x + dx) == 'M' and
-                    val(y + 2 * dy, x + 2 * dx) == 'A' and
-                    val(y + 3 * dy, x + 3 * dx) == 'S'):
+            w = val(y, x) + val(y + dy, x + dx) + val(y + 2 * dy, x + 2 * dx) + val(y + 3 * dy, x + 3 * dx)
+            if w == 'XMAS':
                 count += 1
     return count
 
