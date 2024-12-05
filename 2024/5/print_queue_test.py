@@ -1,6 +1,6 @@
 # Print Queue - https://adventofcode.com/2024/day/5
 
-def get_data(filename: str):
+def get_data(filename: str) -> tuple[list[str], list[list[str]]]:
     with open(filename) as f:
         data = f.read().strip()
     rules, updates = data.split("\n\n")
@@ -14,45 +14,31 @@ def get_data(filename: str):
 
 def q1(filename: str) -> tuple[int, int]:
     rules, updates = get_data(filename)
-    p1 = 0
-    p2 = 0
 
+    p1 = p2 = 0
+    incorrect = []
+
+    # part I
     for update in updates:
-        is_ok = True
         for idx, page in enumerate(update):
-            for i in range(idx - 1):
-                prev_page = update[i]
-                rule = f"{page}|{prev_page}"
-
-                if rule in rules:
-                    is_ok = False
-
-            for i in range(idx + 1, len(update)):
-                next_page = update[i]
-                rule = f"{next_page}|{page}"
-
-                if rule in rules:
-                    is_ok = False
-
-        if is_ok:
-            l = update[len(update) // 2]
-            p1 += int(l)
+            if any(f"{update[i]}|{page}" in rules for i in range(idx + 1, len(update))):
+                incorrect.append(update)
+                break
         else:
-            elements = set(update)
-            result = []
-            while elements:
-                for element in elements:
-                    is_ok = True
-                    for other in elements:
-                        if f"{other}|{element}" in rules:
-                            is_ok = False
-                    if is_ok:
-                        result.append(element)
-                        break
-                elements.remove(result[-1])
+            p1 += int(update[len(update) // 2])
 
-            l = result[len(result) // 2]
-            p2 += int(l)
+    # part II
+    for update in incorrect:
+        elements = set(update)
+        result = []
+        while elements:
+            for element in elements:
+                if not any(f"{other}|{element}" in rules for other in elements):
+                    result.append(element)
+                    elements.remove(element)
+                    break
+
+        p2 += int(result[len(result) // 2])
     return p1, p2
 
 
