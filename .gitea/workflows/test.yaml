@@ -5,7 +5,9 @@ on: [ push ]
 jobs:
   test-job:
     name: Python test job
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
+    container:
+      image: "ubuntu:24.04"
     timeout-minutes: 60
     steps:
       - name: Update to recent tool version
