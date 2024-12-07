@@ -1342,6 +1342,20 @@ docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1.0)"]
 testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
 
 [[package]]
+name = "pytest-picked"
+version = "0.5.1"
+description = "Run the tests related to the changed files"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pytest_picked-0.5.1-py3-none-any.whl", hash = "sha256:af65c4763b51dc095ae4bc5073a962406902422ad9629c26d8b01122b677d998"},
+    {file = "pytest_picked-0.5.1.tar.gz", hash = "sha256:6634c4356a560a5dc3dba35471865e6eb06bbd356b56b69c540593e9d5620ded"},
+]
+
+[package.dependencies]
+pytest = ">=3.7.0"
+
+[[package]]
 name = "pytest-xdist"
 version = "3.6.1"
 description = "pytest xdist plugin for distributed testing, most importantly across multiple CPUs"
@@ -1710,4 +1724,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12,<3.13"
-content-hash = "6e0fa4feb66e9b30a27884335dd828457b020ed7b4ae5e33a65fd1b56293dc56"
+content-hash = "7e92609855ffd2dcb1c56eeada585ab41981de41073190cd757ee2e6d6949229"
