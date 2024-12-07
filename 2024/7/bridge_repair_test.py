@@ -1,4 +1,7 @@
 # Bridge Repair - https://adventofcode.com/2024/day/7
+from typing import Callable
+
+import pytest
 
 
 def get_data(filename: str) -> list[tuple[list[int], int]]:
@@ -31,9 +34,6 @@ def is_valid_recur(vals, result, use_concatenation) -> bool:
 
 # Reverse check - we can validate additional checks for division and concatenation
 def is_valid_reverse(vals, result, use_concatenation) -> bool:
-    if result < 0:
-        return False
-
     if len(vals) == 1:
         return vals[0] == result
 
@@ -46,26 +46,40 @@ def is_valid_reverse(vals, result, use_concatenation) -> bool:
         if res_str.endswith(v_str) and is_valid_reverse(vals[:-1], int(res_str[:-len(v_str)]), use_concatenation):
             return True
 
-    return is_valid_reverse(vals[:-1], result - vals[-1], use_concatenation)
+    if result >= vals[-1] and is_valid_reverse(vals[:-1], result - vals[-1], use_concatenation):
+        return True
+
+    return False
 
 
-def q1(filename: str) -> int:
+def q1(filename: str, method: Callable[[list[int], int, bool], bool]) -> int:
     data = get_data(filename)
 
-    return sum(res for vals, res in data if is_valid_reverse(vals, res, False))
+    return sum(res for vals, res in data if method(vals, res, False))
 
 
-def q2(filename: str) -> int:
+def q2(filename: str, method: Callable[[list[int], int, bool], bool]) -> int:
     data = get_data(filename)
 
-    return sum(res for vals, res in data if is_valid_reverse(vals, res, True))
+    return sum(res for vals, res in data if method(vals, res, True))
 
 
-def test_q1():
-    assert q1("test.txt") == 3749
-    assert q1("data.txt") == 8401132154762
+def test_q1_recur():
+    assert q1("test.txt", is_valid_recur) == 3749
+    assert q1("data.txt", is_valid_recur) == 8401132154762
 
 
-def test_q2():
-    assert q2("test.txt") == 11387
-    assert q2("data.txt") == 95297119227552
+def test_q1_reverse():
+    assert q1("test.txt", is_valid_reverse) == 3749
+    assert q1("data.txt", is_valid_reverse) == 8401132154762
+
+
+@pytest.mark.skip("4sec vs 6ms in recur..")
+def test_q2_recur():
+    assert q2("test.txt", is_valid_recur) == 11387
+    assert q2("data.txt", is_valid_recur) == 95297119227552
+
+
+def test_q2_reverse():
+    assert q2("test.txt", is_valid_reverse) == 11387
+    assert q2("data.txt", is_valid_reverse) == 95297119227552
