@@ -1,8 +1,6 @@
 # Bridge Repair - https://adventofcode.com/2024/day/7
 from typing import Callable
 
-import pytest
-
 
 def get_data(filename: str) -> list[tuple[list[int], int]]:
     with open(filename) as f:
@@ -74,7 +72,6 @@ def test_q1_reverse():
     assert q1("data.txt", is_valid_reverse) == 8401132154762
 
 
-@pytest.mark.skip("4sec vs 6ms in recur..")
 def test_q2_recur():
     assert q2("test.txt", is_valid_recur) == 11387
     assert q2("data.txt", is_valid_recur) == 95297119227552

@@ -46,7 +46,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts = "--picked -n auto"
 minversion = "8.0"
 console_output_style = "progress"
 asyncio_default_fixture_loop_scope = "function"
