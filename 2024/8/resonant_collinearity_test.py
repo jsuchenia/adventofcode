@@ -24,12 +24,12 @@ def q1(filename: str) -> int:
 
     for char, positions in pairs.items():
         for pos1, pos2 in combinations(positions, 2):
-            dy, dx = pos2[0] - pos1[0], pos2[1] - pos1[1]
+            new_pos_1 = (2 * pos1[0] - pos2[0], 2 * pos1[1] - pos2[1])
+            new_pos_2 = (2 * pos2[0] - pos1[0], 2 * pos2[1] - pos1[1])
 
-            new_pos_1 = (pos1[0] - dy, pos1[1] - dx)
-            new_pos_2 = (pos2[0] + dy, pos2[1] + dx)
             if new_pos_1 in area: found_positions.add(new_pos_1)
             if new_pos_2 in area: found_positions.add(new_pos_2)
+
     return len(found_positions)
 
 
