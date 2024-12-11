@@ -1,4 +1,6 @@
 # Plutonian Pebbles - https://adventofcode.com/2024/day/11
+# Very similar to Lanternfish - https://adventofcode.com/2021/day/6
+
 from collections import defaultdict, Counter
 
 
