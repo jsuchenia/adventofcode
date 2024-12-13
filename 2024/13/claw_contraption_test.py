@@ -4,36 +4,27 @@ import re
 from sympy import symbols, Eq, solve
 
 
-def get_data(filename: str) -> list[tuple[tuple[int, int], tuple[int, int], tuple[int, int]]]:
+def get_data(filename: str) -> list[list[int]]:
     with open(filename) as f:
-        lines = f.read().strip()
-
-    machines = lines.split('\n\n')
-    result = []
-    for machine in machines:
-        lines = machine.splitlines()
-        a_x, a_y = re.findall(r'Button A: X\+(\d+), Y\+(\d+)', lines[0])[0]
-        b_x, b_y = re.findall(r'Button B: X\+(\d+), Y\+(\d+)', lines[1])[0]
-        prize_x, prize_y = re.findall(r'Prize: X=(\d+), Y=(\d+)', lines[2])[0]
-        
-        result.append(((int(a_x), int(a_y)), (int(b_x), int(b_y)), (int(prize_x), int(prize_y))))
-    return result
+        return [
+            [int(n) for n in re.findall(r'(\d+)', machine)]
+            for machine in f.read().strip().split('\n\n')
+        ]
 
 
 def q1(filename: str, *, boost=0) -> int:
     tokens = 0
     machines = get_data(filename)
     for machine in machines:
-        def_a, def_b, prize = machine
-        A, B = symbols("A"), symbols("B")
+        a, b = symbols("a b", integer=True, nonnegative=True)
 
         result = solve([
-            Eq(A * def_a[0] + B * def_b[0], prize[0] + boost),
-            Eq(A * def_a[1] + B * def_b[1], prize[1] + boost),
-        ], [A, B])
+            Eq(a * machine[0] + b * machine[2], machine[4] + boost),
+            Eq(a * machine[1] + b * machine[3], machine[5] + boost),
+        ], [a, b])
 
-        if result[A].is_integer and result[B].is_integer:
-            tokens += 3 * result[A] + result[B]
+        if result:
+            tokens += 3 * result[a] + result[b]
 
     return tokens
 
