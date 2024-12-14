@@ -3,11 +3,13 @@
 
 from collections import defaultdict, Counter
 
+from aoclib import *
 
-def get_data(filename: str) -> list[int]:
+
+def get_data(filename: str) -> tuple[int]:
     with open(filename) as f:
         line = f.read().strip()
-    return list(map(int, line.split(' ')))
+    return ints(line)
 
 
 def q1(filename: str, *, blinks) -> int:

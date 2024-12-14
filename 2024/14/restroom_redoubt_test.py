@@ -1,15 +1,15 @@
 # Restroom Redoubt - https://adventofcode.com/2024/day/14
-import re
 from collections import defaultdict, deque
-from functools import reduce
-from operator import mul
+from math import prod
+
+from aoclib import *
 
 
-def get_data(filename: str) -> list[tuple]:
+def get_data(filename: str) -> list[tuple[int, ...]]:
     result = []
     with open(filename) as f:
         for line in f.read().strip().splitlines():
-            result.append(tuple(map(int, re.findall(r'([0-9\-]+)', line))))
+            result.append(ints(line))
         return result
 
 
@@ -26,10 +26,10 @@ def calc_safety_factor(robots: list[tuple], X: int, Y: int) -> int:
         elif x > mid_x and y > mid_y:
             q[3] += 1
 
-    return reduce(mul, q.values())
+    return prod(q.values())
 
 
-def q1(filename: str, X, Y) -> int:
+def q1(filename: str, X: int, Y: int) -> int:
     robots = get_data(filename)
 
     for _ in range(100):
@@ -93,6 +93,7 @@ def q2(filename: str, X, Y) -> int:
         # if min_safety is None or safety < min_safety[0]:
         #     min_safety = (safety, tick)
         #     print(f"{min_safety}")
+
         if (gs := count_greatest_area(area)) > 20:
             safety = calc_safety_factor(robots, X, Y)
             print(f"\n{total=} {len(area)=} {gs=} {tick=} {safety=}")

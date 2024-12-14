@@ -1,16 +1,17 @@
 # Red-Nosed Reports - https://adventofcode.com/2024/day/2
+from aoclib import *
 
 
-def get_data(filename: str) -> list[list[int]]:
+def get_data(filename: str) -> list[tuple[int, ...]]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
 
-    return [[int(a) for a in line.split(" ")] for line in lines]
+    return [ints(line) for line in lines]
 
 
-def is_safe(level: list[int]) -> bool:
+def is_safe(level: tuple[int, ...]) -> bool:
     diffs = [b - a for a, b in zip(level, level[1:])]
-    
+
     return all(-1 >= diff >= -3 for diff in diffs) or all(1 <= diff <= 3 for diff in diffs)
 
 
@@ -25,7 +26,7 @@ def q2(filename: str) -> int:
     safe_count = 0
 
     for level in levels:
-        level_reduced = [level[:i] + level[i + 1:] for i in range(len(level))]
+        level_reduced = (level[:i] + level[i + 1:] for i in range(len(level)))
         if any(is_safe(pattern) for pattern in level_reduced):
             safe_count += 1
 

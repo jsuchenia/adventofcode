@@ -1,13 +1,15 @@
 # Historian Hysteria - https://adventofcode.com/2024/day/1
 from collections import Counter
 
+from aoclib import *
+
 
 def get_data(filename: str) -> tuple[list[int], list[int]]:
     with open(filename) as f:
-        lines = [line.strip().split("  ") for line in f.read().strip().splitlines()]
+        lines = [ints(line) for line in f.read().strip().splitlines()]
 
-    col1 = sorted([int(nums[0]) for nums in lines])
-    col2 = sorted([int(nums[1]) for nums in lines])
+    col1 = sorted(nums[0] for nums in lines)
+    col2 = sorted(nums[1] for nums in lines)
 
     return col1, col2
 

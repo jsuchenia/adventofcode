@@ -1,19 +1,18 @@
 # Garden Groups - https://adventofcode.com/2024/day/12
 from collections import deque
 
+from aoclib import *
 
-def get_data(filename: str) -> dict[tuple[int, int], str]:
+
+def get_data(filename: str) -> dict[Point, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
 
     area = {}
     for y, line in enumerate(lines):
         for x, c in enumerate(line):
-            area[y, x] = c
+            area[Point(x=x, y=y)] = c
     return area
-
-
-DIRECTIONS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 
 def q1(filename: str) -> int:
@@ -33,15 +32,14 @@ def q1(filename: str) -> int:
                 continue
             seen.add(check)
             area += 1
-            y, x = check
-            for dy, dx in DIRECTIONS:
-                new_pos = y + dy, x + dx
-                if data[pos] == data.get(new_pos, ""):
+            for d in DIRECTIONS_4:
+                new_pos = check + d
+                if data[check] == data.get(new_pos, ""):
                     q.append(new_pos)
                 else:
                     perimeter += 1
 
-        # print(f"Area of {data[pos]} with {area=} and {perimeter=}")
+        print(f"Area of {data[pos]} with {area=} and {perimeter=}")
         result += area * perimeter
 
     return result
@@ -64,30 +62,29 @@ def q2(filename: str) -> int:
                 continue
             seen.add(check)
             area += 1
-            y, x = check
-            for dy, dx in DIRECTIONS:
-                new_pos = y + dy, x + dx
+            for dir in DIRECTIONS_4:
+                new_pos = check + dir
                 if data[pos] == data.get(new_pos, ""):
                     q.append(new_pos)
 
             # Check corners
-            for i in range(len(DIRECTIONS)):
-                dy1, dx1 = DIRECTIONS[i]
-                dy2, dx2 = DIRECTIONS[(i + 1) % len(DIRECTIONS)]
-                new_pos1 = y + dy1, x + dx1
-                new_pos2 = y + dy2, x + dx2
+            for i in range(len(DIRECTIONS_4)):
+                d1 = DIRECTIONS_4[i]
+                d2 = DIRECTIONS_4[(i + 1) % len(DIRECTIONS_4)]
+                new_pos1 = check + d1
+                new_pos2 = check + d2
 
                 # In a correct NESW order, sum of directions will be a correct diagonal direction
                 # As there is always one 0 in N, E, S or W
-                mid_pos = y + dy1 + dy2, x + dx1 + dx2
+                mid_pos = check + d1 + d2
 
                 pos1_val = data.get(new_pos1, "")
                 pos2_val = data.get(new_pos2, "")
                 mid_pos_val = data.get(mid_pos, "")
 
-                if data[pos] != pos1_val and data[pos] != pos2_val:
+                if data[check] != pos1_val and data[check] != pos2_val:
                     sides += 1  # Outer corner
-                elif data[pos] == pos1_val and data[pos] == pos2_val and data[pos] != mid_pos_val:
+                elif data[check] == pos1_val and data[check] == pos2_val and data[check] != mid_pos_val:
                     sides += 1  # Inner corner
 
         # print(f"Area of {data[pos]} with {area=} and {sides=}")

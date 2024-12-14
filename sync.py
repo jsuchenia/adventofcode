@@ -100,6 +100,8 @@ def file_conains_part_two(readme_path: str):
 
 
 TEMPLATE = """
+from aoclib import *
+
 def get_data(filename: str) -> list[str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
