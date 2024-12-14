@@ -13,14 +13,7 @@ def get_data(filename: str) -> list[tuple]:
         return result
 
 
-def q1(filename: str, X, Y) -> int:
-    robots = get_data(filename)
-
-    for _ in range(100):
-        for idx, robot in enumerate(robots):
-            x, y, dx, dy = robot
-            robots[idx] = ((x + dx) % X, (y + dy) % Y, dx, dy)
-
+def calc_safety_factor(robots: list[tuple], X: int, Y: int) -> int:
     mid_x, mid_y = X // 2, Y // 2
     q = defaultdict(int)
     for x, y, _, _ in robots:
@@ -34,6 +27,16 @@ def q1(filename: str, X, Y) -> int:
             q[3] += 1
 
     return reduce(mul, q.values())
+
+
+def q1(filename: str, X, Y) -> int:
+    robots = get_data(filename)
+
+    for _ in range(100):
+        for idx, robot in enumerate(robots):
+            x, y, dx, dy = robot
+            robots[idx] = ((x + dx) % X, (y + dy) % Y, dx, dy)
+    return calc_safety_factor(robots, X, Y)
 
 
 def print_area(area, X, Y):
@@ -71,6 +74,8 @@ def q2(filename: str, X, Y) -> int:
     robots = get_data(filename)
     total = len(robots)
 
+    min_safety = None
+
     for tick in range(1, 10_000):
         area = set()
         for idx, robot in enumerate(robots):
@@ -80,11 +85,20 @@ def q2(filename: str, X, Y) -> int:
             area.add((x, y))
 
         # Alternative option found later - there are no duplicates on a final image (so total == area len)
-        if (gs := count_greatest_area(area)) > 20 or total == len(area):
-            print(f"\n{total=} {len(area)=} {gs=} {tick=}")
+        # if total == len(area):
+        #     return tick
+
+        # From https://www.youtube.com/watch?v=uj7OnaBDCiY - safety of a picture with a tree is a minimum
+        # safety = calc_safety_factor(robots, X, Y)
+        # if min_safety is None or safety < min_safety[0]:
+        #     min_safety = (safety, tick)
+        #     print(f"{min_safety}")
+        if (gs := count_greatest_area(area)) > 20:
+            safety = calc_safety_factor(robots, X, Y)
+            print(f"\n{total=} {len(area)=} {gs=} {tick=} {safety=}")
             print_area(area, X, Y)
             return tick
-    return 0
+    return min_safety[1]
 
 
 def test_q1():
