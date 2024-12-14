@@ -18,6 +18,8 @@ networkx = "*"
 shapely = "*"
 pydantic = "*"
 
+ollama = "*"
+
 # Jits are not supported under 3.12 yet :/
 #[tool.poetry.group.jit.dependencies]
 #numba = "*"
