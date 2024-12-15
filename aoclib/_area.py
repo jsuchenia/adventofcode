@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Self, Iterable
 
+from PIL import Image, ImageDraw, ImageFont
+
 
 @dataclass(kw_only=True, frozen=True)
 class Point:
@@ -28,12 +30,34 @@ def parse_map(lines: Iterable[Iterable[str]]) -> dict[Point, str]:
     return result
 
 
-def print_map(area: dict[Point, str]) -> None:
+def get_map_as_str(area: dict[Point, str]) -> str:
     max_x = max(p.x for p in area.keys())
     max_y = max(p.y for p in area.keys())
 
+    r = []
     for y in range(max_y + 1):
-        print(''.join(map(lambda p: area[p] if p in area else ' ', [Point(x=x, y=y) for x in range(max_x + 1)])))
+        r.append(''.join(map(lambda p: area[p] if p in area else ' ', [Point(x=x, y=y) for x in range(max_x + 1)])))
+    return '\n'.join(r)
+
+
+def get_map_as_img(area: dict[Point, str]) -> Image:
+    font = ImageFont.load_default_imagefont()
+
+    text = get_map_as_str(area)
+    W, H = (10_000, 10_000)
+
+    image = Image.new("RGBA", (W, H), "white")
+    draw = ImageDraw.Draw(image)
+    _, _, w, h = draw.textbbox((0, 0), text, font=font)
+    draw.text((0, 0), text, font=font, fill="black")
+
+    im_cropped = image.crop((0, 0, w, h))
+
+    return im_cropped
+
+
+def print_map(area: dict[Point, str]) -> None:
+    print(get_map_as_str(area))
 
 
 # In our examples (where top,left corner is 0,0) this is how we map N,S,E,W
