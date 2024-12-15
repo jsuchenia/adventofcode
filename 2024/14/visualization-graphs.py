@@ -30,11 +30,13 @@ if __name__ == "__main__":
 
     plt.xscale('linear')
     plt.yscale('linear')
-    plt.title("Safety score")  # This needs to be minimum
-    plt.plot(xval, safety_scores)
-    plt.savefig("safety_score.png")
 
-    plt.clf()
-    plt.title("Number of bots")  # This needs to be equal to bots (500)
-    plt.plot(xval, area_size)
-    plt.savefig("bots.png")
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True)
+
+    ax1.set_title("Safety score")  # This needs to be minimum
+    ax1.plot(xval, safety_scores)
+
+    ax2.set_title("Number of bots")  # This needs to be equal to bots (500)
+    ax2.plot(xval, area_size)
+
+    plt.savefig("visualisation.png")

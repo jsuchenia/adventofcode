@@ -1,4 +1,5 @@
 # Warehouse Woes - https://adventofcode.com/2024/day/15
+
 from aoclib import *
 
 
@@ -6,10 +7,10 @@ def get_data(filename: str) -> tuple[dict[Point, str], Point, str]:
     with open(filename) as f:
         data = f.read().strip()
 
-    map, moves = data.split("\n\n")
-    area = parse_map(map.splitlines())
-    start = [key for key, val in area.items() if val == "@"]
+    area, moves = data.split("\n\n")
 
+    area = parse_map(area.splitlines())
+    start = [key for key, val in area.items() if val == "@"]
     assert len(start) == 1
 
     return area, start[0], moves.replace('\n', '')
@@ -25,6 +26,7 @@ MOVES = {
 
 def q1(filename: str) -> int:
     area, start, moves = get_data(filename)
+
     for move in moves:
         pos = start
         to_move = [pos]
@@ -44,7 +46,6 @@ def q1(filename: str) -> int:
                 area[point + direction], area[point] = area[point], '.'
             start = start + direction
         # print_map(area)
-
     return sum(100 * point.y + point.x for point, val in area.items() if val == 'O')
 
 
@@ -106,10 +107,7 @@ def q2(filename: str) -> int:
         if to_move:
             for point in reversed(list(dict.fromkeys(to_move))):  # Unique elements in a reverse order
                 area[point + direction], area[point] = area[point], area[point + direction]
-
             start = start + direction
-        # print_map(area)
-
     return sum(100 * point.y + point.x for point, val in area.items() if val == '[')
 
 

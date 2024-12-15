@@ -17,7 +17,7 @@ scipy = "*"
 networkx = "*"
 shapely = "*"
 pydantic = "*"
-
+opencv-python = "*"
 ollama = "*"
 
 # Jits are not supported under 3.12 yet :/
