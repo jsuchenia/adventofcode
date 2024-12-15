@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Self
+from typing import Self, Iterable
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -20,8 +20,25 @@ class Point:
         return Point(x=self.x * other, y=self.y * other)
 
 
-N = Point(x=0, y=1)
-S = Point(x=0, y=-1)
+def parse_map(lines: Iterable[Iterable[str]]) -> dict[Point, str]:
+    result = dict()
+    for y, line in enumerate(lines):
+        for x, ch in enumerate(line):
+            result[Point(x=x, y=y)] = ch
+    return result
+
+
+def print_map(area: dict[Point, str]) -> None:
+    max_x = max(p.x for p in area.keys())
+    max_y = max(p.y for p in area.keys())
+
+    for y in range(max_y + 1):
+        print(''.join(map(lambda p: area[p] if p in area else ' ', [Point(x=x, y=y) for x in range(max_x + 1)])))
+
+
+# In our examples (where top,left corner is 0,0) this is how we map N,S,E,W
+N = Point(x=0, y=-1)
+S = Point(x=0, y=1)
 E = Point(x=1, y=0)
 W = Point(x=-1, y=0)
 
