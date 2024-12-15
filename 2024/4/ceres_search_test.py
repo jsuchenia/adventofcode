@@ -5,13 +5,13 @@ from itertools import product
 from aoclib import *
 
 
-def get_data(filename: str) -> dict[Point, str]:
+def get_data(filename: str) -> dict[AoCPoint, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
 
     res = defaultdict(lambda: "")
     for y, x in product(range(len(lines)), range(len(lines[0]))):
-        res[Point(x=x, y=y)] = lines[y][x]
+        res[AoCPoint(x=x, y=y)] = lines[y][x]
     return res
 
 

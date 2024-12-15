@@ -1,46 +1,63 @@
 from dataclasses import dataclass
 from typing import Self, Iterable
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageFont, Image, ImageDraw
 
 
 @dataclass(kw_only=True, frozen=True)
-class Point:
+class AoCPoint:
     x: int
     y: int
 
     def __add__(self, other: Self) -> Self:
-        return Point(x=self.x + other.x, y=self.y + other.y)
+        return AoCPoint(x=self.x + other.x, y=self.y + other.y)
 
     def __sub__(self, other: Self) -> Self:
-        return Point(x=self.x - other.x, y=self.y - other.y)
+        return AoCPoint(x=self.x - other.x, y=self.y - other.y)
 
     def __mul__(self, other: int) -> Self:
-        return Point(x=self.x * other, y=self.y * other)
+        return AoCPoint(x=self.x * other, y=self.y * other)
 
     def __rmul__(self, other: int) -> Self:
-        return Point(x=self.x * other, y=self.y * other)
+        return AoCPoint(x=self.x * other, y=self.y * other)
 
 
-def parse_map(lines: Iterable[Iterable[str]]) -> dict[Point, str]:
+def parse_map(lines: Iterable[Iterable[str]]) -> dict[AoCPoint, str]:
     result = dict()
     for y, line in enumerate(lines):
         for x, ch in enumerate(line):
-            result[Point(x=x, y=y)] = ch
+            result[AoCPoint(x=x, y=y)] = ch
     return result
 
 
-def get_map_as_str(area: dict[Point, str]) -> str:
+# In our examples (where top,left corner is 0,0) this is how we map N,S,E,W
+N = AoCPoint(x=0, y=-1)
+S = AoCPoint(x=0, y=1)
+E = AoCPoint(x=1, y=0)
+W = AoCPoint(x=-1, y=0)
+
+DIRECTIONS_4 = (N, E, S, W)
+
+NE = N + E
+SE = S + E
+SW = S + W
+NW = N + W
+
+DIRECTIONS_8 = (N, NE, E, SE, S, SW, W, NW)
+
+
+# Visualization of an area - str, ASCII and PIL Image
+def get_map_as_str(area: dict[AoCPoint, str]) -> str:
     max_x = max(p.x for p in area.keys())
     max_y = max(p.y for p in area.keys())
 
     r = []
     for y in range(max_y + 1):
-        r.append(''.join(map(lambda p: area[p] if p in area else ' ', [Point(x=x, y=y) for x in range(max_x + 1)])))
+        r.append(''.join(map(lambda p: area[p] if p in area else ' ', [AoCPoint(x=x, y=y) for x in range(max_x + 1)])))
     return '\n'.join(r)
 
 
-def get_map_as_img(area: dict[Point, str], footer: str = "") -> Image:
+def get_map_as_img(area: dict[AoCPoint, str], *, footer: str = "") -> Image:
     font = ImageFont.load_default_imagefont()
 
     text = get_map_as_str(area)
@@ -59,21 +76,5 @@ def get_map_as_img(area: dict[Point, str], footer: str = "") -> Image:
     return im_cropped
 
 
-def print_map(area: dict[Point, str]) -> None:
+def print_map(area: dict[AoCPoint, str]) -> None:
     print(get_map_as_str(area))
-
-
-# In our examples (where top,left corner is 0,0) this is how we map N,S,E,W
-N = Point(x=0, y=-1)
-S = Point(x=0, y=1)
-E = Point(x=1, y=0)
-W = Point(x=-1, y=0)
-
-DIRECTIONS_4 = (N, E, S, W)
-
-NE = N + E
-SE = S + E
-SW = S + W
-NW = N + W
-
-DIRECTIONS_8 = (N, NE, E, SE, S, SW, W, NW)

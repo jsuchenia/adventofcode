@@ -7,7 +7,7 @@ from warehouse_woes_test import MOVES, get_data, resize_map
 def simulate(filename: str, resize, image_name: str, ratio=1) -> None:
     area, start, moves = get_data(filename)
     if resize:
-        area, start = resize_map(area), Point(x=2 * start.x, y=start.y)
+        area, start = resize_map(area), AoCPoint(x=2 * start.x, y=start.y)
 
     total = len(moves)
     images = [get_map_as_img(area, footer=f"0/{total}")]

@@ -3,7 +3,7 @@
 from aoclib import *
 
 
-def get_data(filename: str) -> tuple[dict[Point, str], Point, str]:
+def get_data(filename: str) -> tuple[dict[AoCPoint, str], AoCPoint, str]:
     with open(filename) as f:
         data = f.read().strip()
 
@@ -49,18 +49,18 @@ def q1(filename: str) -> int:
     return sum(100 * point.y + point.x for point, val in area.items() if val == 'O')
 
 
-def resize_map(area: dict[Point, str]) -> dict[Point, str]:
+def resize_map(area: dict[AoCPoint, str]) -> dict[AoCPoint, str]:
     new_area = {}
     for point, val in area.items():
         if val == '#' or val == '.':
-            new_area[Point(x=point.x * 2, y=point.y)] = val
-            new_area[Point(x=point.x * 2 + 1, y=point.y)] = val
+            new_area[AoCPoint(x=point.x * 2, y=point.y)] = val
+            new_area[AoCPoint(x=point.x * 2 + 1, y=point.y)] = val
         elif val == '@':
-            new_area[Point(x=point.x * 2, y=point.y)] = val
-            new_area[Point(x=point.x * 2 + 1, y=point.y)] = '.'
+            new_area[AoCPoint(x=point.x * 2, y=point.y)] = val
+            new_area[AoCPoint(x=point.x * 2 + 1, y=point.y)] = '.'
         elif val == 'O':
-            new_area[Point(x=point.x * 2, y=point.y)] = '['
-            new_area[Point(x=point.x * 2 + 1, y=point.y)] = ']'
+            new_area[AoCPoint(x=point.x * 2, y=point.y)] = '['
+            new_area[AoCPoint(x=point.x * 2 + 1, y=point.y)] = ']'
         else:
             raise ValueError(f"Wrong value of point {point=} {val=}")
 
@@ -69,7 +69,7 @@ def resize_map(area: dict[Point, str]) -> dict[Point, str]:
 
 def q2(filename: str) -> int:
     area, start, moves = get_data(filename)
-    area, start = resize_map(area), Point(x=2 * start.x, y=start.y)
+    area, start = resize_map(area), AoCPoint(x=2 * start.x, y=start.y)
 
     for move in moves:
         positions = [start]

@@ -18,7 +18,7 @@ if __name__ == "__main__":
             x, y, dx, dy = robot
             x, y = (x + dx) % X, (y + dy) % Y
             robots[idx] = (x, y, dx, dy)
-            area[Point(x=x, y=y)] = '#'
+            area[AoCPoint(x=x, y=y)] = '#'
 
         img = get_map_as_img(area, footer=f"{tick}/10.000")
         opencvImage = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
