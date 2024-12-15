@@ -40,9 +40,8 @@ def q1(filename: str) -> int:
                 to_move.clear()
                 break
         if to_move:
-            for m in reversed(to_move):
-                area[m + direction] = area[m]
-            area[start] = '.'
+            for point in reversed(to_move):
+                area[point + direction], area[point] = area[point], '.'
             start = start + direction
         # print_map(area)
 
@@ -105,11 +104,9 @@ def q2(filename: str) -> int:
                 break
 
         if to_move:
-            for point in reversed(to_move):
-                area[point + direction] = area[point]
+            for point in reversed(list(dict.fromkeys(to_move))):  # Unique elements in a reverse order
+                area[point + direction], area[point] = area[point], area[point + direction]
 
-            for point in set(to_move) - set(point + direction for point in to_move):
-                area[point] = '.'
             start = start + direction
         # print_map(area)
 
