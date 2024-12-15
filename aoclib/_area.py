@@ -40,10 +40,13 @@ def get_map_as_str(area: dict[Point, str]) -> str:
     return '\n'.join(r)
 
 
-def get_map_as_img(area: dict[Point, str]) -> Image:
+def get_map_as_img(area: dict[Point, str], footer: str = "") -> Image:
     font = ImageFont.load_default_imagefont()
 
     text = get_map_as_str(area)
+    if footer:
+        text += "\n\n"
+        text += footer
     W, H = (10_000, 10_000)
 
     image = Image.new("RGBA", (W, H), "white")
