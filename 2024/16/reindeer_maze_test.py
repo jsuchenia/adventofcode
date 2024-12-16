@@ -1,6 +1,6 @@
 # Reindeer Maze - https://adventofcode.com/2024/day/16
 
-import networkx as nx
+from networkx import DiGraph, all_shortest_paths, shortest_path_length
 
 from aoclib import *
 
@@ -14,20 +14,18 @@ def get_data(filename: str) -> dict[complex, str]:
 def build_graph(filename):
     area = get_data(filename)
 
-    g = nx.DiGraph()
-    start = None
-    end = None
+    g = DiGraph()
+    start = end = None
 
     for point, val in area.items():
         if val == '#':
             continue
-        if val == 'S':
+        elif val == 'S':
             start = (point, E)  # From rules
-        if val == 'E':
+        elif val == 'E':
             end = (point, N)  # N is for all the tasks - hardcoding
 
         for direction in DIRECTIONS_4:
-            g.add_node((point, direction))
             if area.get((point + direction)) != '#':
                 g.add_edge((point, direction), (point + direction, direction), weight=1)
 
@@ -40,20 +38,29 @@ def build_graph(filename):
     return g, start, end
 
 
-def q1(filename: str) -> int:
-    g, start, end = build_graph(filename)
+def simplify_graph(g: DiGraph) -> None:
+    for node in list(g.nodes):
+        if g.degree(node) == 2 and len(edges := list(g.edges(node))) == 2:
+            weight = sum(g.get_edge_data(*edge)['weight'] for edge in edges)
+            g.add_edge(edges[0][1], edges[1][1], weight=weight)
+            g.remove_node(node)
 
-    return nx.shortest_path_length(g, start, end, weight="weight")
+    print(f"Simplified grid stats {len(g.nodes)=} {len(g.edges)=}")
+
+
+def q1(filename: str) -> int:
+    grid, start, end = build_graph(filename)
+    simplify_graph(grid)
+    return shortest_path_length(grid, start, end, weight="weight")
 
 
 def q2(filename: str) -> int:
     grid, start, end = build_graph(filename)
+    simplify_graph(grid)
 
     seats = set()
-    for path in nx.all_shortest_paths(grid, start, end, weight="weight"):
-        print(f"Current seats... {len(seats)=}")
-        for point in path:
-            seats.add(point[0])
+    for path in all_shortest_paths(grid, start, end, weight="weight"):
+        seats.update(point[0] for point in path)
 
     return len(seats)
 
