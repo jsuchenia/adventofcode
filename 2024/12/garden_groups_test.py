@@ -4,14 +4,14 @@ from collections import deque
 from aoclib import *
 
 
-def get_data(filename: str) -> dict[AoCPoint, str]:
+def get_data(filename: str) -> dict[complex, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
 
     area = {}
     for y, line in enumerate(lines):
         for x, c in enumerate(line):
-            area[AoCPoint(x=x, y=y)] = c
+            area[y + x * 1j] = c
     return area
 
 

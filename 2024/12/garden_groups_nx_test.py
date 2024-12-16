@@ -9,20 +9,20 @@ from shapely import box, union_all
 from aoclib import *
 
 
-def get_data(filename: str) -> dict[AoCPoint, str]:
+def get_data(filename: str) -> dict[complex, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
 
     area = {}
     for y, line in enumerate(lines):
         for x, c in enumerate(line):
-            area[AoCPoint(x=x, y=y)] = c
+            area[y + 1j * x] = c
     return area
 
 
 def get_separated_polygons(filename: str):
     data = get_data(filename)
-    
+
     g = Graph()
     for point in data.keys():
         g.add_node(point)
@@ -32,7 +32,7 @@ def get_separated_polygons(filename: str):
     assert is_connected(g) is False
 
     for nodes in connected_components(g):
-        boxes = [box(point.x, point.y, point.x + 1, point.y + 1) for point in nodes]
+        boxes = [box(point.imag, point.real, point.imag + 1, point.real + 1) for point in nodes]
         yield union_all(boxes)
 
 
