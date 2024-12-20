@@ -32,8 +32,7 @@ def q1(filename: str) -> int:
                 continue
             seen.add(check)
             area += 1
-            for d in DIRECTIONS_4:
-                new_pos = check + d
+            for new_pos in neighbors_4(check):
                 if data[check] == data.get(new_pos, ""):
                     q.append(new_pos)
                 else:
@@ -62,8 +61,7 @@ def q2(filename: str) -> int:
                 continue
             seen.add(check)
             area += 1
-            for dir in DIRECTIONS_4:
-                new_pos = check + dir
+            for new_pos in neighbors_4(check):
                 if data[pos] == data.get(new_pos, ""):
                     q.append(new_pos)
 

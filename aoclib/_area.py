@@ -27,6 +27,14 @@ NW = N + W
 DIRECTIONS_8 = (N, NE, E, SE, S, SW, W, NW)
 
 
+def neighbors_4(p: complex) -> list[complex]:
+    return [p + d for d in DIRECTIONS_4]
+
+
+def neighbors_8(p: complex) -> list[complex]:
+    return [p + d for d in DIRECTIONS_8]
+
+
 # Visualization of an area - str, ASCII and PIL Image
 def get_map_as_str(area: dict[complex, str]) -> str:
     max_x = max(p.imag for p in area.keys())

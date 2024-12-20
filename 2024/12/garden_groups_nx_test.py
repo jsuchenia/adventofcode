@@ -26,9 +26,9 @@ def get_separated_polygons(filename: str):
     g = Graph()
     for point in data.keys():
         g.add_node(point)
-        for direction in DIRECTIONS_4:
-            if data[point] == data.get(point + direction, ""):
-                g.add_edge(point, point + direction)
+        for new_point in neighbors_4(point):
+            if data[point] == data.get(new_point, ""):
+                g.add_edge(point, new_point)
     assert is_connected(g) is False
 
     for nodes in connected_components(g):

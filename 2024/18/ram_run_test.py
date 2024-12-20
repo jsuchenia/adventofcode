@@ -19,8 +19,8 @@ def q1(filename: str, limit: int, end: int) -> int:
         for x in range(end + 1):
             if (point := x + 1j * y) not in points:
                 g.add_node(point)
-                for direction in DIRECTIONS_4:
-                    if (new_point := point + direction) not in points and new_point in g:
+                for new_point in neighbors_4(point):
+                    if new_point not in points and new_point in g:
                         g.add_edge(point, new_point)
 
     return shortest_path_length(g, 0, end + end * 1j)
@@ -34,8 +34,8 @@ def q2(filename: str, end: int) -> str:
     for y in range(end + 1):
         for x in range(end + 1):
             g.add_node(point := x + 1j * y)
-            for direction in DIRECTIONS_4:
-                if (new_point := point + direction) in g:
+            for new_point in neighbors_4(point):
+                if new_point in g:
                     g.add_edge(point, new_point)
 
     last_path = set(shortest_path(g, 0, (end_point := end + 1j * end)))
