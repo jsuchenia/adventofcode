@@ -68,7 +68,7 @@ def q2(filename: str, limit) -> int:
     # Look for points in a radius using Manhattan distance
     # Simple combinations(lengths.keys(), 2) took 6sec..
 
-    shortcuts = defaultdict(int)
+    shortcuts = 0
     kdtree = KDTree(positions)
     for point in lengths:
         # Radius r=20, p=1 is Manhattan distance
@@ -76,10 +76,10 @@ def q2(filename: str, limit) -> int:
             neighbour = positions[idx]
             distance = abs(point[0] - neighbour[0]) + abs(point[1] - neighbour[1])
 
-            if (saving := abs(lengths[point] - lengths[neighbour]) - distance) >= limit:
-                shortcuts[saving] += 1
+            if (abs(lengths[point] - lengths[neighbour]) - distance) >= limit:
+                shortcuts += 1
 
-    return sum(points for saving, points in shortcuts.items()) // 2  # we found each pair twice
+    return shortcuts // 2  # we found each pair twice
 
 
 def test_q1():
