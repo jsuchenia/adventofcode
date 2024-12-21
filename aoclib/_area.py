@@ -3,11 +3,12 @@ from typing import Iterable
 from PIL import ImageFont, Image, ImageDraw
 
 
-def parse_map(lines: Iterable[Iterable[str]]) -> dict[complex, str]:
+def parse_map(lines: Iterable[Iterable[str]], skip_chars="") -> dict[complex, str]:
     result = dict()
     for y, line in enumerate(lines):
         for x, ch in enumerate(line):
-            result[y + 1j * x] = ch
+            if ch not in skip_chars:
+                result[y + 1j * x] = ch
     return result
 
 

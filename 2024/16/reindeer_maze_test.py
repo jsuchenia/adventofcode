@@ -8,7 +8,7 @@ from aoclib import *
 def get_data(filename: str) -> dict[complex, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
-    return parse_map(lines)
+    return parse_map(lines, skip_chars="#")
 
 
 def build_graph(filename):
@@ -18,20 +18,18 @@ def build_graph(filename):
     start = end = None
 
     for point, val in area.items():
-        if val == '#':
-            continue
-        elif val == 'S':
+        if val == 'S':
             start = (point, E)  # From rules
         elif val == 'E':
             end = (point, N)  # N is for all the tasks - hardcoding
 
         for direction in DIRECTIONS_4:
-            if area.get((point + direction)) != '#':
+            if (point + direction) in area:
                 g.add_edge((point, direction), (point + direction, direction), weight=1)
 
             for rotation in (-1j, 1j):
                 new_direction = direction * rotation
-                if area.get((point + new_direction)) != '#':
+                if (point + new_direction) in area:
                     g.add_edge((point, direction), (point, new_direction), weight=1000)
 
     print(f"Grid stats {len(g.nodes)=} {len(g.edges)=}")
