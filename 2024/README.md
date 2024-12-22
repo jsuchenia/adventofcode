@@ -5,6 +5,8 @@
 [Day 11](11/README.md)
 
 Simulate the same stones at once - so increment counters (and don't count particular stones)
+When there is a step that generates a new stone - just create a numbers of them at once - don't build a string
+representation!
 
 ## Day 12
 
@@ -13,11 +15,17 @@ Simulate the same stones at once - so increment counters (and don't count partic
 Use NetworkX to segment areas (not connected graphs) and then use Shapely to calculate area and border length (and
 elements of a border - after simplification)
 
+To build a proper shape - we can join "boxes" (x, y, x+1, y+1) - and then we can use union to join all of them - it wil
+create `Polygon`.
+Additionally Shapely can distinguish polygons with "holes" - and properly calculate many "borders".
+
+![Data map](12/area-data.txt.png)
+
 ## Day 13
 
 [Day 13](13/README.md)
 
-Use Sympy to solve two equations with two variables
+Use Sympy to solve two equations with two variables - boring as for day 13
 
 ## Day 14
 

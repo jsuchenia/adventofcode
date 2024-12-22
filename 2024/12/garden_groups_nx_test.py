@@ -5,6 +5,7 @@
 from networkx.algorithms.components import is_connected, connected_components
 from networkx.classes import Graph
 from shapely import box, union_all
+from shapely.geometry.polygon import Polygon
 
 from aoclib import *
 
@@ -12,17 +13,12 @@ from aoclib import *
 def get_data(filename: str) -> dict[complex, str]:
     with open(filename) as f:
         lines = f.read().strip().splitlines()
-
-    area = {}
-    for y, line in enumerate(lines):
-        for x, c in enumerate(line):
-            area[y + 1j * x] = c
-    return area
+    return parse_map(lines)
 
 
-def get_separated_polygons(filename: str):
+def get_separated_polygons(filename: str) -> list[Polygon]:
     data = get_data(filename)
-
+    # get_map_as_img(data).save(f"area-{filename}.png")
     g = Graph()
     for point in data.keys():
         g.add_node(point)
