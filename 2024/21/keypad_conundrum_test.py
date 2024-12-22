@@ -1,6 +1,6 @@
 # Keypad Conundrum - https://adventofcode.com/2024/day/21
 from functools import cache
-from itertools import product
+from itertools import product, pairwise
 
 from networkx import DiGraph, all_shortest_paths
 
@@ -43,13 +43,16 @@ dir_graph = build_grid(dir_pad)
 
 def all_moves(graph: DiGraph, btn_src: str, btn_dst: str, ) -> list[str]:
     for path in all_shortest_paths(graph, btn_src, btn_dst):
-        yield ''.join([str(graph[btn_a][btn_b]["move"]) for btn_a, btn_b in zip(path, path[1:])]) + "A"
+        yield ''.join([str(graph[btn_a][btn_b]["move"]) for btn_a, btn_b in pairwise(path)]) + "A"
 
+
+# On a dir pad, each move starts and ends at the same button (A)
+# So we can calculate total length of a shortest path by calculating a sum of optimal sub moves
 
 @cache
 def min_dir_moves_length(code: str, num_of_dir_pads: int) -> int:
     results = 0
-    for src, dst in zip("A" + code, code):
+    for src, dst in pairwise("A" + code):
         if num_of_dir_pads > 0:
             results += min(min_dir_moves_length(moves, num_of_dir_pads - 1) for moves in all_moves(dir_graph, src, dst))
         else:
@@ -58,7 +61,7 @@ def min_dir_moves_length(code: str, num_of_dir_pads: int) -> int:
 
 
 def all_num_moves(code: str) -> list[str]:
-    dir_input = [all_moves(num_graph, src, dst) for src, dst in zip("A" + code, code)]
+    dir_input = [all_moves(num_graph, src, dst) for src, dst in pairwise("A" + code)]
     return [''.join(s) for s in product(*dir_input)]
 
 

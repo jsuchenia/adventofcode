@@ -1,4 +1,6 @@
 # Red-Nosed Reports - https://adventofcode.com/2024/day/2
+from itertools import pairwise
+
 from aoclib import *
 
 
@@ -10,7 +12,7 @@ def get_data(filename: str) -> list[tuple[int, ...]]:
 
 
 def is_safe(level: tuple[int, ...]) -> bool:
-    diffs = [b - a for a, b in zip(level, level[1:])]
+    diffs = [b - a for a, b in pairwise(level)]
 
     return all(-1 >= diff >= -3 for diff in diffs) or all(1 <= diff <= 3 for diff in diffs)
 
