@@ -38,8 +38,8 @@ def neighbors_8(p: complex) -> list[complex]:
 
 # Visualization of an area - str, ASCII and PIL Image
 def get_map_as_str(area: dict[complex, str]) -> str:
-    max_x = max(p.imag for p in area.keys())
-    max_y = max(p.real for p in area.keys())
+    max_x = max(int(p.imag) for p in area.keys())
+    max_y = max(int(p.real) for p in area.keys())
 
     r = []
     for y in range(max_y + 1):

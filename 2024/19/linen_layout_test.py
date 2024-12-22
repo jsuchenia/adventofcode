@@ -15,7 +15,6 @@ def get_data(filename: str) -> tuple[list[str], list[str]]:
 def q1(filename: str) -> int:
     towels, patterns = get_data(filename)
     towels = set(towels)
-    result = 0
 
     print(f"{towels=} {patterns=}")
 

@@ -15,6 +15,7 @@ def get_data(filename: str) -> dict[complex, str]:
 def q1(filename: str, limit) -> int:
     area = get_data(filename)
 
+    # get_map_as_img(area).save(f"map-{filename}.png")
     g_valid = Graph()
     start = None
 

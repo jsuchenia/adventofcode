@@ -42,11 +42,11 @@ def q1(filename: str, X: int, Y: int) -> int:
 def print_area(area, X, Y):
     print(f"\n\n============================== AREA ======================================")
     for y in range(Y):
-        print(''.join('X' if (x, y) in area else '.' for x in range(X)))
+        print(''.join('X' if (y + x * 1j) in area else '.' for x in range(X)))
     print(f"==================================== END =====================================\n")
 
 
-def count_greatest_area(area: set[tuple]) -> int:
+def count_greatest_area(area: dict[complex, str]) -> int:
     seen = set()
     max_area = 0
 
@@ -61,10 +61,9 @@ def count_greatest_area(area: set[tuple]) -> int:
                 continue
 
             size += 1
-            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                new_pos = pos[0] + dx, pos[1] + dy
-                if new_pos in area and new_pos not in seen:
-                    q.append(new_pos)
+            for neighbour in neighbors_4(pos):
+                if neighbour in area and neighbour not in seen:
+                    q.append(neighbour)
             seen.add(pos)
         max_area = max(size, max_area)
     return max_area
@@ -77,16 +76,17 @@ def q2(filename: str, X, Y) -> int:
     min_safety = None
 
     for tick in range(1, 10_000):
-        area = set()
+        area = dict()
         for idx, robot in enumerate(robots):
             x, y, dx, dy = robot
             x, y = (x + dx) % X, (y + dy) % Y
             robots[idx] = (x, y, dx, dy)
-            area.add((x, y))
+            area[(y + x * 1j)] = "#"
 
         # Alternative option found later - there are no duplicates on a final image (so total == area len)
-        # if total == len(area):
-        #     return tick
+        if total == len(area):
+            print_area(area, X, Y)
+            return tick
 
         # From https://www.youtube.com/watch?v=uj7OnaBDCiY - safety of a picture with a tree is a minimum
         # safety = calc_safety_factor(robots, X, Y)
@@ -94,11 +94,14 @@ def q2(filename: str, X, Y) -> int:
         #     min_safety = (safety, tick)
         #     print(f"{min_safety}")
 
-        if (gs := count_greatest_area(area)) > 20:
-            safety = calc_safety_factor(robots, X, Y)
-            print(f"\n{total=} {len(area)=} {gs=} {tick=} {safety=}")
-            print_area(area, X, Y)
-            return tick
+        # if (gs := count_greatest_area(area)) > 20:
+        #     safety = calc_safety_factor(robots, X, Y)
+        #     print(f"\n{total=} {len(area)=} {gs=} {tick=} {safety=}")
+        #     print_area(area, X, Y)
+        #
+        #     # img = get_map_as_img(area, footer=f"{tick}/10.000")
+        #     # img.save("visualization-tree.png")
+        #     return tick
     return min_safety[1]
 
 
