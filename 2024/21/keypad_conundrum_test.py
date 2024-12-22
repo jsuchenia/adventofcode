@@ -79,4 +79,5 @@ def test_q1():
 
 def test_q2():
     assert q1("test.txt", 25) == 154115708116294
+    # assert q1("test2.txt", 25) == 7899423579031843628
     assert q1("data.txt", 25) == 170279148659464
