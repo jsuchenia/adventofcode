@@ -120,16 +120,21 @@ operation. We can use either Sympy (200ms) or Cpmpy (8ms) to solve it recursivel
 
 ## Day 22
 
-[Day 22](22/README.md)
+[Day 22](22/README.md) [Reddit Solutions](https://www.reddit.com/r/adventofcode/comments/zsct8w/2022_day_22_solutions/)
 
 Amazing puzzle - when based on a map you have to build a cube - an any step at the border will be then another position
 in another place (with a different direction) - AMAZING puzzle!
 
-TODO: Check if it's possible more clever way
+```
+   [A][B]
+   [C]
+[E][D]
+[F]
+```
 
 ## Day 24
 
-[Day 24](24/README.md)
+[Day 24](24/README.md) [Reddit Solutions](https://www.reddit.com/r/adventofcode/comments/zu28ij/2022_day_24_solutions/)
 
 You need to go through a mazze, but with a moving elements - so you can't simple do a BFS/DFS here - you need to keep a
 time as a parameter.

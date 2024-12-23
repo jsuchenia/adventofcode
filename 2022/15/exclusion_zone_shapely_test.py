@@ -10,12 +10,13 @@ def read_data(filename: str):
 
 
 def q2(filename: str, max_range: int) -> int:
-    data = read_data("data.txt")
+    data = read_data(filename)
     polygons = []
 
     for sx, sy, bx, by in data:
         md = abs(sx - bx) + abs(sy - by)
         polygon = Polygon([(sx, sy + md), (sx - md, sy), (sx, sy - md), (sx + md, sy)])
+
         assert polygon.boundary.is_ring
         polygons.append(polygon)
 
