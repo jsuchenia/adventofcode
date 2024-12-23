@@ -55,12 +55,12 @@ left/right. Then you count how much sand left...
 
 ## Day 15
 
-[Day 15](15/README.md)
+[Day 15](15/README.md) [Reddit Solutions](https://www.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/)
 
-You need to find out a "blind spots" between sonars - to calculate it you have to use a Manhattan distance. I bruteforce
-it but probably there is a better idea.
+You need to find out a "blind spots" between scanners - to calculate it you have to use a Manhattan distance. I
+bruteforce it but probably there is a better idea.
 
-TODO: Check better options in a future
+I suspect that there could be a Shapely solution for that
 
 ## Day 16
 
