@@ -97,3 +97,14 @@ points from a "shortest path"
 
 Robot is controlling other robots. Typical DP problem - you need to focus on an outcome - to calculate length you don't
 have to build a string, just sum partial substrings (and use memoization to keep the same strings already counted)
+
+## Day 23
+
+[Daty 23](23/README.md)
+
+This is a task related to all the Graph theorem - [cycles](https://en.wikipedia.org/wiki/Cycle_(graph_theory))
+and [cliques](https://en.wikipedia.org/wiki/Clique_(graph_theory)).
+
+![Visualization](23/visualization-data.txt.png)
+Part II was strongly focused on algorithms
+like [Bron–Kerbosch algorithm](https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm)
