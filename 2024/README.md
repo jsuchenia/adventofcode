@@ -108,3 +108,26 @@ and [cliques](https://en.wikipedia.org/wiki/Clique_(graph_theory)).
 ![Visualization](23/visualization-data.txt.png)
 Part II was strongly focused on algorithms
 like [Bron–Kerbosch algorithm](https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm)
+
+## Day 25
+
+[Day 24](24/README.md) [Reddit thread](https://www.reddit.com/r/adventofcode/comments/1hl698z/2024_day_24_solutions/)
+
+One of the worst tasks - you have to understand that this is
+a [Full Adder](https://www.geeksforgeeks.org/binary-adder-with-logic-gates/) design and then values for outputs are "
+swapped". Fortunately when you realize that a Full Adder will have a design like below:
+
+```
+    # l1 = X XOR Y   # Intermediate sum
+    # l2 = X AND Y   # Carry from X and Y
+    # l3 = l1 XOR Cin  # Final sum (Z)
+    # l4 = l1 AND Cin  # Carry from intermediate sum and Cin
+    # Cout = l2 OR l4  # Final carry
+```
+
+But it took almost an hour to google it. A lot of examples are in
+a [Minecraft](https://minecraft.fandom.com/wiki/Tutorials/Logic_gates) docs..
+
+Finally I asked ChatGPT to provide an adder design using AND,OR and XOR gates.
+
+![Full Addrer from wiki](24/Full-adder_logic_diagram.svg)
