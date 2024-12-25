@@ -113,4 +113,12 @@ sorted alphabetically, then joined together with commas. (The people running the
 
 *What is the password to get into the LAN party?*
 
+## Test data
+
+![Visualization](visualization-test.txt.png)
+![Visualization Graphviz](visualization-test.txt-graphviz.png)
+
+## Prod Data
+
 ![Visualization](visualization-data.txt.png)
+![Visualization Graphviz](visualization-data.txt-graphviz.png)

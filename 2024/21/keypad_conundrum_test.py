@@ -84,3 +84,7 @@ def test_q2():
     assert q1("test.txt", 25) == 154115708116294
     # assert q1("test2.txt", 25) == 7899423579031843628
     assert q1("data.txt", 25) == 170279148659464
+
+# def test_visualization():
+#     to_agraph(num_graph).draw(f"visualization-numpad-graphviz.png", format="png", prog="fdp")
+#     to_agraph(dir_graph).draw(f"visualization-dirpad-graphviz.png", format="png", prog="fdp")

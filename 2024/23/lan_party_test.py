@@ -13,10 +13,13 @@ def get_data(filename: str) -> Graph:
 def q1(filename: str) -> int:
     data = get_data(filename)
     result = 0
-    
+
     # plt.figure(1, figsize=(1920 / 100, 1080 / 100), dpi=100)
     # draw(data, with_labels=False, node_size=500)
     # plt.savefig(f"visualization-{filename}.png")
+
+    # a = to_agraph(data, )
+    # a.draw(f"visualization-{filename}-graphviz.png", format="png", prog="fdp")
 
     for clique in enumerate_all_cliques(data):
         if len(clique) == 3 and any(node.startswith("t") for node in clique):

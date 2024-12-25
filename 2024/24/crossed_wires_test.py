@@ -1,5 +1,6 @@
 # Crossed Wires - https://adventofcode.com/2024/day/24
 import re
+from typing import Literal
 
 
 def get_data(filename: str) -> tuple[dict[str, int], dict[str, tuple[str, ...]]]:
@@ -105,7 +106,7 @@ def test_size_of_rules():
 
 
 def q2(filename: str) -> str:
-    values, rules = get_data(filename)
+    _, rules = get_data(filename)
 
     # Validate adder design
     # l1 = X XOR Y     # Intermediate sum
@@ -114,59 +115,50 @@ def q2(filename: str) -> str:
     # z = l1 XOR Cin   # Final sum (Z)
     # c = l2 OR l3     # Final carry
 
-    def find_rule(left, op, right) -> str | None:
+    swapped: set[str] = set()
+    found_rules: set[str] = set()
+
+    def match_rule(left: str | None,
+                   op: Literal['OR', 'XOR', 'AND'],
+                   right: str | None,
+                   output: str | None = None) -> str | None:
+
         for key, val in rules.items():
-            if val == (left, op.upper(), right):
+            # Exact search
+            if val == (left, op, right) or val == (right, op, left):
+                if output is not None and key != output:
+                    swapped.update({key, output})
+                found_rules.add(key)
                 return key
-            if val == (right, op.upper(), left):
-                return key
+
+        for key, val in rules.items():
+            if val[1] == op:
+                if val[0] == right or val[0] == left:
+                    swapped.add(val[2])
+                    found_rules.add(key)
+                    return key
+                if val[2] == right or val[2] == left:
+                    swapped.add(val[0])
+                    found_rules.add(key)
+                    return key
         return None
 
-    swapped = []
     c = ""
     for i in range(45):
-        l1 = find_rule(f'x{i:02d}', "XOR", f'y{i:02d}')
-        l2 = find_rule(f'x{i:02d}', "AND", f'y{i:02d}')
-
-        assert l1, f"Invalid L1 for x{i:02d} XOR y{i:02d}"
-        assert l2, f"Invalid L1 for x{i:02d} AND y{i:02d}"
-
-        if c:
-            # Check L3 and z - both using l1
-            # When both are wrong - probably l1 and l2 are swapped
-
-            l3 = find_rule(c, 'AND', l1)
-            z = find_rule(c, 'XOR', l1)
-
-            if not l3 and not z:
-                l3 = find_rule(c, 'AND', l2)
-                z = find_rule(c, 'XOR', l2)
-                assert l3, f"No l3 for {i=} {c=} {l2=}"
-                assert z, f"Wrong z for {i=} {c=} {l2=}"
-
-                l1, l2 = l2, l1
-                swapped.extend([l1, l2])
-
-            if l2.startswith("z") and not z.startswith("z"):
-                l2, z = z, l2
-                swapped.extend([l2, z])
-
-            if l3.startswith("z") and not z.startswith("z"):
-                l3, z = z, l3
-                swapped.extend([l3, z])
-
-            c = find_rule(l3, "OR", l2)
-            assert c, f"No C for {i=} {l3=} {l2=}"
-
-            if c.startswith("z") and not z.startswith("z"):
-                swapped.extend([c, z])
-                c, z = z, c
+        if i == 0:  # First added is simple one - carry is always 0
+            match_rule(f'x{i:02d}', "XOR", f'y{i:02d}', f"z{i:02d}")
+            c = match_rule(f'x{i:02d}', "AND", f'y{i:02d}')
         else:
-            c = l2
+            l1 = match_rule(f'x{i:02d}', "XOR", f'y{i:02d}')
+            l2 = match_rule(f'x{i:02d}', "AND", f'y{i:02d}')
+            l3 = match_rule(c, 'AND', l1)
+            match_rule(c, 'XOR', l1, f"z{i:02d}")
+            c = match_rule(l3, "OR", l2)
 
-    assert len(swapped) == 8
-    swapped.sort()
-    return ','.join(swapped)
+    assert len(swapped) == 8, "Found exactly 8 swaps"
+    assert len(rules) == len(found_rules), "Some rules has not been matched"
+
+    return ','.join(sorted(swapped))
 
 
 def test_q2():

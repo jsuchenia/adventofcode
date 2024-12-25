@@ -125,6 +125,10 @@ swapped". Fortunately when you realize that a Full Adder will have a design like
     # Cout = l2 OR l4  # Final carry
 ```
 
+you can realise what the task is about. You have to iterate through all x/y pairs and validate if all the gates are
+there. If some of them are wrongly connected, you have to swap them (their names) and validate next one. You can see if
+z is swapped with others, as this is the only one with a predefined name
+
 But it took almost an hour to google it. A lot of examples are in
 a [Minecraft](https://minecraft.fandom.com/wiki/Tutorials/Logic_gates) docs..
 
