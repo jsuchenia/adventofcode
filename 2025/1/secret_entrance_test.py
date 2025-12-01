@@ -12,8 +12,8 @@ def q1(filename: str) -> int:
     current = 50
     count = 0
 
-    for value in get_data(filename):
-        current = (current + value) % 100
+    for change in get_data(filename):
+        current = (current + change) % 100
         count += current == 0
     return count
 
@@ -22,13 +22,15 @@ def q2(filename: str) -> int:
     current = 50
     count = 0
 
-    for value in get_data(filename):
-        current = (current + value) % 100
+    for change in get_data(filename):
+        current = (current + change) % 100
 
         count += current == 0
-        count += value > 0 and current < (value % 100) and current != 0
-        count += value < 0 and current > 100 - (abs(value) % 100)
-        count += abs(value) // 100
+        count += abs(change) // 100
+
+        # Extra cases - from positive to negative, and vice-versa
+        count += change > 0 and current < (change % 100) and current != 0
+        count += change < 0 and current > 100 - (abs(change) % 100)
     return count
 
 
