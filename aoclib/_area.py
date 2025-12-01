@@ -54,6 +54,7 @@ def get_map_as_img(area: dict[complex, str], *, footer: str = "") -> Image:
     if footer:
         text += "\n\n"
         text += footer
+
     W, H = (10_000, 10_000)
 
     image = Image.new("RGBA", (W, H), "white")
