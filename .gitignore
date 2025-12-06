@@ -1,5 +1,6 @@
 .DS_Store
-/.idea/
+.idea/
+*/.gitignore
 /.vscode/
 __pycache__/
 /.*_cache/
