@@ -3,6 +3,9 @@
 from math import prod
 from typing import Sequence
 
+OP = {'+': sum, '*': prod}
+getchar = lambda line, i: line[i] if i < len(line) else " "
+
 
 def get_data_q1(filename: str) -> list[tuple[str]]:
     with open(filename) as f:
@@ -15,7 +18,6 @@ def get_data_q2(filename: str) -> list[list[str]]:
         lines = f.read().strip().splitlines()
 
     result = []
-    getchar = lambda line, i: line[i] if i < len(line) else " "
     for i in range(max([len(line) for line in lines])):
         if ch := getchar(lines[-1], i).strip():
             result.append([ch])
@@ -25,12 +27,7 @@ def get_data_q2(filename: str) -> list[list[str]]:
 
 
 def calc(lines: list[Sequence[str]]) -> int:
-    total = 0
-    for line in lines:
-        numbers = list(map(int, line[1:]))
-        total += sum(numbers) if line[0] == '+' else prod(numbers)
-
-    return total
+    return sum([OP[op](list(map(int, nums))) for op, *nums in lines])
 
 
 def q1(filename: str) -> int:

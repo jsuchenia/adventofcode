@@ -13,10 +13,7 @@ def q1(filename: str) -> int:
     grid = get_data(filename)
     count = 0
     for p in grid.keys():
-        if grid[p] != '@':
-            continue
-        if len([grid[n] for n in neighbors_8(p) if n in grid and grid[n] == '@']) < 4:
-            count += 1
+        count += len([grid[n] for n in neighbors_8(p) if n in grid]) < 4
     return count
 
 
@@ -25,8 +22,8 @@ def q2(filename: str) -> int:
     count = 0
     while True:
         removed = False
-        for p in grid.keys():
-            if grid[p] != '@':
+        for p, val in grid.items():
+            if val != '@':
                 continue
             if len([grid[n] for n in neighbors_8(p) if n in grid and grid[n] == '@']) < 4:
                 grid[p] = 'X'
