@@ -28,6 +28,10 @@ NW = N + W
 DIRECTIONS_8 = (N, NE, E, SE, S, SW, W, NW)
 
 
+def find_in_map(area: dict[complex, str], target: str) -> list[complex]:
+    return [p for p, ch in area.items() if ch == target]
+
+
 def neighbors_4(p: complex) -> list[complex]:
     return [p + d for d in DIRECTIONS_4]
 
