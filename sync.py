@@ -73,7 +73,7 @@ def get_readme(year: str, day: str) -> str:
             f"Querying the url {url} resulted in status code {response.status_code} with the following " f"text: {response.text}")
 
     soup = BeautifulSoup(response.text, features="html.parser")
-    articles = soup.body.main.findAll("article", recursive=False)
+    articles = soup.body.main.find_all("article", recursive=False)
     content = ""
 
     for i, article in enumerate(articles):
